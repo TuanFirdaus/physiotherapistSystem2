@@ -47,3 +47,5 @@ $routes->post('appointments/delete/(:num)', 'AppointmentController::deleteAppoin
 $routes->post('appointments/approve/(:num)', 'AppointmentController::approveAppointment/$1');
 
 $routes->get('/patientBooked', 'AppointmentController::viewAppointments');
+
+$routes->get('/logout', 'User::logout');

@@ -25,7 +25,7 @@ class User extends BaseController
         $user = $this->userModel->verify($email, $password);
 
         // Check if the user exists and the password matches
-        if ($user && password_verify($password, $user['password'])) {  // Password verification
+        if ($user && $password == $user['password']) {  // Password verification
             $session = session();
             $session->set([
                 'loggedIn' => true,
@@ -53,7 +53,7 @@ class User extends BaseController
     public function logout()
     {
         session()->destroy();
-        return redirect()->to('/login');
+        return redirect()->to('/');
     }
 
 

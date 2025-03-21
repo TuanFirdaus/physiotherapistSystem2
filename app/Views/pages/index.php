@@ -29,7 +29,7 @@
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
-                        <img class="img-fluid" src="assets2/assets/img/portfolio/1.jpg" alt="..." />
+                        <img class="img-fluid" src="assets2/assets/img/portfolio/bodyAdjustment.jpg" alt="..." />
                     </a>
                     <div class="portfolio-caption">
                         <div class="portfolio-caption-heading">Body Adjustment</div>
@@ -59,7 +59,7 @@
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
-                        <img class="img-fluid" src="assets2/assets/img/portfolio/3.jpg" alt="..." />
+                        <img class="img-fluid" src="assets2/assets/img/portfolio/sportMassage.png" alt="..." />
                     </a>
                     <div class="portfolio-caption">
                         <div class="portfolio-caption-heading">Sport Massage</div>
@@ -74,7 +74,7 @@
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
-                        <img class="img-fluid" src="assets2/assets/img/portfolio/4.jpg" alt="..." />
+                        <img class="img-fluid" src="assets2/assets/img/portfolio/IFT.spng" alt="..." />
                     </a>
                     <div class="portfolio-caption">
                         <div class="portfolio-caption-heading">IFT Machine Therapy</div>
