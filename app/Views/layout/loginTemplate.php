@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>" />
     <link rel="stylesheet" href="<?= base_url('assets/css/plugins.min.css') ?>" />
     <link rel="stylesheet" href="<?= base_url('assets/css/kaiadmin.min.css') ?>" />
+    <link rel="stylesheet" href="<?= base_url('assets2/css/reg.css') ?>" />
 
 
 </head>
@@ -44,7 +45,7 @@
 
 
 
-    <div class="ms-5 me-5" style="margin-top: 100px;">
+    <div class="" style="margin-top: auto;">
         <?= $this->renderSection('content'); ?>
 
     </div>

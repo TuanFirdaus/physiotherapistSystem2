@@ -18,4 +18,9 @@ class Home extends BaseController
     {
         echo view('manageAppointment/patient');
     }
+
+    public function getregister()
+    {
+        return view('pages/register');
+    }
 }

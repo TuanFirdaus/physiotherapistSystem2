@@ -56,6 +56,19 @@ class User extends BaseController
         return redirect()->to('/');
     }
 
+    public function register()
+    {
+        $data = [
+            'name' => $this->request->getPost('name'),
+            'email' => $this->request->getPost('email'),
+            'password' => $this->request->getPost('password'),
+            'role' => $this->request->getPost('role'),
+        ];
+
+        $this->userModel->save($data);
+        return redirect()->to('/login');
+    }
+
 
     // // Method to check if user is logged in before proceeding to booking
     // public function redirectBasedOnLogin()
