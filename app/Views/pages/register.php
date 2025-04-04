@@ -5,7 +5,7 @@
 <section class="d-flex justify-content-center align-items-center"
     style="background: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp') no-repeat center center/cover;">
 
-    <div class="container">
+    <div class="container vh-100">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-5 mt-5">
                 <div class="card shadow-lg p-4"
@@ -15,8 +15,8 @@
                     <div class="card-body">
                         <h2 class="text-uppercase text-center text-black mb-4">Create an Account</h2>
 
-                        <form action="/user/register" method="post">
-                            // Display error message if it exists
+                        <form action="/register" method="post">
+                            <!-- // Display error message if it exists -->
                             <?php if (session()->getFlashdata('error')): ?>
                                 <div class="alert alert-danger">
                                     <?= session()->getFlashdata('error'); ?>
@@ -72,7 +72,7 @@
                             </div>
 
                             <p class="text-center text-black mt-4">Already have an account?
-                                <a href="#" class="fw-bold text-light"><u>Login here</u></a>
+                                <a href="/login" class="fw-bold text-light"><u>Login here</u></a>
                             </p>
                         </form>
                     </div>

@@ -50,4 +50,5 @@ $routes->get('/patientBooked', 'AppointmentController::viewAppointments');
 
 $routes->get('/logout', 'User::logout');
 
-$routes->get('/register', 'Home::getregister');
+$routes->post('/register', 'User::register');  // handle
+$routes->get('/registerUser', 'User::getRegister'); //show

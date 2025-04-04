@@ -25,7 +25,7 @@
 
                 <div class="row d-flex justify-content-center gap-1">
                     <button type="submit" class="btn btn-success w-50 mb-3 mt-3">Log in</button>
-                    <a href="/register" class="btn btn-warning w-50 mb-4">Register</a>
+                    <a href="/registerUser" class="btn btn-warning w-50 mb-4">Register</a>
                 </div>
             </form>
         </div>

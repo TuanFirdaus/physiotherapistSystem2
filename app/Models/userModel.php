@@ -8,6 +8,8 @@ class userModel extends Model
 {
     protected $table = 'user';
     protected $primaryKey = 'userId';
+    protected $allowedFields = ['name', 'age', 'email', 'password', 'role', 'gender'];
+    protected $useTimestamps = true;
     // protected $useTimestamps = true;
     public function login($email = false)
     {
@@ -24,6 +26,11 @@ class userModel extends Model
         return $this->where('email', $email)
             ->select('userId, name, email, password, role') // Include the role field
             ->first();
+
+        if ($user && password_verify($password, $user['password'])) {
+            return $user; // Password is correct, return user data
+        }
+        return null; // Incorrect password or user not found
     }
 
 

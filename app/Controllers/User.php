@@ -56,18 +56,46 @@ class User extends BaseController
         return redirect()->to('/');
     }
 
+    public function getRegister()
+    {
+        return view('pages/register');
+    }
+
     public function register()
     {
+        // Validate input data
+        $validation = $this->validate([
+            'name' => 'required|min_length[3]|max_length[50]',
+            'email' => 'required|valid_email|is_unique[user.email]', // Table name must match database
+            'age' => 'required|integer|greater_than[0]',
+            'password' => 'required|min_length[6]',
+        ]);
+
+        if (!$validation) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        // Check if data is received correctly
         $data = [
             'name' => $this->request->getPost('name'),
             'email' => $this->request->getPost('email'),
-            'password' => $this->request->getPost('password'),
-            'role' => $this->request->getPost('role'),
+            'age' => $this->request->getPost('age'),
+            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT), // Securely hash password
+            'role' => 'patient',
+            'gender' => $this->request->getPost('gender'),
         ];
 
-        $this->userModel->save($data);
-        return redirect()->to('/login');
+
+        // Debugging
+        if (!$this->userModel->insert($data)) {
+            return redirect()->back()->with('error', 'Failed to register user.');
+        }
+
+        return redirect()->to('/login')->with('success', 'Registration successful! Please log in.');
     }
+
+
+
 
 
     // // Method to check if user is logged in before proceeding to booking
