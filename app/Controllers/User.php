@@ -61,38 +61,60 @@ class User extends BaseController
         return view('pages/register');
     }
 
-    public function register()
+    public function registration()
     {
-        // Validate input data
-        $validation = $this->validate([
-            'name' => 'required|min_length[3]|max_length[50]',
-            'email' => 'required|valid_email|is_unique[user.email]', // Table name must match database
-            'age' => 'required|integer|greater_than[0]',
-            'password' => 'required|min_length[6]',
-        ]);
+        $validation = \Config\Services::validation();
 
-        if (!$validation) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        $rules = [
+            'name' => [
+                'label' => 'name',
+                "rules" => 'required|min_length[3]|max_length[50]'
+            ],
+            'email' => [
+                'label' => 'email',
+                "rules" => 'required|valid_email|is_unique[user.email]'
+            ],
+            'password' => [
+                'label' => 'password',
+                "rules" => 'required|min_length[6]'
+            ],
+            'confirm-password' => [
+                'label' => 'confirm-password',
+                "rules" => 'matches[password]'
+            ],
+            'gender' => [
+                'label' => 'gender',
+                "rules" => 'required'
+            ],
+            'age' => [
+                'label' => 'age',
+                "rules" => 'required|integer|greater_than[0]'
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return view('pages/register', [
+                'validation' => $this->validator
+            ]);
         }
 
-        // Check if data is received correctly
         $data = [
             'name' => $this->request->getPost('name'),
-            'email' => $this->request->getPost('email'),
             'age' => $this->request->getPost('age'),
-            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT), // Securely hash password
+            'email' => $this->request->getPost('email'),
+            'password' => $this->request->getPost('password'),
             'role' => 'patient',
             'gender' => $this->request->getPost('gender'),
         ];
 
 
-        // Debugging
         if (!$this->userModel->insert($data)) {
             return redirect()->back()->with('error', 'Failed to register user.');
         }
 
-        return redirect()->to('/login')->with('success', 'Registration successful! Please log in.');
+        return redirect()->to('/login')->with('success', 'Registration successful! Please login.');
     }
+
 
 
 
@@ -111,5 +133,32 @@ class User extends BaseController
     //         // User is not logged in, redirect to the login page
     //         return redirect()->to('/login');
     //     }
+    // }
+    //  // Validate input data
+    //  $validation = $this->validate([
+    //     'name' => 'required|min_length[3]|max_length[50]',
+    //     'email' => 'required|valid_email|is_unique[user.email]', // Table name must match database
+    //     'age' => 'required|integer|greater_than[0]',
+    //     'password' => 'required|min_length[6]',
+    //     'confirm-password' => 'matches[password]', // Confirm password validation
+    // ]);
+
+
+    // // Check if validation fails
+    // if (!$validation) {
+    //     // If validation fails, redirect back with errors
+    //     return redirect()->back()->withInput()->with('validation', $this->validator);
+    // }
+
+    // Validate input data
+    // $validation = $this->validate([
+    //     'name' => 'required|min_length[3]|max_length[50]',
+    //     'email' => 'required|valid_email|is_unique[user.email]', // Table name must match database
+    //     'age' => 'required|integer|greater_than[0]',
+    //     'password' => 'required|min_length[6]',
+    // ]);
+
+    // if (!$validation) {
+    //     return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
     // }
 }

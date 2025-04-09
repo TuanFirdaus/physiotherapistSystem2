@@ -49,6 +49,5 @@ $routes->post('appointments/approve/(:num)', 'AppointmentController::approveAppo
 $routes->get('/patientBooked', 'AppointmentController::viewAppointments');
 
 $routes->get('/logout', 'User::logout');
-
-$routes->post('/register', 'User::register');  // handle
+$routes->match(['get', 'post'], '/register/user', 'User::registration');  // handle
 $routes->get('/registerUser', 'User::getRegister'); //show

@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 <div class="container">
     <div class="col d-flex ">
-        <div class="row mx-auto border border-5 justify-content-center">
+        <div class="row mx-auto border border-5 justify-content-center mt-5">
             <form action="/user/login" class="justify-content-center" method="post">
                 <!-- Display error message if it exists -->
                 <?php if (session()->getFlashdata('error')): ?>

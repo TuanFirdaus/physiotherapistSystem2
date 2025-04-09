@@ -9,7 +9,6 @@ class userModel extends Model
     protected $table = 'user';
     protected $primaryKey = 'userId';
     protected $allowedFields = ['name', 'age', 'email', 'password', 'role', 'gender'];
-    protected $useTimestamps = true;
     // protected $useTimestamps = true;
     public function login($email = false)
     {
