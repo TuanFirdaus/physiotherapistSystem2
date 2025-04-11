@@ -51,3 +51,5 @@ $routes->get('/patientBooked', 'AppointmentController::viewAppointments');
 $routes->get('/logout', 'User::logout');
 $routes->match(['get', 'post'], '/register/user', 'User::registration');  // handle
 $routes->get('/registerUser', 'User::getRegister'); //show
+
+$routes->get('/adminDashboard', 'Home::adminDashboard'); //show admin dashboard

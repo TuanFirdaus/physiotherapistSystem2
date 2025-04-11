@@ -23,4 +23,9 @@ class Home extends BaseController
     {
         return view('pages/register');
     }
+
+    public function adminDashboard()
+    {
+        return view('pages/adminDashboard');
+    }
 }

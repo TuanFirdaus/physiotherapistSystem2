@@ -56,6 +56,9 @@ class scheduleController extends BaseController
             'therapistsSchedule' => $therapists
         ];
 
+        // Load session
+        session()->set('scheduleData', $data);
+
         // dd($data);
         return view('/pages/schedule', $data);
     }

@@ -37,7 +37,7 @@ class User extends BaseController
             // Redirect based on user role
             switch ($user['role']) {
                 case 'Operation Manager':
-                    return redirect()->to('/approveApp');
+                    return redirect()->to('/adminDashboard');
                 case 'Therapist':
                     return redirect()->to('/patientBooked');
                 case 'patient':

@@ -1,4 +1,4 @@
-<?= $this->extend('layout/template'); ?>
+<?= $this->extend('layout/adminTemplate'); ?>
 
 <?= $this->section('content'); ?>
 <div class="container mt-5" style="min-height: 100vh;">
