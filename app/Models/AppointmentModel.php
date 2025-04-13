@@ -95,4 +95,15 @@ class AppointmentModel extends Model
             ->get()
             ->getResultArray();
     }
+
+    public function getTreatmentStats()
+    {
+        return $this->db->table('appointment')
+            ->select('treatment.name, COUNT(*) as total')
+            ->join('treatment', 'treatment.treatmentId = appointment.treatmentId')
+            ->where('appointment.status', 'approved') // Only approved appointments
+            ->groupBy('treatment.name')
+            ->get()
+            ->getResultArray();
+    }
 }

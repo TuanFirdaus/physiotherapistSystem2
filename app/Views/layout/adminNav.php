@@ -1,12 +1,13 @@
 <div class="sidebar-logo">
     <!-- Logo Header -->
-    <div class="logo-header" data-background-color="dark">
-        <a href="index.html" class="logo">
+    <div class="logo-header" data-background-color="white" style="box-shadow: 0px 8px 26px rgba(0, 0, 0, 0.2);">
+
+        <a href="/adminDashboard" class="logo">
             <img
-                src="assets/img/kaiadmin/logo_light.svg"
+                src="assets2/assets/img/MAY3LOGO.png"
                 alt="navbar brand"
                 class="navbar-brand"
-                height="20" />
+                height="100" />
         </a>
         <div class="nav-toggle">
             <button class="btn btn-toggle toggle-sidebar">
@@ -55,6 +56,11 @@
                         <li>
                             <a href="/slotForm">
                                 <span class="sub-item">Assign Slot</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/schedule">
+                                <span class="sub-item">Manage Schedule</span>
                             </a>
                         </li>
                     </ul>

@@ -1,9 +1,10 @@
 <?= $this->extend('layout/adminTemplate') ?>
 
 <?= $this->section('content'); ?>
+<h1 class="text-center mb-5">Manage Slot</h1>
 
 <!-- Therapist List -->
-<div class="card ms-5 me-5">
+<div class="card ms-5 ">
     <div class="card-header">
         <div class="card-title">Therapist</div>
     </div>
@@ -35,25 +36,42 @@
         </table>
     </div>
 </div>
+<?php if (session()->has('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= session('error') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+
+<?php if (session()->has('success')): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <?= session('success') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
 
 <div class="container text-center text-white mb-5 mt-5 d-flex justify-content-center align-items-center" style="height: 40vh;">
     <!-- Slot Form -->
-    <form action="/assignSlot" method="post" class="col-md-6 col-lg-4 mb-5 mt-5">
+    <form action="/assignSlot" method="post" class="col-md-6 col-lg-4 mb-5 mt-5 p-3">
         <?= csrf_field() ?>
-        <label class="mb-3"><b>Slot Assigned</b></label>
+        <label class="mb-2 mt-5"><b>Assigned Slot</b></label>
+        <!-- Date -->
         <div class="form-group form-group-default">
             <label>Date</label>
             <input id="Date" type="date" name="date" class="form-control" placeholder="Choose date" required>
         </div>
+        <!-- Start Time -->
         <div class="form-group form-group-default mt-3">
-            <label>Time</label>
-            <select class="form-select" id="time" name="time" required>
-                <option value="09:00">09:00-10:00</option>
-                <option value="11:00">11:00-12:00</option>
-                <option value="14:00">14:00-15:00</option>
-                <option value="16:00">16:00-17:00</option>
-            </select>
+            <label>Start Time</label>
+            <input type="time" name="start_time" class="form-control" required>
         </div>
+
+        <!-- End Time -->
+        <div class="form-group form-group-default mt-3">
+            <label>End Time</label>
+            <input type="time" name="end_time" class="form-control" required>
+        </div>
+        <!-- Therapist -->
         <div class="form-group form-group-default mt-3">
             <label>Select Therapist</label>
             <select class="form-select" id="formGroupDefaultSelect" name="therapistId" required>
@@ -65,62 +83,12 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-4" id="alert_demo_3_2">Submit</button>
+        <button type="submit" class="btn btn-primary mt-2 mb-4" id="alert_demo_3_2">Submit</button>
 
     </form>
 </div>
 
-<div class="container">
-    <div class="col text-center text-white mb-5 mt-5 justify-content-center align-items-center" style="min-height: 100vh;">
-        <!-- Slot Form -->
-        <form action="/schedule" method="post" class="col-md-6 col-lg-4 mb-5 mt-5">
-            <?= csrf_field() ?>
-            <label class="mb-3"><b>Schedule Table</b></label>
-            <div class="form-group form-group-default">
-                <label>Date</label>
-                <input id="Date" type="date" name="date" class="form-control" placeholder="Choose date" required>
-            </div>
-            <button type="submit" class="btn btn-primary mt-4">Submit</button>
-        </form>
 
-        <!-- Display Therapists -->
-        <?php
-        $scheduleData = session()->get('scheduleData');
-        ?>
 
-        <?php if (isset($scheduleData['therapistsSchedule']) && !empty($scheduleData['therapistsSchedule'])) : ?>
-            <h3 style="color: #007BFF; text-align: center;">
-                Schedule for <?= esc($scheduleData['date']) ?>
-            </h3>
-
-            <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-                <thead style="background-color:rgb(253, 253, 253); text-align: left; color: #333;">
-                    <tr>
-                        <th style="padding: 10px; border-bottom: 2px solid #000;">Therapist</th>
-                        <th style="padding: 10px; border-bottom: 2px solid #000;">Slot</th>
-                        <th style="padding: 10px; border-bottom: 2px solid #000;">Time</th>
-                        <th style="padding: 10px; border-bottom: 2px solid #000;">Status</th>
-                    </tr>
-                </thead>
-                <tbody style="text-align: left;">
-                    <?php foreach ($scheduleData['therapistsSchedule'] as $therapist) : ?>
-                        <tr style="color: #333;">
-                            <td style="padding: 10px; border-bottom: 1px solid #000;">
-                                <strong><?= esc($therapist['name']) ?></strong><br>
-                                <small style="color: #555;"><?= esc($therapist['email']) ?></small>
-                            </td>
-                            <td style="padding: 10px; border-bottom: 1px solid #000;">Slot <?= esc($therapist['slotId']) ?></td>
-                            <td style="padding: 10px; border-bottom: 1px solid #000;"><?= esc($therapist['time']) ?></td>
-                            <td style="padding: 10px; border-bottom: 1px solid #000;"><?= esc($therapist['status']) ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php elseif (isset($therapistsSchedule)) : ?>
-            <p style="text-align: center; color: #888;">No therapists assigned for the selected date.</p>
-        <?php endif; ?>
-
-    </div>
-</div>
 
 <?= $this->endSection(); ?>

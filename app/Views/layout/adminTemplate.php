@@ -34,11 +34,15 @@
         });
     </script>
 
+
+
+
     <!-- CSS Files -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/plugins.min.css" />
     <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
     <link rel="stylesheet" href="<?= base_url('assets2/css/reg.css') ?>" />
+    <link rel="stylesheet" href="<?= base_url('assets2/css/adminDashboard.css') ?>" />
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="assets/css/demo.css" />
@@ -161,6 +165,13 @@
         var active = document.querySelector("#navList li:nth-child(1)");
         active.classList.add("active");
     </script> -->
+    <!-- graph Section -->
+    <!-- Include Chart.js library -->
+    <script src="<?= base_url('assets2/js/chart.js') ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js" integrity="sha512-Wt1bJGtlnMtGP0dqNFH1xlkLBNpEodaiQ8ZN5JLA5wpc1sUlk/O5uuOMNgvzddzkpvZ9GLyYNa8w2s7rqiTk5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
 
 </body>
 

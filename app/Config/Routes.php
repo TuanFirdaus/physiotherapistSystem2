@@ -17,8 +17,9 @@ $routes->post('/user/login', 'User::login'); //verify login
 $routes->get('/login', 'Home::getlogin'); //display login page
 $routes->get('/assignSlot', 'scheduleController::assignSlot');
 $routes->post('/assignSlot', 'scheduleController::assignSlot');
-$routes->get('/schedule', 'scheduleController::getSchedule');
-$routes->post('/schedule', 'scheduleController::getSchedule');
+$routes->match(['get', 'post'], '/schedule', 'scheduleController::getSchedule');
+$routes->get('/scheduleTry', 'scheduleController::getTry'); //try schedule
+$routes->match(['get', 'post'], '/scheduleTest', 'scheduleController::Tryschedule'); //show manage appointment page
 $routes->get('/booking', 'AppointmentController::booking');
 $routes->get('/appointments', 'AppointmentController::booking');
 $routes->match(['get', 'post'], '/patientTreatment', 'AppointmentController::patientTreatment');
@@ -27,6 +28,7 @@ $routes->match(['get', 'post'], '/confirmTherapist', 'AppointmentController::con
 // $routes->get('/redirectBooking', 'User::redirectBasedOnLogin');
 $routes->post('/confirmBooking', 'AppointmentController::saveBooking');
 $routes->get('/successPage', 'AppointmentController::successBooking');
+
 // routes/web.php
 
 // Show pending appointments page
@@ -53,3 +55,5 @@ $routes->match(['get', 'post'], '/register/user', 'User::registration');  // han
 $routes->get('/registerUser', 'User::getRegister'); //show
 
 $routes->get('/adminDashboard', 'Home::adminDashboard'); //show admin dashboard
+
+$routes->get('/manageSchedule', 'Home::manageSchedule'); //show manage schedule page

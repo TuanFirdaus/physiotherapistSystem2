@@ -4,7 +4,7 @@
 <div class="container">
     <div class="col text-center text-white mb-5 mt-5 justify-content-center align-items-center" style="min-height: 100vh;">
         <!-- Slot Form -->
-        <form action="/schedule" method="post" class="col-md-6 col-lg-4 mb-5 mt-5">
+        <form action="/scheduleTest" method="post" class="col-md-6 col-lg-4 mb-5 mt-5">
             <?= csrf_field() ?>
             <label class="mb-3"><b>Slot Assigned</b></label>
             <div class="form-group form-group-default">
@@ -15,7 +15,7 @@
         </form>
 
         <!-- Display Therapists -->
-        <?php if (isset($therapistsSchedule) && !empty($therapistsSchedule)) : ?>
+        <?php if (isset($availableTherapists) && !empty($therapistsSchedule)) : ?>
             <h3 style="color: #007BFF; text-align: center;">Your Schedule</h3>
             <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
                 <thead style="background-color:rgb(253, 253, 253); text-align: left; color: #333;">
@@ -27,7 +27,7 @@
                     </tr>
                 </thead>
                 <tbody style="text-align: left;">
-                    <?php foreach ($therapistsSchedule as $therapist) : ?>
+                    <?php foreach ($availableTherapists as $therapist) : ?>
                         <tr style="color: #333;">
                             <td style="padding: 10px; border-bottom: 1px solid #000;">
                                 <strong><?= esc($therapist['name']) ?></strong><br>
@@ -40,7 +40,7 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
-        <?php elseif (isset($therapistsSchedule)) : ?>
+        <?php elseif (isset($availableTherapists)) : ?>
             <p style="text-align: center; color: #888;">No therapists assigned for the selected date.</p>
         <?php endif; ?>
 
