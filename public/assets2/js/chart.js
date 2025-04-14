@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const ctx = document.getElementById('myChart').getContext('2d');
 
     new Chart(ctx, {
-        type: 'polarArea',
+        type: 'doughnut',
         data: {
             labels: chartData.labels,
             datasets: [{

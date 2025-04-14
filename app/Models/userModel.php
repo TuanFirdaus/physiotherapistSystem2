@@ -36,12 +36,24 @@ class userModel extends Model
     public function getTherapist()
     {
         return $this->db->table('user')
-            ->select('user.userId, user.name, therapist.therapistId, therapist.expertise, therapist.profile_image')
+            ->select('user.userId, user.name, user.email, therapist.therapistId, therapist.expertise, therapist.profile_image')
             ->join('therapist', 'therapist.userId = user.userId')
             ->where('role', 'Therapist')
             ->get()
             ->getResultArray();
     }
+
+    public function getDetailsById($userId)
+    {
+        return $this->db->table('user')
+            ->select('user.userId, user.name, user.email, therapist.therapistId, therapist.expertise, therapist.profile_image')
+            ->join('therapist', 'therapist.userId = user.userId')
+            ->where('role', 'therapist')
+            ->where('user.userId', $userId)
+            ->get()
+            ->getRowArray(); // <- Better to use getRowArray() instead of getResultArray() for single user
+    }
+
 
     public function getPatient($userId)
     {

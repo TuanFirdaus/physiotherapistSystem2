@@ -287,14 +287,19 @@
                 </div>
             </li>
 
+            <!-- profile avatar -->
             <li class="nav-item topbar-user dropdown hidden-caret">
                 <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                     <div class="avatar-sm">
-                        <img src="assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+                        <?php
+                        $session = session();
+                        $profileImg = $session->get('profile_image');
+                        ?>
+                        <img src="<?= base_url(esc($profileImg)) ?>" alt="Profile Image" class="avatar-img rounded">
                     </div>
                     <span class="profile-username">
                         <span class="op-7">Hi,</span>
-                        <span class="fw-bold">Hizrian</span>
+                        <span class="fw-bold"><?= esc($session->get('name')); ?></span>
                     </span>
                 </a>
                 <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -303,11 +308,11 @@
                             <li>
                                 <div class="user-box">
                                     <div class="avatar-lg">
-                                        <img src="assets/img/profile.jpg" alt="image profile" class="avatar-img rounded">
+                                        <img src="<?= base_url(esc($profileImg)) ?>" alt="image profile" class="avatar-img rounded">
                                     </div>
                                     <div class="u-text">
-                                        <h4>Hizrian</h4>
-                                        <p class="text-muted">hello@example.com</p>
+                                        <h4><?= esc($session->get('name')); ?></h4>
+                                        <p class="text-muted"><?= esc($session->get('userId')); ?></p>
                                         <a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
                                     </div>
                                 </div>

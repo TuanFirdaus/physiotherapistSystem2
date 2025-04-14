@@ -57,3 +57,5 @@ $routes->get('/registerUser', 'User::getRegister'); //show
 $routes->get('/adminDashboard', 'Home::adminDashboard'); //show admin dashboard
 
 $routes->get('/manageSchedule', 'Home::manageSchedule'); //show manage schedule page
+
+$routes->get('/therapistDetails', 'User::getTherapistDetails'); //show manage appointment page

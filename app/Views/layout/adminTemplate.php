@@ -59,7 +59,7 @@
         <!-- End Sidebar -->
         <div class="main-panel">
             <div class="main-header">
-                <?= $this->include('layout/adminHeader'); ?>
+                <?= $this->include('layout/adminHeader')  ?>
                 <!-- End Navbar -->
             </div>
             <div class="container">

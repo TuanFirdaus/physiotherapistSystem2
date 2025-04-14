@@ -42,7 +42,7 @@
 
 <!-- Add charts or graphs here to visualize data -->
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-6">
         <div class="card card-round">
             <div class="card-header">
                 <div class="card-head-row">
@@ -63,18 +63,25 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body ">
-                <div class="chart-container ">
-                    <div class="graphBox text-center justify-content-center align-items-center">
-                        <div class="box align-items-center justify-content-center">
 
+            <div class="card-body">
+                <div class="chart-container">
+                    <!--
+                       Added d-flex and justify-content-center here.
+                       d-flex: Makes this div a flex container.
+                       justify-content-center: Centers its direct children (the .box div) horizontally along the main axis.
+                       Removed text-center as flex handles the block centering now.
+                       Removed justify-content-center and align-items-center from the inner .box div
+                       as they are not needed there for centering the box itself.
+                    -->
+                    <div class="graphBox d-flex justify-content-center">
+                        <div class="box"> <!-- This inner div might not even be necessary depending on Chart.js behavior -->
                             <canvas id="myChart"></canvas>
-
                         </div>
-
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

@@ -38,8 +38,8 @@ class User extends BaseController
             switch ($user['role']) {
                 case 'Operation Manager':
                     return redirect()->to('/adminDashboard');
-                case 'Therapist':
-                    return redirect()->to('/patientBooked');
+                case 'therapist':
+                    return redirect()->to('/adminDashboard');
                 case 'patient':
                     return redirect()->to('/');
                 default:
@@ -115,50 +115,21 @@ class User extends BaseController
         return redirect()->to('/login')->with('success', 'Registration successful! Please login.');
     }
 
-
-
-
-
-
-    // // Method to check if user is logged in before proceeding to booking
-    // public function redirectBasedOnLogin()
-    // {
-    //     $session = session(); // Use CodeIgniter's session instance
-    //     // dd($session->get());
-
-    //     if ($session->get('loggedIn')) {
-    //         // User is logged in, redirect to the booking page
-    //         return view('/booking');
-    //     } else {
-    //         // User is not logged in, redirect to the login page
-    //         return redirect()->to('/login');
-    //     }
-    // }
-    //  // Validate input data
-    //  $validation = $this->validate([
-    //     'name' => 'required|min_length[3]|max_length[50]',
-    //     'email' => 'required|valid_email|is_unique[user.email]', // Table name must match database
-    //     'age' => 'required|integer|greater_than[0]',
-    //     'password' => 'required|min_length[6]',
-    //     'confirm-password' => 'matches[password]', // Confirm password validation
-    // ]);
-
-
-    // // Check if validation fails
-    // if (!$validation) {
-    //     // If validation fails, redirect back with errors
-    //     return redirect()->back()->withInput()->with('validation', $this->validator);
-    // }
-
-    // Validate input data
-    // $validation = $this->validate([
-    //     'name' => 'required|min_length[3]|max_length[50]',
-    //     'email' => 'required|valid_email|is_unique[user.email]', // Table name must match database
-    //     'age' => 'required|integer|greater_than[0]',
-    //     'password' => 'required|min_length[6]',
-    // ]);
-
-    // if (!$validation) {
-    //     return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-    // }
+    public function getTherapistDetails()
+    {
+        $therapistModel = new UserModel();
+        $userId = session()->get('userId');
+        $therapist = $therapistModel->getDetailsById($userId); // get therapist details
+        // dd($therapist);
+        if ($therapist) {
+            session()->set([
+                'therapistId' => $therapist['therapistId'],
+                'expertise' => $therapist['expertise'],
+                'profile_image' => $therapist['profile_image'],
+                'name' => $therapist['name'],
+                'email' => $therapist['email'],
+            ]);
+        }
+        return view('layout/adminTemplate', ['therapist' => $therapist]);
+    }
 }
