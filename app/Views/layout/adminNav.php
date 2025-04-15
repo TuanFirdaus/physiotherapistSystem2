@@ -60,7 +60,7 @@
                         </li>
                         <li>
                             <a href="/schedule">
-                                <span class="sub-item">Manage Schedule</span>
+                                <span class="sub-item">Manage Slot</span>
                             </a>
                         </li>
                     </ul>
@@ -68,15 +68,20 @@
             </li>
             <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#forms">
-                    <i class="fas fa-pen-square"></i>
-                    <p>Forms</p>
+                    <i class="fas fa-address-book"></i>
+                    <p>User Management</p>
                     <span class="caret"></span>
                 </a>
                 <div class="collapse" id="forms">
                     <ul class="nav nav-collapse">
                         <li>
                             <a href="forms/forms.html">
-                                <span class="sub-item">Basic Form</span>
+                                <span class="sub-item">Therapist</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="forms/forms.html">
+                                <span class="sub-item">Patient</span>
                             </a>
                         </li>
                     </ul>

@@ -11,6 +11,7 @@ class User extends BaseController
     public function __construct()
     {
         $this->userModel = new UserModel(); // Properly instantiate the UserModel
+
     }
 
     public function login()
@@ -33,6 +34,31 @@ class User extends BaseController
                 'userName' => $user['name'],
                 'role'     => $user['role'], // Store role in session
             ]);
+
+            if ($user['role'] === 'therapist') {
+                $therapist = $this->userModel->getTherapistDetailsById($user['userId']);
+                if ($therapist) {
+                    $session->set([
+                        'therapistId'   => $therapist['therapistId'],
+                        'expertise'     => $therapist['expertise'],
+                        'profile_image' => $therapist['profile_image'],
+                        'name'          => $therapist['name'],
+                        'email'         => $therapist['email'],
+                    ]);
+                }
+            }
+
+            if ($user['role'] === 'Operation Manager') {
+                $om = $this->userModel->getOperationManagerDetailsById($user['userId']);
+                if ($om) {
+                    $session->set([
+                        'omId'   => $om['omId'],
+                        'profile_image' => $om['profile_image'],
+                        'name'          => $om['name'],
+                        'email'         => $om['email'],
+                    ]);
+                }
+            }
 
             // Redirect based on user role
             switch ($user['role']) {
@@ -113,23 +139,5 @@ class User extends BaseController
         }
 
         return redirect()->to('/login')->with('success', 'Registration successful! Please login.');
-    }
-
-    public function getTherapistDetails()
-    {
-        $therapistModel = new UserModel();
-        $userId = session()->get('userId');
-        $therapist = $therapistModel->getDetailsById($userId); // get therapist details
-        // dd($therapist);
-        if ($therapist) {
-            session()->set([
-                'therapistId' => $therapist['therapistId'],
-                'expertise' => $therapist['expertise'],
-                'profile_image' => $therapist['profile_image'],
-                'name' => $therapist['name'],
-                'email' => $therapist['email'],
-            ]);
-        }
-        return view('layout/adminTemplate', ['therapist' => $therapist]);
     }
 }

@@ -14,12 +14,39 @@ class AppointmentModel extends Model
     public function getPendingAppointments($patientId)
     {
         return $this->db->table('appointment')
-            ->select('user.name, user.email, therapist.therapistId, appointment.appointmentId, slot.date, slot.time, appointment.status, treatment.treatmentId, treatment.price')
+            ->select('user.name, user.email, therapist.therapistId, appointment.appointmentId, slot.date, slot.startTime, slot.endTime, appointment.status, treatment.treatmentId, treatment.price')
             ->join('therapist', 'therapist.therapistId = appointment.therapistId')
             ->join('user', 'user.userId = therapist.userId')
             ->join('slot', 'slot.slotId = appointment.slotId') // Join with slot table
             ->join('treatment', 'treatment.treatmentId = appointment.treatmentId') // Join with treatment table
             ->where('appointment.patientId', $patientId)
+            ->where('appointment.status', 'pending')
+            ->get()
+            ->getResultArray();
+    }
+
+    public function AllPendingAppointments()
+    {
+        return $this->db->table('appointment')
+            ->select('
+            user.name AS patientName, 
+            user.email, 
+            therapist.therapistId, 
+            appointment.appointmentId, 
+            slot.date, 
+            slot.startTime, 
+            slot.endTime, 
+            appointment.status, 
+            treatment.treatmentId,  
+            treatment.price as treatmentPrice, 
+            treatment.name as treatmentName, 
+            patient.phoneNo as patientPhoneNum
+        ')
+            ->join('patient', 'patient.patientId = appointment.patientId') // Join patient table first
+            ->join('user', 'user.userId = patient.userId') // Join user table for patient name
+            ->join('therapist', 'therapist.therapistId = appointment.therapistId') // Join therapist table
+            ->join('slot', 'slot.slotId = appointment.slotId') // Join slot table
+            ->join('treatment', 'treatment.treatmentId = appointment.treatmentId') // Join treatment table
             ->where('appointment.status', 'pending')
             ->get()
             ->getResultArray();
@@ -42,14 +69,17 @@ class AppointmentModel extends Model
             ->join('patient', 'patient.patientId = appointment.patientId')
             ->join('treatment', 'treatment.treatmentId = appointment.treatmentId')
             ->join('user', 'user.userId = patient.userId')
-            ->whereIn('appointment.status', ['pending', 'cancelled']) // Add condition for status
+            ->whereIn('appointment.status', ['approved', 'cancelled']) // Add condition for status
             ->get()
             ->getResultArray();
     }
+
+
+
     public function getHistoryAppointments()
     {
         return $this->db->table('appointment')
-            ->select('appointment.appointmentId, user.name AS patientName, patient.phoneNo as patientPhoneNum, treatment.name as treatmentName, treatment.price as treatmentPrice, appointment.status,slot.date,slot.time')
+            ->select('appointment.appointmentId, user.name AS patientName, patient.phoneNo as patientPhoneNum, treatment.name as treatmentName, treatment.price as treatmentPrice, appointment.status,slot.date,slot.startTime,slot.endTime')
             ->join('patient', 'patient.patientId = appointment.patientId')
             ->join('slot', 'slot.slotId = appointment.slotId')
             ->join('treatment', 'treatment.treatmentId = appointment.treatmentId')

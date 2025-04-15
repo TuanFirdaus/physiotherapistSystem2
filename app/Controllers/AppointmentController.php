@@ -272,13 +272,18 @@ class AppointmentController extends BaseController
         $appointModel = new AppointmentModel();
 
         // Fetch appointments with details
-        $appointments = $appointModel->getAppointmentsWithDetails();
+        $data = [
+            'appointments' => $appointModel->getAppointmentsWithDetails(),
+            'pendingAppointments' => $appointModel->AllPendingAppointments(),
+        ];
+        // $appointments = $appointModel->getAppointmentsWithDetails();
+        // $pendingAppointments = $appointModel->AllPendingAppointments();
 
         // Debug appointments (remove or comment this in production)
         // dd($appointments);
 
         // Return the view with appointments
-        return view('pages/approveApp', ['appointments' => $appointments]);
+        return view('pages/approveApp', $data);
     }
 
 

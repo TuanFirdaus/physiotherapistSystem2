@@ -63,6 +63,10 @@
                 <!-- End Navbar -->
             </div>
             <div class="container">
+                <!-- breadcrumbs section -->
+                <div class="breadcrumbs mb-5">
+                    <?= $this->renderSection('breadcrumbs'); ?>
+                </div>
                 <div class="page-inner">
                     <?= $this->renderSection('content'); ?>
                 </div>

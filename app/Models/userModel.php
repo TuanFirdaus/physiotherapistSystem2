@@ -43,7 +43,7 @@ class userModel extends Model
             ->getResultArray();
     }
 
-    public function getDetailsById($userId)
+    public function getTherapistDetailsById($userId)
     {
         return $this->db->table('user')
             ->select('user.userId, user.name, user.email, therapist.therapistId, therapist.expertise, therapist.profile_image')
@@ -52,6 +52,17 @@ class userModel extends Model
             ->where('user.userId', $userId)
             ->get()
             ->getRowArray(); // <- Better to use getRowArray() instead of getResultArray() for single user
+    }
+
+    public function getOperationManagerDetailsById($userId)
+    {
+        return $this->db->table('user')
+            ->select('user.userId, user.name, user.email, operationmanager.omId, operationmanager.profile_image')
+            ->join('operationmanager', 'operationmanager.userId = user.userId')
+            ->where('role', 'Operation Manager')
+            ->where('user.userId', $userId)
+            ->get()
+            ->getRowArray();
     }
 
 

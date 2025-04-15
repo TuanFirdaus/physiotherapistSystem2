@@ -15,7 +15,7 @@
                             <h5><strong>Appointment Details</strong></h5>
                             <p class="card-text"><strong>Therapist Name:</strong> <?= $appointment['name']; ?></p>
                             <p class="card-text"><strong>Email:</strong> <?= $appointment['email']; ?></p>
-                            <p class="card-text"><strong>Slot: </strong>Date - <?= $appointment['date']; ?>, Time -<?= $appointment['time']; ?></p>
+                            <p class="card-text"><strong>Slot: </strong>Date - <?= $appointment['date']; ?>, Time -<?= $appointment['startTime']; ?> to <?= $appointment['endTime']; ?></p>
                             <p class="card-text"><strong>Status:</strong>
                                 <span class="badge bg-warning"><?= ucfirst($appointment['status']); ?></span>
                             </p>

@@ -1,4 +1,25 @@
 <?= $this->extend('layout/adminTemplate') ?>
+<?= $this->section('breadcrumbs'); ?>
+<ul class="page-breadcrumb">
+    <li class="nav-home">
+        <a href="/adminDashboard" class="nav-link">
+            <i class="icon-home"></i>
+        </a>
+    </li>
+    <li class="separator">
+        <i class="icon-arrow-right"></i>
+    </li>
+    <li class="nav-item">
+        <a href="/approveApp">Appointments</a>
+    </li>
+    <li class="separator">
+        <i class="icon-arrow-right"></i>
+    </li>
+    <li class="nav-item">
+        <a href="/slotForm">Manage Slot</a>
+    </li>
+</ul>
+<?= $this->endSection(); ?>
 
 <?= $this->section('content'); ?>
 <h1 class="text-center mb-5">Manage Slot</h1>

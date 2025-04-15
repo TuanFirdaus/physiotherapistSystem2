@@ -1,4 +1,4 @@
-<div class="main-header-logo">
+<div class="main-header-logo ">
     <!-- Logo Header -->
     <div class="logo-header" data-background-color="dark">
         <a href="index.html" class="logo">
@@ -293,13 +293,15 @@
                     <div class="avatar-sm">
                         <?php
                         $session = session();
-                        $profileImg = $session->get('profile_image');
+                        $profileImg = $session->get('profile_image') ?? 'assets/img/profile.jpg'; // Fallback image
+                        $userName = $session->get('name') ?? 'Guest'; // Fallback name
+                        $userEmail = $session->get('email') ?? 'No email provided'; // Fallback email
                         ?>
                         <img src="<?= base_url(esc($profileImg)) ?>" alt="Profile Image" class="avatar-img rounded">
                     </div>
                     <span class="profile-username">
                         <span class="op-7">Hi,</span>
-                        <span class="fw-bold"><?= esc($session->get('name')); ?></span>
+                        <span class="fw-bold"><?= esc($userName); ?></span>
                     </span>
                 </a>
                 <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -311,8 +313,8 @@
                                         <img src="<?= base_url(esc($profileImg)) ?>" alt="image profile" class="avatar-img rounded">
                                     </div>
                                     <div class="u-text">
-                                        <h4><?= esc($session->get('name')); ?></h4>
-                                        <p class="text-muted"><?= esc($session->get('email')); ?></p>
+                                        <h4><?= esc($userName); ?></h4>
+                                        <p class="text-muted"><?= esc($userEmail); ?></p>
                                         <a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
                                     </div>
                                 </div>

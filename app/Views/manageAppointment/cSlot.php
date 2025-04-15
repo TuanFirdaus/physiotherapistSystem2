@@ -25,7 +25,8 @@
                     <thead style="background-color:rgb(13, 66, 145); text-align: center; color: #fff;">
                         <tr>
                             <th style="padding: 10px; border: 1px solid #000;">Slot</th>
-                            <th style="padding: 10px; border: 1px solid #000;">Time</th>
+                            <th style="padding: 10px; border: 1px solid #000;">Start Time</th>
+                            <th style="padding: 10px; border: 1px solid #000;">End Time</th>
                             <th style="padding: 10px; border: 1px solid #000;">Date</th>
                             <th style="padding: 10px; border: 1px solid #000;">Status</th>
                             <th style="padding: 10px; border: 1px solid #000; text-align: center;">Action</th>
@@ -35,7 +36,8 @@
                         <?php foreach ($slotSchedule as $schedule) : ?>
                             <tr style="color: #333;">
                                 <td style="padding: 10px; border: 1px solid #000;">Slot<?= esc($schedule['slotId']) ?></td>
-                                <td style="padding: 10px; border: 1px solid #000;"><?= esc($schedule['time']) ?></td>
+                                <td style="padding: 10px; border: 1px solid #000;"><?= esc($schedule['startTime']) ?></td>
+                                <td style="padding: 10px; border: 1px solid #000;"><?= esc($schedule['endTime']) ?></td>
                                 <td style="padding: 10px; border: 1px solid #000;"><?= esc($schedule['date']) ?></td>
                                 <td style="padding: 10px; border: 1px solid #000;"><?= esc($schedule['status']) ?></td>
                                 <td style="padding: 10px; border: 1px solid #000; text-align: center;">
