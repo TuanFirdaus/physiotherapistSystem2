@@ -312,7 +312,7 @@
                                     </div>
                                     <div class="u-text">
                                         <h4><?= esc($session->get('name')); ?></h4>
-                                        <p class="text-muted"><?= esc($session->get('userId')); ?></p>
+                                        <p class="text-muted"><?= esc($session->get('email')); ?></p>
                                         <a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
                                     </div>
                                 </div>
