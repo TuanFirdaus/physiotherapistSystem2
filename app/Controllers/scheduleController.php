@@ -57,11 +57,11 @@ class scheduleController extends BaseController
         // Get all slots with therapist and user info
         $allSlots = $this->scheduleModel->getScheduleSlot(); // call the model method
 
-        $data = [
-            'allSlots' => $allSlots // pass the result to the view
-        ];
+        // Store data in session
+        session()->set('allSlots', $allSlots);
 
-        return view('pages/manageSchedule', $data);
+        // Render the first view
+        return view('pages/manageSchedule');
     }
 
     public function getTry()
@@ -87,5 +87,11 @@ class scheduleController extends BaseController
 
         // dd($data);
         return view('/pages/schedule', $data);
+    }
+
+    public function deleteSlot($slotId)
+    {
+        $this->scheduleModel->delete($slotId);
+        return redirect()->back()->with('success', 'Slot deleted successfully.');
     }
 }

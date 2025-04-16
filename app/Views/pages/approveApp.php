@@ -7,12 +7,7 @@
             <i class="icon-home"></i>
         </a>
     </li>
-    <li class="separator">
-        <i class="icon-arrow-right"></i>
-    </li>
-    <li class="nav-item">
-        <a href="/approveApp">Appointments</a>
-    </li>
+
     <li class="separator">
         <i class="icon-arrow-right"></i>
     </li>
@@ -23,9 +18,7 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('content'); ?>
-<div class="container mt-2 mb-5">
-    <h2 class="text-center mb-1">List Appointment</h2>
-
+<div class="container mt-2">
     <!-- Flash Messages -->
     <?php if (session()->getFlashdata('success')): ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -40,48 +33,6 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endif; ?>
-
-    <!-- Appointment Table -->
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Patient Name</th>
-                <th>Treatment Name</th>
-                <th>Phone Number</th>
-                <th>Treatment Price</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($appointments as $appointment): ?>
-                <tr>
-                    <td><?= esc($appointment['patientName']) ?></td>
-                    <td><?= esc($appointment['treatmentName']) ?></td>
-                    <td><?= esc($appointment['patientPhoneNum']) ?></td>
-                    <td><?= esc($appointment['treatmentPrice']) ?></td>
-                    <td>
-                        <?php
-                        $badgeClass = '';
-                        switch ($appointment['status']) {
-                            case 'approved':
-                                $badgeClass = 'bg-success';
-                                break;
-                            case 'cancelled':
-                                $badgeClass = 'bg-danger';
-                                break;
-                            default:
-                                $badgeClass = 'bg-secondary';
-                                break;
-                        }
-                        ?>
-                        <span class="badge <?= $badgeClass ?>">
-                            <?= ucfirst(esc($appointment['status'])) ?>
-                        </span>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
 </div>
 
 <div class="container">
@@ -122,7 +73,7 @@
                                             <i class="fa fa-check"></i> Approve
                                         </button>
                                     </form>
-                                    <form action="/appointments/reject/<?= esc($pendingAppointment['appointmentId']) ?>" method="post" style="display:inline;">
+                                    <form action="/appointments/delete/<?= esc($pendingAppointment['appointmentId']) ?>" method="post" style="display:inline;">
                                         <?= csrf_field() ?>
                                         <button type="submit" data-bs-toggle="tooltip" title="Reject Appointment" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to reject this appointment?');">
                                             <i class="fa fa-times"></i> Reject

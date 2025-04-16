@@ -22,7 +22,6 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('content'); ?>
-<h1 class="text-center mb-5">Manage Slot</h1>
 
 <!-- Therapist List -->
 <div class="card ms-5 ">

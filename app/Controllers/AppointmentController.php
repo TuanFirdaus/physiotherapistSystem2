@@ -327,4 +327,30 @@ class AppointmentController extends BaseController
 
         return view('pages/patientApp', ['appointments' => $appointments]);
     }
+
+    public function viewAllAppointments()
+    {
+        $appointmentModel = new \App\Models\AppointmentModel();
+        $therapistModel = new \App\Models\UserModel(); // Assuming therapists are stored in UserModel
+
+        $date = $this->request->getGet('date');
+        $therapistId = $this->request->getGet('therapist_id');
+        $status = $this->request->getGet('status');
+
+        $filters = [
+            'date' => $date,
+            'therapist_id' => $therapistId,
+            'status' => $status
+        ];
+
+        $data = [
+            'appointments' => $appointmentModel->getFilteredAppointments($filters),
+            'therapists' => $therapistModel->getTherapist(), // you can reuse your existing method
+            'filter_date' => $date,
+            'filter_therapist' => $therapistId,
+            'filter_status' => $status
+        ];
+
+        return view('pages/allAppointment', $data);
+    }
 }

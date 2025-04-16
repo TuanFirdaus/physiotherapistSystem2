@@ -59,3 +59,9 @@ $routes->get('/adminDashboard', 'Home::adminDashboard'); //show admin dashboard
 $routes->get('/manageSchedule', 'Home::manageSchedule'); //show manage schedule page
 
 $routes->get('/therapistDetails', 'User::getTherapistDetails'); //show manage appointment page
+
+$routes->post('/schedule/manage/(:num)', 'scheduleController::deleteSlot/$1'); //handle manage schedule page
+
+$routes->get('/viewAppointments', 'AppointmentController::viewAllAppointments');
+
+$routes->get('/slot_manage', 'Home::manageSlot'); //show all appointments page

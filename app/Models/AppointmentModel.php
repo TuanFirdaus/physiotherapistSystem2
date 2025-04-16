@@ -136,4 +136,29 @@ class AppointmentModel extends Model
             ->get()
             ->getResultArray();
     }
+
+    public function getFilteredAppointments($filters)
+    {
+        $builder = $this->db->table('appointment')
+            ->select('appointment.*, therapist_user.name AS therapist_name, patient_user.name AS patient_name, slot.date, slot.startTime, slot.endTime')
+            ->join('therapist', 'therapist.therapistId = appointment.therapistId')
+            ->join('user AS therapist_user', 'therapist_user.userId = therapist.userId') // Therapist name
+            ->join('patient', 'patient.patientId = appointment.patientId')
+            ->join('user AS patient_user', 'patient_user.userId = patient.userId') // Patient name
+            ->join('slot', 'slot.slotId = appointment.slotId'); // Join with slot table
+
+        if (!empty($filters['date'])) {
+            $builder->where('slot.date', $filters['date']);
+        }
+
+        if (!empty($filters['therapist_id'])) {
+            $builder->where('appointment.therapistId', $filters['therapist_id']);
+        }
+
+        if (!empty($filters['status'])) {
+            $builder->where('appointment.status', $filters['status']);
+        }
+
+        return $builder->get()->getResultArray();
+    }
 }

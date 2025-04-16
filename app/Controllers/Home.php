@@ -52,4 +52,14 @@ class Home extends BaseController
     {
         return view('pages/manageSchedule');
     }
+
+    public function viewAll_Appointments()
+    {
+        return view('pages/allAppointment');
+    }
+
+    public function manageSlot()
+    {
+        return view('pages/manageSlot');
+    }
 }
