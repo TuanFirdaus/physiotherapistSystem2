@@ -4,16 +4,19 @@ namespace App\Controllers;
 
 use App\Models\ScheduleModel;
 use App\Models\UserModel;
+use App\Models\AppointmentModel;
 
 class scheduleController extends BaseController
 {
     protected $scheduleModel;
     protected $userModel; // Declare userModel property
+    protected $appointmentModel;
 
     public function __construct()
     {
         $this->scheduleModel = new ScheduleModel();
         $this->userModel = new UserModel(); // Instantiate UserModel if needed
+        $this->appointmentModel = new AppointmentModel(); // Instantiate AppointmentModel
     }
     public function assignSlot()
     {
@@ -55,43 +58,89 @@ class scheduleController extends BaseController
     public function getSchedule()
     {
         // Get all slots with therapist and user info
-        $allSlots = $this->scheduleModel->getScheduleSlot(); // call the model method
-
+        $data = [
+            $allSlots = $this->scheduleModel->getScheduleSlot(), // call the model method\
+            $appointments = $this->appointmentModel->getAppointmentsWithDetails(),
+        ];
         // Store data in session
         session()->set('allSlots', $allSlots);
 
         // Render the first view
         return view('pages/manageSchedule');
     }
-
-    public function getTry()
+    // Method to display the edit form
+    public function edit($appointmentId)
     {
-        return view('pages/schedule');
-    }
+        $appointment = $this->appointmentModel->find($appointmentId);
+        $therapists = $this->userModel->findAll();
 
-    public function TrySchedule()
-    {
-        //retrive the data from the form input
-        $date = $this->request->getVar('date');
-
-        //fetch therapist assigned to the specified date
-        $therapists = $this->scheduleModel->therapistsSchedule($date);
+        if (!$appointment) {
+            return redirect()->to('/appointments')->with('error', 'Appointment not found.');
+        }
 
         $data = [
-            'date' => $date,
-            'therapistsSchedule' => $therapists
+            'appointment' => $appointment,
+            'therapists' => $therapists,
         ];
 
-        // Load session
-        session()->set('scheduleData', $data);
-
-        // dd($data);
-        return view('/pages/schedule', $data);
+        return view('pages/editSlot', $data);
     }
 
-    public function deleteSlot($slotId)
+    // Method to handle the update
+    public function update($appointmentId)
     {
+        $data = [
+            'therapistId' => $this->request->getPost('therapistId'),
+            'date' => $this->request->getPost('date'),
+            'startTime' => $this->request->getPost('startTime'),
+            'endTime' => $this->request->getPost('endTime'),
+            'status' => $this->request->getPost('status'),
+        ];
+
+        if ($this->appointmentModel->update($appointmentId, $data)) {
+            return redirect()->to('/appointments')->with('success', 'Appointment updated successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to update appointment.');
+        }
+    }
+
+    public function deleteSlot()
+    {
+        $slotId = $this->request->getPost('slotId');
+
+        if (!$slotId) {
+            return redirect()->back()->with('error', 'No slot selected.');
+        }
+
+        // Delete the slot from the database
         $this->scheduleModel->delete($slotId);
+
+        // Retrieve the current session data
+        $allSlots = session()->get('allSlots') ?? [];
+
+        // Filter out the deleted slot from the session
+        $updatedSlots = array_filter($allSlots, function ($slot) use ($slotId) {
+            return $slot['slotId'] != $slotId;
+        });
+
+        // Update the session with the filtered slots
+        session()->set('allSlots', $updatedSlots);
+
         return redirect()->back()->with('success', 'Slot deleted successfully.');
+    }
+
+    public function EditSlot($slotId)
+    {
+        // $slot = $this->scheduleModel->find($slotId);
+        $slotDetails = $this->scheduleModel->getSlotDetails($slotId);
+
+        if (!$slotDetails) {
+            return redirect()->to('/slot/manage')->with('error', 'Slot not found.');
+        }
+        dd($slotDetails);
+        // Merge slot details into the slot array
+        // $slotS = array_merge($slot, $slotDetails);
+        // dd($slot);
+        return view('pages/editSlot', ['slot' => $slotDetails,]);
     }
 }

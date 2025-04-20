@@ -60,7 +60,9 @@ $routes->get('/manageSchedule', 'Home::manageSchedule'); //show manage schedule 
 
 $routes->get('/therapistDetails', 'User::getTherapistDetails'); //show manage appointment page
 
-$routes->post('/schedule/manage/(:num)', 'scheduleController::deleteSlot/$1'); //handle manage schedule page
+$routes->post('/slots/delete', 'scheduleController::deleteSlot'); //handle manage schedule page
+
+$routes->match(['get', 'post'], '/slots_edit/(:any)', 'scheduleController::EditSlot/$1'); //show edit slot page
 
 $routes->get('/viewAppointments', 'AppointmentController::viewAllAppointments');
 

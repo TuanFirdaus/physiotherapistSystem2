@@ -58,11 +58,7 @@
                                 <span class="sub-item">Pending Appointment</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="/schedule">
-                                <span class="sub-item">Manage Appointment</span>
-                            </a>
-                        </li>
+
                     </ul>
                 </div>
             </li>

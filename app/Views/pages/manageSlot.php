@@ -19,10 +19,8 @@
 <?= $this->section('content'); ?>
 <div class="container mt-5">
     <h4>Timetable of Slots</h4>
-
-    <form action="/schedule/manage" method="post">
+    <form id="slotForm">
         <?= csrf_field() ?>
-
         <!-- Timetable -->
         <table class="table table-bordered mt-3 text-center">
             <thead class="table-dark">
@@ -36,7 +34,7 @@
             <tbody>
                 <?php
                 // Retrieve all slots from the session
-                $allSlots = session()->get('allSlots');
+                $allSlots = session()->get('allSlots') ?? [];
 
                 // Sort slots by date
                 usort($allSlots, function ($a, $b) {
@@ -56,10 +54,8 @@
                     </tr>
                     <?php foreach ($slots as $slot): ?>
                         <tr>
-
                             <td>
                                 <input type="radio" name="slotId" value="<?= $slot['slotId'] ?>" required>
-                            </td>
                             </td>
                             <td><?= $slot['name'] ?></td>
                             <td><?= $slot['startTime'] ?> - <?= $slot['endTime'] ?></td>
@@ -93,12 +89,22 @@
             </tbody>
         </table>
 
-        <div class="d-flex justify-content-end mt-3">
-            <button type="submit" name="action" value="edit" class="btn btn-warning me-2">Edit</button>
-            <button type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
+        <div class="d-flex justify-content-center mt-3">
+            <!-- Form for Edit -->
+            <form action="/slots_edit/<?= $slot['slotId'] ?>" method="post" class="ms-2">
+                <?= csrf_field() ?>
+                <input type="hidden" name="slotId" value="<?= $slot['slotId'] ?>" id="editSlotId">
+                <button type="submit" class="btn btn-primary">Edit</button>
+            </form>
+            <!-- Form for Delete -->
+            <form id="deleteForm" action="/slots_delete" method="post" class="ms-2">
+                <?= csrf_field() ?>
+                <input type="hidden" name="slotId" value="<?= $slot['slotId'] ?>" id="deleteSlotId">
+                <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete</button>
+            </form>
         </div>
-
     </form>
 </div>
+
 
 <?= $this->endSection(); ?>

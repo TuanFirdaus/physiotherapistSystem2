@@ -4,15 +4,18 @@ namespace App\Controllers;
 
 use App\Models\AppointmentModel;
 use App\Models\UserModel;
+use App\Models\ScheduleModel;
 
 class Home extends BaseController
 {
     protected $appointmentModel;
     protected $userModel;
+    protected $scheduleModel;
     public function __construct()
     {
         $this->appointmentModel = new AppointmentModel();
         $this->userModel = new UserModel();
+        $this->scheduleModel = new ScheduleModel();
     }
     public function index()
     {

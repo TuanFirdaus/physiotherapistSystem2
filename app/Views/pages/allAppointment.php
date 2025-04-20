@@ -12,7 +12,7 @@
         <i class="icon-arrow-right"></i>
     </li>
     <li class="nav-item">
-        <a href="/approveApp">List All Appointment</a>
+        <a href="/approveApp">All Appointment</a>
     </li>
 </ul>
 <?= $this->endSection(); ?>
@@ -92,6 +92,13 @@
                 </tr>
             <?php endif; ?>
         </tbody>
+        <div class="mt-3 mb-3">
+
+            <button type="submit" name="action" value="edit" class="btn btn-warning">Edit</button>
+
+            <button type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
+        </div>
+
     </table>
 </div>
 <?= $this->endSection(); ?>
