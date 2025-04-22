@@ -15,8 +15,8 @@ $routes->setAutoRoute(value: true);
 $routes->get('/slotForm', 'AppointmentController::getSlotForm');
 $routes->post('/user/login', 'User::login'); //verify login
 $routes->get('/login', 'Home::getlogin'); //display login page
-$routes->get('/assignSlot', 'scheduleController::assignSlot');
-$routes->post('/assignSlot', 'scheduleController::assignSlot');
+$routes->get('/assignSlot', 'slotController::assignSlot');
+$routes->post('/assignSlot', 'slotController::assignSlot');
 $routes->match(['get', 'post'], '/schedule', 'scheduleController::getSchedule');
 $routes->get('/scheduleTry', 'scheduleController::getTry'); //try schedule
 $routes->match(['get', 'post'], '/scheduleTest', 'scheduleController::Tryschedule'); //show manage appointment page
@@ -60,10 +60,10 @@ $routes->get('/manageSchedule', 'Home::manageSchedule'); //show manage schedule 
 
 $routes->get('/therapistDetails', 'User::getTherapistDetails'); //show manage appointment page
 
-$routes->post('/slots/delete', 'scheduleController::deleteSlot'); //handle manage schedule page
+$routes->post('/slots/delete', 'slotController::deleteSlot'); //handle manage schedule page
 
-$routes->match(['get', 'post'], '/slots_edit/(:any)', 'scheduleController::EditSlot/$1'); //show edit slot page
+$routes->match(['get', 'post'], '/slots_edit', 'slotController::EditSlot'); //show edit slot page
 
 $routes->get('/viewAppointments', 'AppointmentController::viewAllAppointments');
 
-$routes->get('/slot_manage', 'Home::manageSlot'); //show all appointments page
+$routes->get('/slot/manage', 'slotController::slotManagement'); //show all appointments page

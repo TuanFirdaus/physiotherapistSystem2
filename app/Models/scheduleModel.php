@@ -31,16 +31,6 @@ class scheduleModel extends Model
             ->getResultArray();
     }
 
-    public function getSlotDetails($slotId)
-    {
-        return $this->db->table('slot')
-            ->select('user.name as therapistName, user.email, therapist.therapistId, slot.slotId, slot.date, slot.startTime, slot.endTime, slot.status')
-            ->join('therapist', 'therapist.therapistId = slot.therapistId')
-            ->join('user', 'user.userId = therapist.userId')
-            ->where('slot.slotId', $slotId)
-            ->get()
-            ->getRowArray();
-    }
 
     public function slotSchedule($therapistId)
     {
@@ -52,16 +42,5 @@ class scheduleModel extends Model
             ->where('slot.status', 'available')
             ->get()
             ->getResultArray();
-    }
-
-    public function update($id = null, $data = null): bool
-    {
-        if ($id === null || $data === null) {
-            return false; // Return false if parameters are missing
-        }
-
-        return $this->db->table('slot')
-            ->where('slotId', $id)
-            ->update($data);
     }
 }

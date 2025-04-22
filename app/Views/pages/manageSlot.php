@@ -19,6 +19,24 @@
 <?= $this->section('content'); ?>
 <div class="container mt-5">
     <h4>Timetable of Slots</h4>
+
+    <!-- Buttons placed at the top-right -->
+    <div class="d-flex justify-content-end mb-3">
+        <!-- Edit Button -->
+        <form action="/slots_edit" method="post" class="me-2">
+            <?= csrf_field() ?>
+            <input type="hidden" name="slotId" id="editSlotId">
+            <button type="submit" class="btn btn-warning btn-sm">Edit Selected Slot</button>
+        </form>
+
+        <!-- Delete Button -->
+        <form action="/slots/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this slot?');">
+            <?= csrf_field() ?>
+            <input type="hidden" name="slotId" id="deleteSlotId">
+            <button type="submit" class="btn btn-danger btn-sm">Delete Selected Slot</button>
+        </form>
+    </div>
+
     <form id="slotForm">
         <?= csrf_field() ?>
         <!-- Timetable -->
@@ -33,17 +51,17 @@
             </thead>
             <tbody>
                 <?php
-                // Retrieve all slots from the session
-                $allSlots = session()->get('allSlots') ?? [];
+                // Retrieve slots from the session
+                $slotsData = session()->get('slotsData') ?? [];
 
                 // Sort slots by date
-                usort($allSlots, function ($a, $b) {
+                usort($slotsData, function ($a, $b) {
                     return strtotime($a['date']) - strtotime($b['date']);
                 });
 
                 // Group slots by date
                 $groupedSlots = [];
-                foreach ($allSlots as $slot) {
+                foreach ($slotsData as $slot) {
                     $groupedSlots[$slot['date']][] = $slot;
                 }
 
@@ -57,7 +75,7 @@
                             <td>
                                 <input type="radio" name="slotId" value="<?= $slot['slotId'] ?>" required>
                             </td>
-                            <td><?= $slot['name'] ?></td>
+                            <td><?= $slot['therapistName'] ?></td>
                             <td><?= $slot['startTime'] ?> - <?= $slot['endTime'] ?></td>
                             <td>
                                 <?php
@@ -88,23 +106,6 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
-
-        <div class="d-flex justify-content-center mt-3">
-            <!-- Form for Edit -->
-            <form action="/slots_edit/<?= $slot['slotId'] ?>" method="post" class="ms-2">
-                <?= csrf_field() ?>
-                <input type="hidden" name="slotId" value="<?= $slot['slotId'] ?>" id="editSlotId">
-                <button type="submit" class="btn btn-primary">Edit</button>
-            </form>
-            <!-- Form for Delete -->
-            <form id="deleteForm" action="/slots_delete" method="post" class="ms-2">
-                <?= csrf_field() ?>
-                <input type="hidden" name="slotId" value="<?= $slot['slotId'] ?>" id="deleteSlotId">
-                <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete</button>
-            </form>
-        </div>
     </form>
 </div>
-
-
 <?= $this->endSection(); ?>

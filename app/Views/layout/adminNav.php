@@ -97,7 +97,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/slot_manage">
+                            <a href="/slot/manage">
                                 <span class="sub-item">Manage Slot</span>
                             </a>
                         </li>

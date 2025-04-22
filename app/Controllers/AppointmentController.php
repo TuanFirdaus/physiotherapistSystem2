@@ -24,6 +24,8 @@ class AppointmentController extends BaseController
         $this->appointmentModel = new AppointmentModel(); // Initialize the AppointmentModel
     }
 
+
+
     public function getIndex()
     {
         return view('manageAppointment/index');

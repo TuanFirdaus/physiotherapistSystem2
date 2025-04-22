@@ -68,7 +68,7 @@
                                 <div class="form-button-action">
                                     <form action="/appointments/approve/<?= esc($pendingAppointment['appointmentId']) ?>" method="post" style="display:inline;">
                                         <?= csrf_field() ?>
-                                        <input type="hidden" name="status" value="<?= esc($appointment['status']) ?>">
+                                        <input type="hidden" name="status" value="<?= esc($pendingAppointment['status']) ?>">
                                         <button type="submit" data-bs-toggle="tooltip" title="Approve Appointment" class="btn btn-success btn-sm">
                                             <i class="fa fa-check"></i> Approve
                                         </button>

@@ -60,9 +60,4 @@ class Home extends BaseController
     {
         return view('pages/allAppointment');
     }
-
-    public function manageSlot()
-    {
-        return view('pages/manageSlot');
-    }
 }

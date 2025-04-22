@@ -76,7 +76,7 @@ class AppointmentModel extends Model
 
 
 
-    public function getHistoryAppointments()
+    public function getHistoryAppointments($patientId)
     {
         return $this->db->table('appointment')
             ->select('appointment.appointmentId, user.name AS patientName, patient.phoneNo as patientPhoneNum, treatment.name as treatmentName, treatment.price as treatmentPrice, appointment.status,slot.date,slot.startTime,slot.endTime')
@@ -84,6 +84,7 @@ class AppointmentModel extends Model
             ->join('slot', 'slot.slotId = appointment.slotId')
             ->join('treatment', 'treatment.treatmentId = appointment.treatmentId')
             ->join('user', 'user.userId = patient.userId')
+            ->where('appointment.patientId', $patientId)
             ->whereIn('appointment.status', ['approved', 'cancelled']) // Add condition for status
             ->get()
             ->getResultArray();
