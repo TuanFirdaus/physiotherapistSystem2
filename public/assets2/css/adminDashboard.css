@@ -19,7 +19,13 @@
     border-radius: 20px;
 }
 
-
+.badge {
+    font-size: 0.75rem;
+    padding: 0.25em 0.5em;
+    border-radius: 0.5rem;
+    color: white;
+    background-color: red;
+}
 
 
 

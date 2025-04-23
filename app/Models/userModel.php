@@ -43,6 +43,16 @@ class userModel extends Model
             ->getResultArray();
     }
 
+    public function getManageTherapists()
+    {
+        return $this->db->table('user')
+            ->select('therapist.therapistId, user.name, therapist.expertise, therapist.availability , therapist.profile_image')
+            ->join('therapist', 'therapist.userId = user.userId')
+            ->where('user.role', 'Therapist')
+            ->get()
+            ->getResultArray();
+    }
+
     public function getTherapistDetailsById($userId)
     {
         return $this->db->table('user')
@@ -77,5 +87,24 @@ class userModel extends Model
             ->where('patient.userId', $userId)
             ->get()
             ->getRowArray();
+    }
+    public function getManagePatients()
+    {
+        return $this->db->table('user')
+            ->select('patient.patientId, user.name, patient.address, patient.phoneNo')
+            ->join('patient', 'patient.userId = user.userId')
+            ->where('user.role', 'Patient')
+            ->get()
+            ->getResultArray();
+    }
+
+    public function getTotalUser()
+    {
+        return $this->db->table('user')
+            ->select('role, COUNT(*) as total')
+            ->whereIn('role', ['patient', 'therapist']) // Filter for Patient and Therapist roles
+            ->groupBy('role') // Group by role
+            ->get()
+            ->getResultArray();
     }
 }

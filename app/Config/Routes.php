@@ -66,4 +66,14 @@ $routes->match(['get', 'post'], '/slots_edit', 'slotController::EditSlot'); //sh
 
 $routes->get('/viewAppointments', 'AppointmentController::viewAllAppointments');
 
-$routes->get('/slot/manage', 'slotController::slotManagement'); //show all appointments page
+$routes->get('/ManageSlot', 'slotController::slotManagement'); //show all appointments page
+$routes->post('/ManageSlot', 'slotController::slotManagement');
+$routes->post('/slots/update', 'slotController::updateSlot');
+
+$routes->get('/manageTherapist', 'User::manageTherapist'); // Show Manage Therapist page
+$routes->get('/managePatient', 'User::managePatient'); // Show Manage Patient page
+$routes->post('/updatePatient', 'User::updatePatient');
+$routes->get('/deletePatient/(:num)', 'User::deletePatient/$1');
+$routes->get('/manageTherapist', 'User::manageTherapist'); // Display the list of therapists
+$routes->post('/updateTherapist', 'User::updateTherapist'); // Update therapist information
+$routes->get('/deleteTherapist/(:num)', 'User::deleteTherapist/$1'); // Delete a therapist

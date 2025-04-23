@@ -55,17 +55,25 @@
     <table class="table table-bordered">
         <thead>
             <tr>
+                <th>Select</th>
                 <th>Date</th>
                 <th>Time</th>
                 <th>Therapist</th>
                 <th>Patient</th>
                 <th>Status</th>
+
             </tr>
         </thead>
         <tbody>
             <?php if (!empty($appointments)): ?>
                 <?php foreach ($appointments as $a): ?>
                     <tr>
+                        <td>
+                            <input type="radio" name="appointment_ids[]" value="<?= esc($a['appointmentId']) ?>">
+                            <input type="hidden" name="slotId" value="<?= esc($a['slotId']) ?>">
+                            <input type="hidden" name="therapistId" value="<?= esc($a['therapistId']) ?>">
+                            <input type="hidden" name="patientId" value="<?= esc($a['patientId']) ?>">
+                        </td>
                         <td><?= esc($a['date']) ?></td>
                         <td><?= esc($a['startTime']) ?>-<?= esc($a['endTime']) ?></td>
                         <td><?= esc($a['therapist_name']) ?></td>

@@ -3,14 +3,17 @@
 namespace App\Controllers;
 
 use App\Models\SlotModel;
+use App\Models\ScheduleModel;
 
 class slotController extends BaseController
 {
     protected $slotModel;
+    protected $scheduleModel; // Declare scheduleModel property
 
     public function __construct()
     {
         $this->slotModel = new SlotModel();
+        $this->scheduleModel = new ScheduleModel(); // Instantiate ScheduleModel if needed
     }
 
     public function assignSlot()
@@ -58,6 +61,7 @@ class slotController extends BaseController
         // Store slots in session
         session()->set('slotsData', $slots);
 
+        // dd($slots); // Debugging line to check the retrieved slots
 
         // Pass slots to the view
         return view('pages/manageSlot', ['slots' => $slots]);
@@ -100,5 +104,51 @@ class slotController extends BaseController
         }
 
         return view('pages/editSlot', ['slot' => $slotDetails,]);
+    }
+
+    public function updateSlot()
+    {
+        // Get the slotId and updated data from the request
+        $slotId = $this->request->getPost('slotId');
+        $therapistId = $this->request->getPost('therapistId');
+        $date = $this->request->getPost('date');
+        $startTime = $this->request->getPost('startTime');
+        $endTime = $this->request->getPost('endTime');
+        $status = $this->request->getPost('status');
+
+        // Validate the input
+        if (!$slotId || !$therapistId || !$date || !$startTime || !$endTime || !$status) {
+            return redirect()->back()->with('error', 'All fields are required.');
+        }
+
+        // Check for overlapping slots for the same therapist
+        $existingSlot = $this->slotModel
+            ->where('therapistId', $therapistId)
+            ->where('date', $date)
+            ->where('slotId !=', $slotId) // Exclude the current slot
+            ->groupStart()
+            ->where('startTime <=', $endTime)
+            ->where('endTime >=', $startTime)
+            ->groupEnd()
+            ->first();
+
+        if ($existingSlot) {
+            return redirect()->back()->with('error', 'This therapist already has a conflicting slot.');
+        }
+
+        // Update the slot in the database
+        $updateData = [
+            'therapistId' => $therapistId,
+            'date' => $date,
+            'startTime' => $startTime,
+            'endTime' => $endTime,
+            'status' => $status,
+        ];
+
+        if ($this->slotModel->update($slotId, $updateData)) {
+            return redirect()->to('/ManageSlot')->with('success', 'Slot updated successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to update the slot.');
+        }
     }
 }

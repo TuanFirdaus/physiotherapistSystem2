@@ -36,13 +36,16 @@ class AppointmentController extends BaseController
         $SlotModel = new slotModel();
         // Fetch all therapists for the table and only available ones for the form
         $data['allTherapists'] = $this->db->table('user')
-            ->select('user.name, therapist.expertise, therapist.availability')
+            ->select('user.name, therapist.expertise, therapist.availability,therapist.therapistId, user.userId')
             ->join('therapist', 'therapist.userId = user.userId')
             ->where('user.role', 'Therapist')
             ->get()
             ->getResultArray();
 
+
         $data['availableTherapists'] = $SlotModel->getAvailableTherapists();
+
+        // dd($data['availableTherapists']);
 
         return view('pages/slot', $data);
     }

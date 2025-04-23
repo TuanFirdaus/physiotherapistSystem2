@@ -8,9 +8,13 @@
 <div class="row">
     <div class="col-md-3 mb-3">
         <div class="card text-white bg-primary">
-            <div class="card-body">
+            <div class="card-body" style="height: auto;">
                 <h5 class="card-title">Total Users</h5>
-                <p class="card-text">50</p>
+
+                <?php foreach ($totalUser as $user): ?>
+                    <li><?= ucfirst($user['role']) ?> - <?= $user['total']  ?> user</li>
+                <?php endforeach; ?>
+
             </div>
         </div>
     </div>
@@ -18,7 +22,7 @@
         <div class="card text-white bg-success">
             <div class="card-body">
                 <h5 class="card-title">Appointments</h5>
-                <p class="card-text">25 Active</p>
+                <p class="card-text" style="font-size: medium; height: 40px"><?= $totalAppointment ?> appointments</p>
             </div>
         </div>
     </div>
@@ -26,7 +30,7 @@
         <div class="card text-white bg-warning">
             <div class="card-body">
                 <h5 class="card-title">Pending Payments</h5>
-                <p class="card-text">5 Payments</p>
+                <p class="card-text" style="font-size: medium; height: 40px"><?= $totalPendingPayments ?> pending</p>
             </div>
         </div>
     </div>
@@ -34,7 +38,7 @@
         <div class="card text-white bg-info">
             <div class="card-body">
                 <h5 class="card-title">Treatment Records</h5>
-                <p class="card-text">40 Records</p>
+                <p class="card-text" style="height: 40px"><?= $totalTreatmentRecords ?> records</p>
             </div>
         </div>
     </div>

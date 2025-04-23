@@ -25,7 +25,7 @@
 <?= $this->section('content'); ?>
 <div class="container mt-5">
     <h4 class="mb-4">Edit Slot</h4>
-    <form method="post" action="/update_slot" class="card p-4 shadow-sm">
+    <form method="post" action="/slots/update" class="card p-4 shadow-sm">
         <?= csrf_field() ?>
         <input type="hidden" name="slotId" value="<?= $slot['slotId'] ?>">
 

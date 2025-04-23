@@ -45,6 +45,8 @@
     <link rel="stylesheet" href="<?= base_url('assets2/css/adminDashboard.css') ?>" />
     <link rel="stylesheet" href="('assets2/css/manageSlot.css')" />
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
@@ -148,30 +150,10 @@
     <script src="<?= base_url('assets/js/kaiadmin.min.js') ?>"></script>
 
 
-    <!-- Bootstrap core JS-->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/assets2/js/bootstrap.bundle.min.js"></script> -->
-    <!-- Core theme JS-->
-    <!-- <script src="assets2/js/scripts.js"></script> -->
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <!-- * *                               SB Forms JS                               * *-->
-    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <!-- <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script> -->
-
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> -->
-
-
 
     <!-- Bootstrap Bundle (JS + Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
-
-    <!-- admin script -->
-    <!-- <script type="text/javascript">
-        var active = document.querySelector("#navList li:nth-child(1)");
-        active.classList.add("active");
-    </script> -->
     <!-- graph Section -->
     <!-- Include Chart.js library -->
     <script src="<?= base_url('assets2/js/chart.js') ?>"></script>
@@ -214,6 +196,55 @@
             });
         }
     </script>
+
+    <script>
+        // Function to open the modal and populate it with patient data
+        // For patient modal
+        function openEditPatientModal(patient) {
+            document.getElementById('patientId').value = patient.patientId;
+            document.getElementById('patientName').value = patient.name;
+            document.getElementById('patientAddress').value = patient.address;
+            document.getElementById('patientPhoneNo').value = patient.phoneNo;
+
+            var editPatientModal = new bootstrap.Modal(document.getElementById('editPatientModal'));
+            editPatientModal.show();
+        }
+
+        // For therapist modal
+        function openEditTherapistModal(therapist) {
+            document.getElementById('therapistId').value = therapist.therapistId;
+            document.getElementById('therapistName').value = therapist.name;
+            document.getElementById('therapistExpertise').value = therapist.expertise;
+            document.getElementById('therapistAvailability').value = therapist.availability;
+
+            var editTherapistModal = new bootstrap.Modal(document.getElementById('editTherapistModal'));
+            editTherapistModal.show();
+        }
+
+
+        // SweetAlert for session flash messages
+        <?php if (session()->getFlashdata('success')): ?>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '<?= session()->getFlashdata('success') ?>',
+                timer: 3000,
+                showConfirmButton: false
+            });
+        <?php endif; ?>
+
+        <?php if (session()->getFlashdata('error')): ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<?= session()->getFlashdata('error') ?>',
+                timer: 3000,
+                showConfirmButton: false
+            });
+        <?php endif; ?>
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 </body>

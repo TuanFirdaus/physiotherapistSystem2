@@ -127,7 +127,7 @@ class AppointmentModel extends Model
             ->getResultArray();
     }
 
-    public function getTreatmentStats()
+    public function getTreatmentStats() //utk dptkan total appointment by treatment
     {
         return $this->db->table('appointment')
             ->select('treatment.name, COUNT(*) as total')
@@ -136,6 +136,14 @@ class AppointmentModel extends Model
             ->groupBy('treatment.name')
             ->get()
             ->getResultArray();
+    }
+
+    public function TotalAppointment()
+    {
+        return $this->db->table('appointment')
+            ->select('COUNT(*) as total')
+            ->where('status', 'approved') // Only approved appointments
+            ->countAllResults();
     }
 
     public function getFilteredAppointments($filters)

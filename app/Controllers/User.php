@@ -4,13 +4,16 @@ namespace App\Controllers;
 
 
 use App\Models\UserModel;
+use App\Models\patientModel;
 
 class User extends BaseController
 {
     protected $userModel;
+    protected $patientModel; // Declare patientModel property
     public function __construct()
     {
         $this->userModel = new UserModel(); // Properly instantiate the UserModel
+        $this->patientModel = new PatientModel(); // Instantiate patientModel if needed
 
     }
 
@@ -139,5 +142,104 @@ class User extends BaseController
         }
 
         return redirect()->to('/login')->with('success', 'Registration successful! Please login.');
+    }
+    public function manageTherapist()
+    {
+        $userModel = new \App\Models\UserModel();
+        $therapists = $userModel->getManageTherapists(); // Fetch therapists from the database
+        // dd($therapists);
+        return view('pages/manageTherapist', ['therapists' => $therapists]);
+    }
+
+    public function managePatient()
+    {
+        $userModel = new \App\Models\UserModel();
+        $patients = $userModel->getManagePatients(); // Fetch patients from the database
+
+        return view('pages/managePatient', ['patients' => $patients]);
+    }
+
+    public function updatePatient()
+    {
+        $patientId = $this->request->getPost('patientId');
+        $name = $this->request->getPost('name');
+        $address = $this->request->getPost('address');
+        $phoneNo = $this->request->getPost('phoneNo');
+
+        $patientModel = new \App\Models\PatientModel();
+
+        // Retrieve the userId associated with the patient
+        $patientDetails = $patientModel->getPatientDetails($patientId);
+        if (!$patientDetails) {
+            return redirect()->back()->with('error', 'Patient not found.');
+        }
+
+        $userId = $patientDetails['userId'];
+
+        // Update the patient and user data
+        $data = [
+            'name' => $name,
+            'address' => $address,
+            'phoneNo' => $phoneNo,
+        ];
+
+        if ($patientModel->updatePatientDetails($patientId, $userId, $data)) {
+            return redirect()->to('/managePatient')->with('success', 'Patient information updated successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to update patient information.');
+        }
+    }
+
+    public function deletePatient($patientId)
+    {
+        $patientModel = new \App\Models\PatientModel();
+
+        if ($patientModel->delete($patientId)) {
+            return redirect()->to('/managePatient')->with('success', 'Patient deleted successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to delete patient.');
+        }
+    }
+
+    public function updateTherapist()
+    {
+        $therapistId = $this->request->getPost('therapistId');
+        $name = $this->request->getPost('name');
+        $expertise = $this->request->getPost('expertise');
+        $availability = $this->request->getPost('availability');
+
+        $therapistModel = new \App\Models\TherapistModel();
+
+        // Retrieve the userId associated with the therapist
+        $therapistDetails = $therapistModel->getTherapistDetails($therapistId);
+        if (!$therapistDetails) {
+            return redirect()->back()->with('error', 'Therapist not found.');
+        }
+
+        $userId = $therapistDetails['userId'];
+
+        // Update the therapist and user data
+        $data = [
+            'name' => $name,
+            'expertise' => $expertise,
+            'availability' => $availability,
+        ];
+
+        if ($therapistModel->updateTherapistDetails($therapistId, $userId, $data)) {
+            return redirect()->to('/manageTherapist')->with('success', 'Therapist information updated successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to update therapist information.');
+        }
+    }
+
+    public function deleteTherapist($therapistId)
+    {
+        $therapistModel = new \App\Models\TherapistModel();
+
+        if ($therapistModel->delete($therapistId)) {
+            return redirect()->to('/manageTherapist')->with('success', 'Therapist deleted successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to delete therapist.');
+        }
     }
 }
