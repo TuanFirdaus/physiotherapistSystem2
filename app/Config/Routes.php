@@ -77,3 +77,9 @@ $routes->get('/deletePatient/(:num)', 'User::deletePatient/$1');
 $routes->get('/manageTherapist', 'User::manageTherapist'); // Display the list of therapists
 $routes->post('/updateTherapist', 'User::updateTherapist'); // Update therapist information
 $routes->get('/deleteTherapist/(:num)', 'User::deleteTherapist/$1'); // Delete a therapist
+
+$routes->get('/getTreatmentRecords', 'treatmentController::showTreatmentRecords'); // Show treatment records
+$routes->get('/treatment', 'treatmentController::addTreatmentRecord'); // Show treatment records
+$routes->get('/treatment/create', 'treatmentController::create'); // Show form to create a new treatment record
+$routes->post('/treatment/save', 'treatmentController::save'); // Save treatment record
+$routes->get('/getPatientDetails/(:num)', 'treatmentController::getPatientDetails/$1');

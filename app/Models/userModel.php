@@ -32,6 +32,10 @@ class userModel extends Model
         return null; // Incorrect password or user not found
     }
 
+    public function getUserDetails()
+    {
+        return $this->where('userId')->first();
+    }
 
     public function getTherapist()
     {

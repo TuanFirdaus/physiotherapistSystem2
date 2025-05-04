@@ -6,39 +6,83 @@
 
 <!-- Overview Cards -->
 <div class="row">
-    <div class="col-md-3 mb-3">
-        <div class="card text-white bg-primary">
-            <div class="card-body" style="height: auto;">
-                <h5 class="card-title">Total Users</h5>
-
-                <?php foreach ($totalUser as $user): ?>
-                    <li><?= ucfirst($user['role']) ?> - <?= $user['total']  ?> user</li>
-                <?php endforeach; ?>
-
+    <div class="col-sm-6 col-md-3">
+        <div class="card card-stats card-round">
+            <div class="card-body ">
+                <div class="row align-items-center">
+                    <div class="col-icon">
+                        <div class="icon-big text-center icon-primary bubble-shadow-small">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                            <p class="card-category">Total User</p>
+                            <p class="card-title">
+                                <?php foreach ($totalUser as $user): ?>
+                                    <li class="card-text"><?= ucfirst($user['role']) ?> - <?= $user['total']  ?></li>
+                                <?php endforeach; ?>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="card text-white bg-success">
+    <div class="col-sm-6 col-md-3">
+        <div class="card card-stats card-round">
             <div class="card-body">
-                <h5 class="card-title">Appointments</h5>
-                <p class="card-text" style="font-size: medium; height: 40px"><?= $totalAppointment ?> appointments</p>
+                <div class="row align-items-center">
+                    <div class="col-icon">
+                        <div class="icon-big text-center icon-success bubble-shadow-small">
+                            <i class="icon-book-open"></i>
+                        </div>
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                            <p class="card-category">Total Appointments</p>
+                            <p class="card-text" style="font-size: medium; height: 40px"><?= $totalAppointment ?> appointments</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="card text-white bg-warning">
+    <div class="col-sm-6 col-md-3">
+        <div class="card card-stats card-round">
             <div class="card-body">
-                <h5 class="card-title">Pending Payments</h5>
-                <p class="card-text" style="font-size: medium; height: 40px"><?= $totalPendingPayments ?> pending</p>
+                <div class="row align-items-center">
+                    <div class="col-icon">
+                        <div class="icon-big text-center icon-danger bubble-shadow-small">
+                            <i class="icon-wallet"></i>
+                        </div>
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                            <p class="card-category">Pending Payments</p>
+                            <p class="card-text" style="font-size: medium; height: 40px"><?= $totalPendingPayments ?></p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="card text-white bg-info">
+    <div class="col-sm-6 col-md-3">
+        <div class="card card-stats card-round">
             <div class="card-body">
-                <h5 class="card-title">Treatment Records</h5>
-                <p class="card-text" style="height: 40px"><?= $totalTreatmentRecords ?> records</p>
+                <div class="row align-items-center">
+                    <div class="col-icon">
+                        <div class="icon-big text-center icon-warning bubble-shadow-small">
+                            <i class="icon-pencil"></i>
+                        </div>
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                            <p class="card-category">Treatment Records</p>
+                            <p class="card-text" style="font-size: medium; height: 40px"><?= $totalTreatmentRecords ?></p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

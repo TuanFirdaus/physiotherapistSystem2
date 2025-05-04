@@ -5,15 +5,18 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Models\patientModel;
+use App\Models\TreatmentModel;
 
 class User extends BaseController
 {
     protected $userModel;
     protected $patientModel; // Declare patientModel property
+    protected $treatmentModel; // Declare treatmentModel property
     public function __construct()
     {
         $this->userModel = new UserModel(); // Properly instantiate the UserModel
-        $this->patientModel = new PatientModel(); // Instantiate patientModel if needed
+        $this->patientModel = new PatientModel(); // Instantiate patientModel if needed\
+        $this->treatmentModel = new TreatmentModel(); // Instantiate treatmentModel if needed
 
     }
 
@@ -240,6 +243,31 @@ class User extends BaseController
             return redirect()->to('/manageTherapist')->with('success', 'Therapist deleted successfully.');
         } else {
             return redirect()->back()->with('error', 'Failed to delete therapist.');
+        }
+    }
+
+    public function getPatientDetails($patientId)
+    {
+        $patientModel = new PatientModel();
+        $treatmentModel = new TreatmentModel();
+
+        // Fetch patient details
+        $patient = $patientModel->find($patientId);
+
+        if ($patient) {
+            // Check if the patient has treatment records
+            $hasTreatmentRecords = $treatmentModel->where('patientId', $patientId)->countAllResults() > 0;
+
+            return $this->response->setJSON([
+                'success' => true,
+                'patient' => $patient,
+                'hasTreatmentRecords' => $hasTreatmentRecords,
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Patient not found',
+            ]);
         }
     }
 }

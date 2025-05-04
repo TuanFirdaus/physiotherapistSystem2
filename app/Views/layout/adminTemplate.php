@@ -100,8 +100,7 @@
                         <a href="http://www.themekita.com">ThemeKita</a>
                     </div>
                     <div>
-                        Distributed by
-                        <a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
+                        Distributed by Tuan Firdaus
                     </div>
                 </div>
             </footer>

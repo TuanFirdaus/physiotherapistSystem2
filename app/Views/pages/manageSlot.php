@@ -92,8 +92,8 @@
                                         $statusText = 'Cancelled';
                                         break;
                                     default:
-                                        $badgeClass = 'bg-warning';
-                                        $statusText = 'Pending';
+                                        $badgeClass = 'bg-info';
+                                        $statusText = 'Available';
                                         break;
                                 }
                                 ?>

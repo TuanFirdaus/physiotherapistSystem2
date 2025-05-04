@@ -41,4 +41,39 @@ class patientModel extends Model
 
         return true;
     }
+    // App\Models\PatientModel.php
+    public function getAllWithUserInfo()
+    {
+        return $this->db->table('patient')
+            ->select('patient.patientId as id, user.name')
+            ->join('user', 'user.userId = patient.userId')
+            ->get()
+            ->getResultArray();
+    }
+
+    public function treatmentFormDetails($patientId)
+    {
+        return $this->db->table('appointment')
+            ->select('appointment.appointmentId, appointment.patientId, appointment.therapistId, appointment.slotId, appointment.treatmentId, treatment.name as treatmentName, slot.date as session_date, slot.startTime, slot.endTime')
+            ->join('patient', 'patient.patientId = appointment.patientId')
+            ->join('therapist', 'therapist.therapistId = appointment.therapistId')
+            ->join('slot', 'slot.slotId = appointment.slotId')
+            ->join('treatment', 'treatment.treatmentId = appointment.treatmentId')
+            ->join('user', 'user.userId = therapist.userId')
+            ->where('appointment.patientId', $patientId)
+            ->get()
+            ->getResultArray();
+    }
+
+
+
+    public function getPatientWithUser($patientId)
+    {
+        return $this->db->table('patient')
+            ->select('patient.*, user.name')
+            ->join('user', 'user.userId = patient.userId')
+            ->where('patient.patientId', $patientId)
+            ->get()
+            ->getRowArray();
+    }
 }
