@@ -79,7 +79,7 @@ class AppointmentModel extends Model
     public function getHistoryAppointments($patientId)
     {
         return $this->db->table('appointment')
-            ->select('appointment.appointmentId, user.name AS patientName, patient.phoneNo as patientPhoneNum, treatment.name as treatmentName, treatment.price as treatmentPrice, appointment.status,slot.date,slot.startTime,slot.endTime')
+            ->select('appointment.appointmentId, user.name AS patientName, user.email AS patientEmail, patient.phoneNo as patientPhoneNum, treatment.name as treatmentName, treatment.price as treatmentPrice, appointment.status,slot.date,slot.startTime,slot.endTime')
             ->join('patient', 'patient.patientId = appointment.patientId')
             ->join('slot', 'slot.slotId = appointment.slotId')
             ->join('treatment', 'treatment.treatmentId = appointment.treatmentId')

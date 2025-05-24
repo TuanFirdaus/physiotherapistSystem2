@@ -38,7 +38,7 @@ $routes->get('/pending-appointments', 'AppointmentController::pendingAppointment
 $routes->post('/cancelBooking', 'AppointmentController::cancelBooking');
 
 // Show payment page for a specific appointment
-$routes->get('/payment/(:num)', 'PaymentController::index/$1');
+// $routes->get('/payment/(:num)', 'paymentController::index/$1');
 
 $routes->get('/approveApp', 'AppointmentController::listAppointment');
 
@@ -83,3 +83,11 @@ $routes->get('/treatment', 'treatmentController::addTreatmentRecord'); // Show t
 $routes->get('/treatment/create', 'treatmentController::create'); // Show form to create a new treatment record
 $routes->post('/treatment/save', 'treatmentController::save'); // Save treatment record
 $routes->get('/getPatientDetails/(:num)', 'treatmentController::getPatientDetails/$1');
+
+
+$routes->post('booking/aiSuggest', 'aiController::aiSuggest');
+
+$routes->match(['get', 'post'], '/payment', 'paymentController::getPayForm');
+$routes->post('payment/createBill', 'PaymentController::createBill');
+$routes->get('payment/success', 'PaymentController::success');
+$routes->post('payment/callback', 'PaymentController::callback');

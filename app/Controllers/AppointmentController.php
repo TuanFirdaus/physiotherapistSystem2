@@ -122,8 +122,13 @@ class AppointmentController extends BaseController
         $slotId = $this->request->getPost('slotId');
         $treatmentId = $this->request->getPost('treatmentId');
         $patientId =  $userModel->getPatient($userId);
+        if (!$patientId) {
+            return ("No patient found"); // Redirect or handle error
+        }
 
         $patientId = $patientId['patientId']; // Extract the patientId
+
+
 
         // Data to save
         $data = [
@@ -139,7 +144,13 @@ class AppointmentController extends BaseController
         // Insert data into the database
         if ($appointmentModel->insert($data)) {
             $lastAppointmentId = $appointmentModel->insertID();
-            session()->set('lastAppointmentId', $lastAppointmentId);
+            $treatmentModel = new \App\Models\TreatmentModel();
+            $treatment = $treatmentModel->find($data['treatmentId']);
+
+            // Store data in session flashdata
+            session()->setFlashdata('appointment', $lastAppointmentId);
+            session()->setFlashdata('treatment', $treatment);
+
             return redirect()->to('/successPage')->with('message', 'Appointment booked successfully!');
         } else {
             return redirect()->back()->withInput()->with('error', 'Failed to book the appointment.');
@@ -150,7 +161,8 @@ class AppointmentController extends BaseController
     public function successBooking()
     {
         // Get the last inserted appointment ID from the session
-        $appointmentId = session()->get('lastAppointmentId');
+        $appointmentId = session()->getFlashdata('lastAppointmentId');
+        $treatment = session()->getFlashdata('treatment');
 
         if (!$appointmentId) {
             return redirect()->to('/')->with('error', 'No booking found.');
@@ -171,14 +183,14 @@ class AppointmentController extends BaseController
         $slotId = $appointment['slotId']; // Retrieve the slotId from the appointment
         $slotUpdateData = ['status' => 'booked'];
 
-
+        //eeror logik bila booking trus ke home page jubooooo
 
         try {
             // Update the slot's status in the database
             if ($slotModel->update($slotId, $slotUpdateData)) {
                 return view('pages/successBooking', ['appointment' => $appointment]);
             } else {
-                return redirect()->to('/')->with('error', 'Failed to update slot status.');
+                return redirect()->to('/successPage')->with('error', 'Failed to update slot status.');
             }
         } catch (\Exception $e) {
             log_message('error', 'Failed to update slot status: ' . $e->getMessage());
@@ -209,7 +221,7 @@ class AppointmentController extends BaseController
         $appointmentModel = new AppointmentModel();
         $appointments = $appointmentModel->getPendingAppointments($patientId);
         $historyAppointments = $appointmentModel->getHistoryAppointments($patientId);
-        // dd($appointments);
+        // dd($historyAppointments);
 
         // Pass both variables to the view
         return view('pages/bookedApp', [

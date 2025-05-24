@@ -44,7 +44,7 @@
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
-                        <img class="img-fluid" src="assets2/assets/img/portfolio/2.jpg" alt="..." />
+                        <img class="img-fluid" src="assets2/assets/img/portfolio/P2.jpg" alt="..." />
                     </a>
                     <div class="portfolio-caption">
                         <div class="portfolio-caption-heading">Physiotherapy</div>
@@ -67,51 +67,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-sm-6 mb-4 mb-lg-0">
-                <!-- Portfolio item 4-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal4">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets2/assets/img/portfolio/IFT.png" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">IFT Machine Therapy</div>
-                        <div class="portfolio-caption-subheading text-muted">details</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4 mb-sm-0">
-                <!-- Portfolio item 5-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal5">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets2/assets/img/portfolio/5.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Ultrasound Therapy</div>
-                        <div class="portfolio-caption-subheading text-muted">details</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-                <!-- Portfolio item 6-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal6">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets2/assets/img/portfolio/6.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">KLaser Therapy</div>
-                        <div class="portfolio-caption-subheading text-muted">details</div>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
 </section>
@@ -315,24 +271,27 @@
 <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+            <div class="close-modal" data-bs-dismiss="modal"><img src="assets2/assets/img/close-icon.svg" alt="Close modal" /></div>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="modal-body">
                             <!-- Project details-->
-                            <h2 class="text-uppercase">Project Name</h2>
-                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                            <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/1.jpg" alt="..." />
-                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                            <h2 class="text-uppercase">Body Adjustment</h2>
+                            <p class="item-intro text-muted">Body adjustment helps realign the body's musculoskeletal system to restore balance and improve mobility.</p>
+                            <img class="img-fluid d-block mx-auto" src="assets2/assets/img/portfolio/bodytreatment1.jpg" alt="..." />
+                            <p>Body adjustment techniques, often used in chiropractic care,
+                                focus on correcting misalignments in the spine and joints. These adjustments can relieve pain,
+                                improve posture, and enhance the overall function of the nervous system.
+                                It's commonly used to treat issues like back pain, neck pain, and joint stiffness.</p>
                             <ul class="list-inline">
                                 <li>
                                     <strong>Client:</strong>
-                                    Threads
+                                    Master Aleyh Yusof
                                 </li>
                                 <li>
                                     <strong>Category:</strong>
-                                    Illustration
+                                    Health & Wellness
                                 </li>
                             </ul>
                             <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
@@ -350,24 +309,26 @@
 <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+            <div class="close-modal" data-bs-dismiss="modal"><img src="assets2/assets/img/close-icon.svg" alt="Close modal" /></div>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="modal-body">
                             <!-- Project details-->
-                            <h2 class="text-uppercase">Project Name</h2>
-                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                            <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/2.jpg" alt="..." />
-                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                            <h2 class="text-uppercase">Physiotherapy</h2>
+                            <p class="item-intro text-muted">Physiotherapy is a holistic treatment method aimed at restoring and maintaining physical function and mobility.</p>
+                            <img class="img-fluid d-block mx-auto" src="assets2/assets/img/portfolio/physiotherapy2.jpg" alt="..." />
+                            <p>Physiotherapy involves a range of techniques including exercise therapy, manual therapy,
+                                and electrotherapy to treat injuries, chronic conditions, or post-surgical recovery.
+                                Tailored to individual needs, it helps reduce pain, improve strength and flexibility, and prevent further injury.</p>
                             <ul class="list-inline">
                                 <li>
                                     <strong>Client:</strong>
-                                    Explore
+                                    Master Aleyh Yusof
                                 </li>
                                 <li>
                                     <strong>Category:</strong>
-                                    Graphic Design
+                                    Health & Wellness
                                 </li>
                             </ul>
                             <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
@@ -385,24 +346,27 @@
 <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+            <div class="close-modal" data-bs-dismiss="modal"><img src="assets2/assets/img/close-icon.svg" alt="Close modal" /></div>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="modal-body">
                             <!-- Project details-->
-                            <h2 class="text-uppercase">Project Name</h2>
-                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                            <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/3.jpg" alt="..." />
-                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                            <h2 class="text-uppercase">Sport Massage</h2>
+                            <p class="item-intro text-muted">Sports massage targets muscles used during physical activity to enhance performance and speed up recovery.</p>
+                            <img class="img-fluid d-block mx-auto" src="assets2/assets/img/portfolio/SP3.jpg" alt="..." />
+                            <p>Designed for athletes and active individuals,
+                                sports massage combines deep tissue techniques with stretching to relieve muscle tension, reduce soreness,
+                                and improve circulation. It is beneficial both before and after exercise,
+                                helping to prevent injuries and support optimal physical condition.</p>
                             <ul class="list-inline">
                                 <li>
                                     <strong>Client:</strong>
-                                    Finish
+                                    Master Aleyh Yusof
                                 </li>
                                 <li>
                                     <strong>Category:</strong>
-                                    Identity
+                                    Health & Wellness
                                 </li>
                             </ul>
                             <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">

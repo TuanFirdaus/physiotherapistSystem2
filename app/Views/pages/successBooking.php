@@ -21,8 +21,16 @@
                 <hr>
                 <p class="text-danger"><strong>Note:</strong> Please make the payment within <strong>1 day</strong> to confirm your booking, or it will be automatically cancelled.</p>
             </div>
+
             <div class="card-footer text-center">
-                <a href="/payment" class="btn btn-success w-100">Make Payment</a>
+                <form method="post" action="<?= base_url('payment/createBill') ?>">
+                    <input type="hidden" name="treatmentPrice" value="<?= $treatment['price'] * 100 ?>"> <!-- in cents -->
+                    <input type="hidden" name="name" value="<?= session('patientName') ?>">
+                    <input type="hidden" name="email" value="<?= session('patientEmail') ?>">
+                    <input type="hidden" name="phone" value="<?= session('phone') ?>">
+
+                    <button type="submit" class="btn btn-success w-100">Make Payment</button>
+                </form>
             </div>
         </div>
     </div>

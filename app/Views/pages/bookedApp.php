@@ -16,6 +16,8 @@
                             <p class="card-text"><strong>Therapist Name:</strong> <?= $appointment['name']; ?></p>
                             <p class="card-text"><strong>Email:</strong> <?= $appointment['email']; ?></p>
                             <p class="card-text"><strong>Slot: </strong>Date - <?= $appointment['date']; ?>, Time -<?= $appointment['startTime']; ?> to <?= $appointment['endTime']; ?></p>
+                            <p class="card-text"><strong>Treatment Name:</strong> <?= $appointment['name']; ?></p>
+                            <p class="card-text"><strong>Treatment Price:</strong> RM <?= number_format($appointment['price'], 2); ?></p>
                             <p class="card-text"><strong>Status:</strong>
                                 <span class="badge bg-warning"><?= ucfirst($appointment['status']); ?></span>
                             </p>
@@ -24,9 +26,31 @@
                         <div class="card-footer d-flex justify-content-between">
                             <form action="/cancelBooking" method="post" class="d-inline">
                                 <input type="hidden" name="appointmentId" value="<?= $appointment['appointmentId']; ?>">
+                                <input type="hidden" name="treatmentId" value="<?= $appointment['treatmentId']; ?>">
+                                <input type="hidden" name="therapistId" value="<?= $appointment['therapistId']; ?>">
+                                <input type="hidden" name="date" value="<?= $appointment['date']; ?>">
+                                <input type="hidden" name="startTime" value="<?= $appointment['startTime']; ?>">
+                                <input type="hidden" name="endTime" value="<?= $appointment['endTime']; ?>">
+                                <input type="hidden" name="treatmentName" value="<?= $appointment['name']; ?>">
+                                <input type="hidden" name="treatmentPrice" value="<?= $appointment['price']; ?>">
+                                <input type="hidden" name="email" value="<?= $appointment['email']; ?>">
                                 <button type="submit" class="btn btn-danger">Cancel Booking</button>
                             </form>
-                            <a href="/payment/<?= $appointment['appointmentId']; ?>" class="btn btn-success">Pay Now</a>
+                            <?php if (!empty($historyAppointments)) : ?>
+                                <?php foreach ($historyAppointments as $history) : ?>
+                                    <form action="/payment" method="post" class="d-inline">
+                                        <input type="hidden" name="appointmentId" value="<?= esc($history['appointmentId']); ?>">
+                                        <input type="hidden" name="date" value="<?= esc($history['date']); ?>">
+                                        <input type="hidden" name="treatmentName" value="<?= esc($history['treatmentName']); ?>">
+                                        <input type="hidden" name="patientName" value="<?= esc($history['patientName']); ?>">
+                                        <input type="hidden" name="treatmentPrice" value="<?= number_format($history['treatmentPrice'], 2); ?>">
+                                        <input type="hidden" name="patientEmail" value="<?= esc($history['patientEmail']); ?>">
+                                        <input type="hidden" name="patientPhoneNum" value="<?= esc($history['patientPhoneNum']); ?>">
+                                        <input type="hidden" name="status" value="<?= esc($history['status']); ?>">
+                                        <button type="submit" class="btn btn-success">Pay Now</button>
+                                    </form>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
