@@ -14,11 +14,27 @@ class AppointmentModel extends Model
     public function getPendingAppointments($patientId)
     {
         return $this->db->table('appointment')
-            ->select('user.name, user.email, therapist.therapistId, appointment.appointmentId, slot.date, slot.startTime, slot.endTime, appointment.status, treatment.treatmentId, treatment.price')
+            ->select('
+            patient_user.name AS patientName,
+            patient_user.email AS patientEmail,
+            patient.phoneNo AS patientPhoneNum,
+            therapist_user.name AS therapistName,
+            therapist.therapistId,
+            appointment.appointmentId,
+            slot.date,
+            slot.startTime,
+            slot.endTime,
+            appointment.status,
+            treatment.treatmentId,
+            treatment.price,
+            treatment.name AS treatmentName
+        ')
+            ->join('patient', 'patient.patientId = appointment.patientId')
+            ->join('user AS patient_user', 'patient_user.userId = patient.userId') // Patient's user info
             ->join('therapist', 'therapist.therapistId = appointment.therapistId')
-            ->join('user', 'user.userId = therapist.userId')
-            ->join('slot', 'slot.slotId = appointment.slotId') // Join with slot table
-            ->join('treatment', 'treatment.treatmentId = appointment.treatmentId') // Join with treatment table
+            ->join('user AS therapist_user', 'therapist_user.userId = therapist.userId') // Therapist's user info
+            ->join('slot', 'slot.slotId = appointment.slotId')
+            ->join('treatment', 'treatment.treatmentId = appointment.treatmentId')
             ->where('appointment.patientId', $patientId)
             ->where('appointment.status', 'pending')
             ->get()
@@ -72,6 +88,26 @@ class AppointmentModel extends Model
             ->whereIn('appointment.status', ['approved', 'cancelled']) // Add condition for status
             ->get()
             ->getResultArray();
+    }
+    public function getAppointmentDetailsById($appointmentId)
+    {
+        return $this->db->table('appointment')
+            ->select('
+            appointment.*,
+            patient.phoneNo AS patientPhoneNum,
+            user.name AS patientName,
+            user.email AS patientEmail,
+            treatment.name AS treatmentName,
+            treatment.price AS treatmentPrice,
+            slot.date
+        ')
+            ->join('patient', 'patient.patientId = appointment.patientId')
+            ->join('user', 'user.userId = patient.userId')
+            ->join('treatment', 'treatment.treatmentId = appointment.treatmentId')
+            ->join('slot', 'slot.slotId = appointment.slotId')
+            ->where('appointment.appointmentId', $appointmentId)
+            ->get()
+            ->getRowArray();
     }
 
 

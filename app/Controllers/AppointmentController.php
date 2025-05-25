@@ -128,8 +128,6 @@ class AppointmentController extends BaseController
 
         $patientId = $patientId['patientId']; // Extract the patientId
 
-
-
         // Data to save
         $data = [
             'appointmentId' => '',
@@ -147,9 +145,21 @@ class AppointmentController extends BaseController
             $treatmentModel = new \App\Models\TreatmentModel();
             $treatment = $treatmentModel->find($data['treatmentId']);
 
+            // Insert payment record
+            $paymentModel = new \App\Models\PaymentModel();
+            $paymentData = [
+                'appointmentId'  => $lastAppointmentId,
+                'patientId'      => $patientId,
+                'treatmentId'    => $treatmentId,
+                'payment_amount' => $treatment['treatmentPrice'] ?? 0, // adjust field name if needed
+                'paymentStatus'         => 'pending'
+                // The rest will be null by default
+            ];
+            $paymentModel->addPayment($paymentData);
+
             // Store data in session flashdata
-            session()->setFlashdata('appointment', $lastAppointmentId);
-            session()->setFlashdata('treatment', $treatment);
+            session()->set('lastAppointmentId', $lastAppointmentId);
+            session()->set('treatment', $treatment);
 
             return redirect()->to('/successPage')->with('message', 'Appointment booked successfully!');
         } else {
@@ -161,8 +171,10 @@ class AppointmentController extends BaseController
     public function successBooking()
     {
         // Get the last inserted appointment ID from the session
-        $appointmentId = session()->getFlashdata('lastAppointmentId');
-        $treatment = session()->getFlashdata('treatment');
+        $appointmentId = session()->get('lastAppointmentId');
+        $treatment = session()->get('treatment');
+
+        // dd($treatment);
 
         if (!$appointmentId) {
             return redirect()->to('/')->with('error', 'No booking found.');
@@ -174,6 +186,8 @@ class AppointmentController extends BaseController
 
         // Find the appointment details
         $appointment = $appointmentModel->find($appointmentId);
+
+        // dd($appointment);
 
         if (!$appointment) {
             return redirect()->to('/')->with('error', 'Invalid booking.');
@@ -210,6 +224,7 @@ class AppointmentController extends BaseController
         $session = session();
         $userId = $session->get('userId');
         $patientId =  $userModel->getPatient($userId);
+
 
         // Ensure $patient is not null
         if (!$patientId) {

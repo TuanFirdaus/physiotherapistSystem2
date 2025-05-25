@@ -8,8 +8,24 @@ class paymentModel extends Model
 {
     protected $table = 'payment';
     protected $primaryKey = 'paymentId';
-    protected $allowedFields = ['appointmentId', 'patientId', 'treatmentId', 'payment_amount', 'status'];
+    protected $allowedFields = [
+        'appointmentId',
+        'patientId',
+        'treatmentId',
+        'payment_amount',
+        'paymentStatus',
+        'billCode',
+        'paymentMethod',
+        'billPaymentDate',
+        'billPaymentInvoiceNo',
+        'settlementReferenceNo',
+        'created_at',
+        'updated_at'
+    ];
     protected $returnType = 'array';
+    protected $useTimestamps = true;
+    protected $createdField  = 'created_at';
+    protected $updatedField  = 'updated_at';
 
     public function getPaymentDetails($appointmentId)
     {
@@ -20,7 +36,7 @@ class paymentModel extends Model
     {
         return $this->db->table('payment')
             ->select('COUNT(*) as totalPendingPayments')
-            ->where('status', 'pending')
+            ->where('paymentStatus', 'pending')
             ->countAllResults();
     }
 
@@ -47,20 +63,21 @@ class paymentModel extends Model
     // Toyyibpay bill creation
     public function createBill($data)
     {
-        $url = 'https://toyyibpay.com/index.php/api/createBill';
+        $url = 'https://dev.toyyibpay.com/index.php/api/createBill';
 
         try {
             $response = \Config\Services::curlrequest()->post($url, [
                 'form_params' => $data,
             ]);
+            // dd($response);
 
             $body = $response->getBody();
             log_message('error', 'Toyyibpay RAW Response: ' . $body); // <--- Add this
             log_message('error', 'Sending to Toyyibpay: ' . json_encode($data));
 
-
+            // dd($body); // <--- Add this to debug the response
             $result = json_decode($body, true);
-            dd($result);
+            // dd($result);
             if (isset($result[0]['BillCode'])) {
                 return $result[0]['BillCode'];
             }
