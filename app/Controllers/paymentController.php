@@ -43,8 +43,8 @@ class paymentController extends BaseController
             'billPriceSetting' => 1,
             'billPayorInfo' => 1,
             'billAmount'    => $amountInCents, // in cents
-            'billReturnUrl' => base_url('payment/success'),
-            'billCallbackUrl' => base_url('payment/callback'),
+            'billReturnUrl' => "https://0257-2001-e68-5472-8f87-9529-4949-f96a-665b.ngrok-free.app/payment/success",
+            'billCallbackUrl' => "https://0257-2001-e68-5472-8f87-9529-4949-f96a-665b.ngrok-free.app/payment/callback",
             'billExternalReferenceNo' => 'REF-' . $appointmentId,
             'billTo'        => $this->request->getPost('name'),
             'billEmail'     => $this->request->getPost('email'),
@@ -100,6 +100,8 @@ class paymentController extends BaseController
             $response = $client->post($apiUrl, [
                 'form_params' => ['billCode' => $billCode]
             ]);
+
+
             $transactions = json_decode($response->getBody(), true);
             if (is_array($transactions) && count($transactions) > 0) {
                 $transaction = $transactions[0];
@@ -138,13 +140,19 @@ class paymentController extends BaseController
 
     public function callback()
     {
+        log_message('info', 'ToyyibPay CALLBACK TEST REACHED');
+        //kena baiki lagi method ni sbb tk dpt update payment table dgn appointment status
         log_message('info', 'ToyyibPay CALLBACK triggered. Raw POST: ' . json_encode($this->request->getPost()));
 
         $billcode = $this->request->getPost('billcode') ?? $this->request->getGet('billcode');
+        log_message('info', 'Received callback for billcode: ' . $billcode);
+
         // dd($billcode); // Debugging line to check the billCode
         if (!$billcode) {
             return $this->response->setJSON(['error' => 'Billcode is missing or invalid.']);
         }
+
+
 
         try {
             // Call Toyyibpay API to get bill transactions
@@ -168,7 +176,7 @@ class paymentController extends BaseController
                     // Update payment status in your DB
                     $paymentModel = new \App\Models\PaymentModel();
                     $payment = $paymentModel->where('billCode', $billcode)->first();
-
+                    // dd($payment);
 
 
                     if ($payment) {
@@ -181,6 +189,7 @@ class paymentController extends BaseController
                             'billCode' => $billcode,
                             'billPaymentInvoiceNo'    => $transaction['billpaymentInvoiceNo'] ?? null,
                             'settlementReferenceNo'   => $transaction['SettlementReferenceNo'] ?? null,
+
                         ]);
 
                         // Update appointment table

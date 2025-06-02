@@ -17,7 +17,7 @@
         <!-- Display Slot Schedule -->
         <h3 style="color: #007BFF; text-align: center;">Get Your Slot!!</h3>
         <div style="overflow-x: auto; margin-top: 20px;">
-            <form action="/confirmBooking" method="post">
+            <form action="<?= site_url('/confirmBooking') ?>" method="post">
                 <!-- Add CSRF token if enabled -->
                 <?= csrf_field() ?>
 

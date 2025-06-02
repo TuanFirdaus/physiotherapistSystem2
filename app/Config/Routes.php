@@ -26,8 +26,8 @@ $routes->match(['get', 'post'], '/patientTreatment', 'AppointmentController::pat
 $routes->match(['get', 'post'], '/confirmTherapist', 'AppointmentController::confirmTherapist');
 // $routes->get('/check-booking', 'User::checkBooking');
 // $routes->get('/redirectBooking', 'User::redirectBasedOnLogin');
-$routes->post('/confirmBooking', 'AppointmentController::saveBooking');
-$routes->match(['get', 'post'], '/successPage', 'AppointmentController::successBooking');
+$routes->post('/confirmBooking', 'AppointmentController::confirmAndShowSuccess');
+// $routes->match(['get', 'post'], '/successPage', 'AppointmentController::successBooking');
 
 // routes/web.php
 
@@ -85,7 +85,9 @@ $routes->post('/treatment/save', 'treatmentController::save'); // Save treatment
 $routes->get('/getPatientDetails/(:num)', 'treatmentController::getPatientDetails/$1');
 
 
-$routes->post('booking/aiSuggest', 'aiController::aiSuggest');
+$routes->post('/getSuggestion', 'aiController::getSuggestion');
+
+
 
 $routes->match(['get', 'post'], '/payment', 'paymentController::getPayForm');
 $routes->post('payment/createBill', 'PaymentController::createBill');

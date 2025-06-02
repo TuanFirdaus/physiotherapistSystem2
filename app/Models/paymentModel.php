@@ -50,9 +50,9 @@ class paymentModel extends Model
         return $this->insert($data);
     }
 
-    public function updatePayment($paymentId, $data)
+    public function updatePayment($data)
     {
-        return $this->update($paymentId, $data);
+        return $this->update($data);
     }
 
     public function deletePayment($paymentId)
