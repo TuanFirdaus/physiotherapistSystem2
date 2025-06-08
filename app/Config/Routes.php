@@ -8,26 +8,23 @@ use CodeIgniter\Router\RouteCollection;
  */
 // $routes->get('/', 'Home::index');
 $routes->setAutoRoute(value: true);
-// $routes->get('/', 'Home::index');
-// $routes->get('/try', 'Home::gettry');
 
-// $routes->get('/manageAppointment', 'AppointmentController::getindex');;
 $routes->get('/slotForm', 'AppointmentController::getSlotForm');
-$routes->post('/user/login', 'User::login'); //verify login
+$routes->POST('/user/login', 'User::login'); //verify login
 $routes->get('/login', 'Home::getlogin'); //display login page
 $routes->get('/assignSlot', 'slotController::assignSlot');
-$routes->post('/assignSlot', 'slotController::assignSlot');
-$routes->match(['get', 'post'], '/schedule', 'scheduleController::getSchedule');
+$routes->POST('/assignSlot', 'slotController::assignSlot');
+$routes->match(['get', 'POST'], '/schedule', 'scheduleController::getSchedule');
 $routes->get('/scheduleTry', 'scheduleController::getTry'); //try schedule
-$routes->match(['get', 'post'], '/scheduleTest', 'scheduleController::Tryschedule'); //show manage appointment page
-$routes->get('/booking', 'AppointmentController::booking');
+$routes->match(['get', 'POST'], '/scheduleTest', 'scheduleController::Tryschedule'); //show manage appointment page
+$routes->match(['get', 'POST'], '/booking', 'AppointmentController::booking');
 $routes->get('/appointments', 'AppointmentController::booking');
-$routes->match(['get', 'post'], '/patientTreatment', 'AppointmentController::patientTreatment');
-$routes->match(['get', 'post'], '/confirmTherapist', 'AppointmentController::confirmTherapist');
+$routes->match(['GET', 'POST'], '/patientTreatment', 'AppointmentController::patientTreatment');
+$routes->match(['GET', 'POST'], '/confirmTherapist', 'AppointmentController::confirmTherapist');
 // $routes->get('/check-booking', 'User::checkBooking');
 // $routes->get('/redirectBooking', 'User::redirectBasedOnLogin');
-$routes->post('/confirmBooking', 'AppointmentController::confirmAndShowSuccess');
-// $routes->match(['get', 'post'], '/successPage', 'AppointmentController::successBooking');
+$routes->POST('/confirmBooking', 'AppointmentController::confirmAndShowSuccess');
+// $routes->match(['get', 'POST'], '/successPage', 'AppointmentController::successBooking');
 
 // routes/web.php
 
@@ -35,23 +32,22 @@ $routes->post('/confirmBooking', 'AppointmentController::confirmAndShowSuccess')
 $routes->get('/pending-appointments', 'AppointmentController::pendingAppointments');
 
 // Handle cancel booking request
-$routes->post('/cancelBooking', 'AppointmentController::cancelBooking');
+$routes->POST('/cancelBooking', 'AppointmentController::cancelBooking');
 
-// Show payment page for a specific appointment
-// $routes->get('/payment/(:num)', 'paymentController::index/$1');
+
 
 $routes->get('/approveApp', 'AppointmentController::listAppointment');
 
 //delete the appointment
-$routes->post('appointments/delete/(:num)', 'AppointmentController::deleteAppointment/$1');
+$routes->POST('appointments/delete/(:num)', 'AppointmentController::deleteAppointment/$1');
 
 //approve the appointment
-$routes->post('appointments/approve/(:num)', 'AppointmentController::approveAppointment/$1');
+$routes->POST('appointments/approve/(:num)', 'AppointmentController::approveAppointment/$1');
 
 $routes->get('/patientBooked', 'AppointmentController::viewAppointments');
 
 $routes->get('/logout', 'User::logout');
-$routes->match(['get', 'post'], '/register/user', 'User::registration');  // handle
+$routes->match(['get', 'POST'], '/register/user', 'User::registration');  // handle
 $routes->get('/registerUser', 'User::getRegister'); //show
 
 $routes->get('/adminDashboard', 'Home::adminDashboard'); //show admin dashboard
@@ -60,36 +56,50 @@ $routes->get('/manageSchedule', 'Home::manageSchedule'); //show manage schedule 
 
 $routes->get('/therapistDetails', 'User::getTherapistDetails'); //show manage appointment page
 
-$routes->post('/slots/delete', 'slotController::deleteSlot'); //handle manage schedule page
+$routes->POST('/slots/delete', 'slotController::deleteSlot'); //handle manage schedule page
 
-$routes->match(['get', 'post'], '/slots_edit', 'slotController::EditSlot'); //show edit slot page
+$routes->match(['get', 'POST'], '/slots_edit', 'slotController::EditSlot'); //show edit slot page
 
 $routes->get('/viewAppointments', 'AppointmentController::viewAllAppointments');
 
 $routes->get('/ManageSlot', 'slotController::slotManagement'); //show all appointments page
-$routes->post('/ManageSlot', 'slotController::slotManagement');
-$routes->post('/slots/update', 'slotController::updateSlot');
+
+$routes->POST('/ManageSlot', 'slotController::slotManagement');
+
+$routes->POST('/slots/update', 'slotController::updateSlot');
+
 
 $routes->get('/manageTherapist', 'User::manageTherapist'); // Show Manage Therapist page
+
 $routes->get('/managePatient', 'User::managePatient'); // Show Manage Patient page
-$routes->post('/updatePatient', 'User::updatePatient');
+
+$routes->POST('/updatePatient', 'User::updatePatient');
+
 $routes->get('/deletePatient/(:num)', 'User::deletePatient/$1');
 $routes->get('/manageTherapist', 'User::manageTherapist'); // Display the list of therapists
-$routes->post('/updateTherapist', 'User::updateTherapist'); // Update therapist information
+$routes->POST('/updateTherapist', 'User::updateTherapist'); // Update therapist information
 $routes->get('/deleteTherapist/(:num)', 'User::deleteTherapist/$1'); // Delete a therapist
 
 $routes->get('/getTreatmentRecords', 'treatmentController::showTreatmentRecords'); // Show treatment records
 $routes->get('/treatment', 'treatmentController::addTreatmentRecord'); // Show treatment records
 $routes->get('/treatment/create', 'treatmentController::create'); // Show form to create a new treatment record
-$routes->post('/treatment/save', 'treatmentController::save'); // Save treatment record
+$routes->POST('/treatment/save', 'treatmentController::save'); // Save treatment record
 $routes->get('/getPatientDetails/(:num)', 'treatmentController::getPatientDetails/$1');
 
 
-$routes->post('/getSuggestion', 'aiController::getSuggestion');
+$routes->POST('/getSuggestion', 'aiController::getSuggestion');
 
 
 
-$routes->match(['get', 'post'], '/payment', 'paymentController::getPayForm');
-$routes->post('payment/createBill', 'PaymentController::createBill');
+$routes->match(['get', 'POST'], '/payment', 'paymentController::getPayForm');
+$routes->POST('payment/createBill', 'PaymentController::createBill');
 $routes->get('payment/success', 'PaymentController::success');
 $routes->match(['GET', 'POST'], 'payment/callback', 'PaymentController::callback');
+
+$routes->GET('/getProfile', 'profileController::myProfile'); // Show electric page
+
+$routes->POST('patient/updatePatientProfilePicture', 'profileController::updatePatientProfilePicture'); // Show edit profile page
+
+$routes->GET('patient/removePatientProfilePicture', 'profileController::removePatientProfilePicture');
+
+$routes->POST('patient/updatePatientProfile', 'profileController::updatePatientProfile'); // Handle profile update

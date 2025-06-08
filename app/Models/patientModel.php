@@ -8,15 +8,25 @@ class patientModel extends Model
 {
     protected $table = 'patient';
     protected $primaryKey = 'patientId';
-    protected $allowedFields = ['address', 'phoneNo'];
+    protected $allowedFields = ['userId', 'address', 'phoneNo', 'profilePicture'];
 
     // Method to retrieve patient details with user data
     public function getPatientDetails($patientId)
     {
         return $this->db->table('patient')
-            ->select('patient.patientId, patient.address, patient.phoneNo, user.name, user.userId')
+            ->select('patient.patientId, patient.address, patient.phoneNo, user.name, user.userId, patient.profilePicture')
             ->join('user', 'user.userId = patient.userId')
             ->where('patient.patientId', $patientId)
+            ->get()
+            ->getRowArray();
+    }
+
+    public function getPatientDetailsByUserId($userId)
+    {
+        return $this->db->table('patient')
+            ->select('patient.patientId, patient.address, patient.phoneNo, user.name, user.userId, patient.profilePicture')
+            ->join('user', 'user.userId = patient.userId')
+            ->where('user.userId', $userId)
             ->get()
             ->getRowArray();
     }

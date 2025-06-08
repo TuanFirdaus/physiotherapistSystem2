@@ -77,4 +77,9 @@ class Home extends BaseController
     {
         return view('pages/allAppointment');
     }
+
+    public function getElectric()
+    {
+        return view('pages/electric');
+    }
 }

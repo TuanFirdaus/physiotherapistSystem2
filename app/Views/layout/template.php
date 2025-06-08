@@ -35,7 +35,7 @@
     </script>
 
     <!-- CSS Files -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+    <!-- <link rel="stylesheet" href="../assets/css/bootstrap.min.css" /> -->
     <link rel="stylesheet" href="../assets/css/plugins.min.css" />
     <link rel="stylesheet" href="../assets/css/kaiadmin.min.css" />
 
@@ -50,10 +50,28 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="assets2/css/styles.css" rel="stylesheet" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- style utk cTherapist -->
     <style>
+        .divider:after,
+        .divider:before {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #eee;
+        }
+
+        .h-custom {
+            height: calc(100% - 73px);
+        }
+
+        @media (max-width: 450px) {
+            .h-custom {
+                height: 100%;
+            }
+        }
+
         /* Hover Effect for Cards */
         .therapist-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -99,29 +117,17 @@
 <body id="page-top">
 
 
-    <div class="wrapper">
+    <div class="wrapper" style="height: 100vh;">
         <?= $this->include('layout/navbar'); ?>
         <div class="" style="margin-top: 100px;">
             <?= $this->renderSection('content'); ?>
         </div>
 
         <!-- Footer-->
-        <footer class="footer py-4">
-            <div class="container justify-content-center">
-                <div class="row align-items-center">
-                    <div class="col-lg-4 text-lg-start">Copyright &copy; Your Website 2023</div>
-                    <div class="col-lg-4 my-3 my-lg-0">
-                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                    <div class="col-lg-4  text-lg-end">
-                        <a class="link-dark text-decoration-none me-3" href="#!">Privacy Policy</a>
-                        <a class="link-dark text-decoration-none" href="#!">Terms of Use</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <!-- <footer class="footer py-4">
+          
+        </footer> -->
+        <?= $this->include('layout/footer'); ?>
 
 
 
@@ -135,7 +141,7 @@
     <!-- Core JS Files -->
     <script src="<?= base_url('assets/js/core/jquery-3.7.1.min.js') ?>"></script>
     <script src="<?= base_url('assets/js/core/popper.min.js') ?>"></script>
-    <script src="<?= base_url('assets/js/core/bootstrap.min.js') ?>"></script>
+    <!-- <script src="<?= base_url('assets/js/core/bootstrap.min.js') ?>"></script> -->
 
     <!-- jQuery Scrollbar -->
     <script src="<?= base_url('assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') ?>"></script>
@@ -166,7 +172,7 @@
     <script src="<?= base_url('assets/js/kaiadmin.min.js') ?>"></script>
 
     <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/assets2/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/assets2/js/bootstrap.bundle.min.js"></script> -->
     <!-- Core theme JS-->
     <script src="assets2/js/scripts.js"></script>
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
@@ -209,7 +215,7 @@
     <!-- Bootstrap Bundle (JS + Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
+
 
     <!-- admin script -->
     <script type="text/javascript">

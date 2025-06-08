@@ -3,91 +3,137 @@
 
 <?php
 $session = session();
-$userName = $session->get('name');
+$userName = $session->get('userName') ?? 'Guest';
 ?>
 
 <div class="container my-5">
-    <!-- ai tk jdi lgi -->
-    <h1>Welcome, <?= esc($userName); ?>!</h1>
-    <h3 class="text-center mt-4">Not sure which treatment to choose?</h3>
-    <div class="row justify-content-center mb-4">
+    <!-- Welcome Message -->
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-primary">Welcome, <?= esc($userName); ?>!</h1>
+        <p class="lead text-muted">Let us help you find the right treatment for your pain</p>
+    </div>
+
+    <!-- AI Suggestion Alert -->
+    <div id="aiAlert" class="row justify-content-center" style="display:none;">
         <div class="col-md-6">
-            <div class="card p-3">
-                <label>Part of Body in Pain:</label>
-                <input type="text" id="bodyPart" class="form-control mb-2" placeholder="e.g. lower back, knee">
-
-                <label>Description:</label>
-                <textarea id="painDescription" class="form-control mb-2" rows="3" placeholder="Describe your symptoms..."></textarea>
-
-                <button id="getSuggestion" class="btn btn-primary">Suggest Treatment</button>
+            <div class="alert alert-warning alert-dismissible fade show shadow-sm text-center" role="alert">
+                <span id="aiAlertMessage">AI could not suggest a treatment.</span>
+                <button type="button" class="btn-close" onclick="document.getElementById('aiAlert').style.display='none'"></button>
             </div>
         </div>
     </div>
-    <div id="aiSuggestionContainer" class="row justify-content-center mb-5" style="display:none;"></div>
+
+    <!-- AI Suggestion Form -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8 col-lg-6">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-primary text-white text-center rounded-top">
+                    <h4 class="mb-0">Not sure which treatment to choose?</h4>
+                    <small>Describe your symptoms and get a recommendation</small>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="form-group mb-4">
+                        <label for="bodyPart" class="form-label fw-semibold">Body Part in Pain</label>
+                        <input type="text" id="bodyPart" class="form-control" placeholder="e.g. lower back, knee, shoulder">
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="painDescription" class="form-label fw-semibold">Description</label>
+                        <textarea id="painDescription" class="form-control" rows="4" placeholder="Describe the type, severity, and frequency of pain..."></textarea>
+                    </div>
+                    <div class="d-grid">
+                        <button id="getSuggestion" class="btn btn-primary btn-lg fw-bold">
+                            <span id="loadingText">Suggest Treatment</span>
+                            <span id="spinner" class="spinner-border spinner-border-sm d-none ms-2"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Suggestion Result Placeholder -->
+    <div id="aiSuggestionContainer" class="row justify-content-center" style="display: none;"></div>
+
+    <!-- Hidden Inputs for Passing Treatment Info -->
     <input type="hidden" name="treatmentPrice" value="${data.treatmentPrice}">
     <input type="hidden" name="treatmentId" value="${data.treatmentId}">
 
-
+    <!-- Error Message -->
     <?php if (isset($error)): ?>
-        <div style="color: red; font-weight: bold;">
+        <div class="text-center text-danger fw-bold">
             ⚠️ Error: <?= esc($error) ?>
         </div>
     <?php endif; ?>
 
-    <!-- Pricing Cards First -->
-    <h2 class="fw-bold text-center mb-3 mt-5">Available Treatment Packages</h2>
-    <div class="row justify-content-center align-items-center mb-5">
-        <?php foreach ($getTreatment as $index => $treatment) : ?>
-            <?php
-            $cardColors = ['card-success', 'card-primary', 'card-secondary'];
-            $cardClass = $cardColors[$index % count($cardColors)];
-            $treatmentName = $treatment['name'] ?? 'Unnamed Treatment';
-            $details = isset($treatment['details']) ? explode('-', $treatment['details']) : ['No details provided'];
-            $price = $treatment['price'] ?? 0.00;
-            $priceMain = floor($price);
-            $priceCents = str_pad(($price * 100) % 100, 2, '0', STR_PAD_LEFT);
-            ?>
-            <div class="col-md-3 ps-md-0 mb-4">
-                <form action="/patientTreatment" method="post">
-                    <div class="card-pricing2 <?= $cardClass ?> h-100">
-                        <div class="pricing-header">
-                            <h3 class="fw-bold mb-3"><?= htmlspecialchars($treatmentName); ?></h3>
-                            <span class="sub-title">Treatment Package</span>
-                        </div>
-                        <div class="price-value">
-                            <div class="value">
-                                <span class="currency">RM</span>
-                                <span class="amount"><?= $priceMain ?>.<span><?= $priceCents ?></span></span>
-                                <span class="month">/session</span>
-                            </div>
-                        </div>
-                        <ul class="pricing-content">
-                            <?php foreach ($details as $detail) : ?>
-                                <li><?= trim($detail); ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-                        <input type="hidden" name="treatmentName" value="<?= htmlspecialchars($treatmentName); ?>">
-                        <input type="hidden" name="treatmentPrice" value="<?= htmlspecialchars($price); ?>">
-                        <input type="hidden" name="treatmentId" value="<?= htmlspecialchars($treatment['treatmentId'] ?? ''); ?>">
-                        <button class="btn <?= str_replace('card-', 'btn-', $cardClass) ?> btn-border btn-lg w-75 fw-bold mb-3" type="submit">Choose</button>
-                    </div>
-                </form>
-            </div>
-        <?php endforeach; ?>
-    </div>
 
+    <div class="mt-5">
+        <!-- Pricing Cards First -->
+        <h2 class=" fw-bold text-center mb-3 mt-5">Available Treatment Packages</h2>
+        <div class="row justify-content-center align-items-center mb-5">
+            <?php foreach ($getTreatment as $index => $treatment) : ?>
+                <?php
+                $cardColors = ['card-success', 'card-primary', 'card-secondary'];
+                $cardClass = $cardColors[$index % count($cardColors)];
+                $treatmentName = $treatment['name'] ?? 'Unnamed Treatment';
+                $details = isset($treatment['details']) ? explode('-', $treatment['details']) : ['No details provided'];
+                $price = $treatment['price'] ?? 0.00;
+                $priceMain = floor($price);
+                $priceCents = str_pad(($price * 100) % 100, 2, '0', STR_PAD_LEFT);
+                ?>
+                <div class="col-md-3 ps-md-0 mb-4">
+                    <form action="/patientTreatment" method="post">
+                        <div class="card-pricing2 <?= $cardClass ?> h-100">
+                            <div class="pricing-header">
+                                <h3 class="fw-bold mb-3"><?= htmlspecialchars($treatmentName); ?></h3>
+                                <span class="sub-title">Treatment Package</span>
+                            </div>
+                            <div class="price-value">
+                                <div class="value">
+                                    <span class="currency">RM</span>
+                                    <span class="amount"><?= $priceMain ?>.<span><?= $priceCents ?></span></span>
+                                    <span class="month">/session</span>
+                                </div>
+                            </div>
+                            <ul class="pricing-content">
+                                <?php foreach ($details as $detail) : ?>
+                                    <li><?= trim($detail); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                            <input type="hidden" name="treatmentName" value="<?= htmlspecialchars($treatmentName); ?>">
+                            <input type="hidden" name="treatmentPrice" value="<?= htmlspecialchars($price); ?>">
+                            <input type="hidden" name="treatmentId" value="<?= htmlspecialchars($treatment['treatmentId'] ?? ''); ?>">
+                            <button class="btn <?= str_replace('card-', 'btn-', $cardClass) ?> btn-border btn-lg w-75 fw-bold mb-3" type="submit">Choose</button>
+                        </div>
+                    </form>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
 
 </div>
 <script>
     document.getElementById('getSuggestion').addEventListener('click', function() {
         const bodyPart = document.getElementById('bodyPart').value.trim();
         const description = document.getElementById('painDescription').value.trim();
+        const button = document.getElementById('getSuggestion');
+        const spinner = document.getElementById('spinner');
+        const text = document.getElementById('loadingText');
+        const container = document.getElementById('aiSuggestionContainer');
+        const alertBox = document.getElementById('aiAlert');
+        const alertMsg = document.getElementById('aiAlertMessage');
 
+        // Validation
         if (!bodyPart || !description) {
             alert("Please fill in both fields.");
             return;
         }
 
+        // Show loading state
+        button.disabled = true;
+        spinner.classList.remove('d-none');
+        text.innerText = 'Loading...';
+
+        // Send request
         fetch('/getSuggestion', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -100,45 +146,55 @@ $userName = $session->get('name');
             })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
-                if (data.treatment && data.treatmentPrice && data.treatmentId) {
-                    const suggestionHtml = `
-            <div class="col-md-4">
-                <form action="/patientTreatment" method="post">
-                    <div class="card-pricing2 card-warning h-100">
-                        <div class="pricing-header">
-                            <h3 class="fw-bold mb-3">${data.treatment}</h3>
-                            <span class="sub-title">AI Suggested</span>
-                        </div>
-                        <div class="price-value">
-                            <div class="value">
-                                <span class="currency">RM</span>
-                                <span class="amount">${parseFloat(data.treatmentPrice).toFixed(2)}</span>
-                                <span class="month">/session</span>
+                if (data.treatmentName && data.treatmentPrice && data.treatmentId) {
+                    const html = `
+                    <div class="col-md-5">
+                        <div class="card border-success shadow-sm">
+                            <div class="card-header bg-success text-white">
+                                AI Suggested Treatment
                             </div>
+                            <form action="/patientTreatment" method="post">
+                                <div class="card-body text-center">
+                                    <h4 class="card-title fw-bold">${data.treatmentName}</h4>
+                                    <p class="card-text text-muted mb-2">
+                                         Estimated Price: <strong>RM ${parseFloat(data.treatmentPrice).toFixed(2)}</strong>
+                                    </p>
+                                    <ul class="list-group list-group-flush mb-3">
+                                        <li class="list-group-item">Reason: ${data.treatmentReason || 'Based on your symptoms'}</li>
+                                    </ul>
+                                    <input type="hidden" name="treatmentName" value="${data.treatmentName}">
+                                    <input type="hidden" name="treatmentPrice" value="${data.treatmentPrice}">
+                                    <input type="hidden" name="treatmentId" value="${data.treatmentId}">
+                                    <button class="btn btn-success fw-semibold w-75" type="submit">Choose Treatment</button>
+                                </div>
+                            </form>
                         </div>
-                        <ul class="pricing-content">
-                            <li>Suggested based on your symptoms</li>
-                        </ul>
-                        <input type="hidden" name="treatmentName" value="${data.treatment}">
-                        <input type="hidden" name="treatmentPrice" value="${data.treatmentPrice}">
-                        <input type="hidden" name="treatmentId" value="${data.treatmentId}">
-                        <button class="btn btn-warning btn-border btn-lg w-75 fw-bold mb-3" type="submit">Choose</button>
                     </div>
-                </form>
-            </div>
-        `;
-                    document.getElementById('aiSuggestionContainer').innerHTML = suggestionHtml;
-                    document.getElementById('aiSuggestionContainer').style.display = 'flex';
+                `;
+                    alertBox.style.display = 'none';
+                    container.innerHTML = html;
+                    container.style.display = 'flex';
                 } else {
-                    alert("AI could not suggest a treatment.");
+                    container.innerHTML = '';
+                    container.style.display = 'none';
+                    alertMsg.textContent = "AI could not suggest a treatment. Try again with more details.";
+                    alertBox.style.display = 'flex';
                 }
             })
             .catch(err => {
                 console.error(err);
-                alert("Error contacting AI service.");
+                alertMsg.textContent = "Something went wrong while contacting the AI.";
+                alertBox.style.display = 'flex';
+                container.style.display = 'none';
+            })
+            .finally(() => {
+                // Always remove loading state after response
+                spinner.classList.add('d-none');
+                text.innerText = 'Suggest Treatment';
+                button.disabled = false;
             });
     });
 </script>
+
 
 <?= $this->endSection(); ?>

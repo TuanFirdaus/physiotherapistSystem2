@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class treatmentModel extends Model
 {
     protected $table = 'patienttreatmentrecord'; // Name of the table
-    protected $useTimestamps = true; // Enable timestamps for created_at and updated_at
+    // protected $useTimestamps = true; // Enable timestamps for created_at and updated_at
     protected $createdField = 'created_at'; // Name of the created_at field
     protected $updatedField = 'updated_at'; // Name of the updated_at field
     protected $primaryKey = 'recordId'; // Primary key of the table

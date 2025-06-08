@@ -66,6 +66,20 @@ class User extends BaseController
                 }
             }
 
+            // Set session data for patient if the user is a patient
+            if ($user['role'] === 'patient') {
+                $patient = $this->patientModel->getPatientDetailsByUserId($user['userId']);
+                if ($patient) {
+                    $session->set([
+                        'patientId' => $patient['patientId'],
+                        'address'   => $patient['address'],
+                        'phoneNo'   => $patient['phoneNo'],
+                        'profilePicture' => $patient['profilePicture'] ?? null, // Optional profile image
+                    ]);
+                    // dd($patient);
+                }
+            }
+
             // Redirect based on user role
             switch ($user['role']) {
                 case 'Operation Manager':

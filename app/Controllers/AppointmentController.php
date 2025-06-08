@@ -185,7 +185,6 @@ class AppointmentController extends BaseController
         if (!$appointment) {
             return redirect()->to('/')->with('error', 'Invalid booking.');
         }
-
         return view('pages/successBooking', ['appointment' => $appointment, 'treatment' => $treatment, 'detailForm' => $detailForm]);
     }
 
@@ -224,6 +223,8 @@ class AppointmentController extends BaseController
 
     public function cancelBooking()
     {
+        $userId = session()->get('userId');
+        // dd($userId);
         // Load models
         $appointmentModel = new AppointmentModel();
         $slotModel = new ScheduleModel(); // Assuming this model handles slots
@@ -256,6 +257,7 @@ class AppointmentController extends BaseController
         try {
             // Update the slot's status in the database
             if ($slotModel->update($slotId, $slotUpdateData)) {
+                log_user_activity(session()->get('userId'), "cancelled appointment #$appointmentId on " . date('Y-m-d H:i:s'));
                 return view('pages/cancelBooking', ['appointment' => $appointment]);
             } else {
                 return redirect()->to('/')->with('error', 'Failed to update slot status.');

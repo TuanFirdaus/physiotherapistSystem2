@@ -10,6 +10,7 @@ class paymentController extends BaseController
     public function getPayForm()
     {
         $data = [
+            'userId'          => session()->get('userId'),
             'appointmentId'   => $this->request->getVar('appointmentId'),
             'treatmentPrice'  => $this->request->getVar('treatmentPrice'),
             'name'            => $this->request->getVar('patientName'),
@@ -25,6 +26,7 @@ class paymentController extends BaseController
 
     public function createBill()
     {
+        $userId = session()->get('userId');
         $treatmentAmount = $this->request->getVar('treatmentPrice');
         $patientName = $this->request->getVar('patientName');
         $appointmentId = $this->request->getVar('appointmentId');
@@ -43,13 +45,14 @@ class paymentController extends BaseController
             'billPriceSetting' => 1,
             'billPayorInfo' => 1,
             'billAmount'    => $amountInCents, // in cents
-            'billReturnUrl' => "https://0257-2001-e68-5472-8f87-9529-4949-f96a-665b.ngrok-free.app/payment/success",
-            'billCallbackUrl' => "https://0257-2001-e68-5472-8f87-9529-4949-f96a-665b.ngrok-free.app/payment/callback",
+            'billReturnUrl' => "https://54ad-2001-e68-5472-b67c-7881-44d6-e137-b26d.ngrok-free.app/payment/success",
+            'billCallbackUrl' => "https://54ad-2001-e68-5472-b67c-7881-44d6-e137-b26d.ngrok-free.app/payment/callback",
             'billExternalReferenceNo' => 'REF-' . $appointmentId,
             'billTo'        => $this->request->getPost('name'),
             'billEmail'     => $this->request->getPost('email'),
             'billPhone'     => $this->request->getPost('phone'),
             'appointmentId' => $appointmentId,
+            'userId'       => $userId,
         ];
         // dd($billData); // Debugging line to check the data being sent
         $billCode = $paymentModel->createBill($billData);
@@ -83,7 +86,8 @@ class paymentController extends BaseController
         // dd($billCode); // Debugging line to check the billCode
         $paymentModel = new \App\Models\PaymentModel();
 
-        $patientId = session()->get('userId');
+        $userId = session()->get('userId');
+        // dd($userId); // Debugging line to check the patientId
 
         // Fetch payment info from DB using billCode
         $payment = $paymentModel->where('billCode', $billCode)->first();
@@ -134,12 +138,14 @@ class paymentController extends BaseController
             'date' => $appointment['date'] ?? null,
         ];
         // dd($data); // Debugging line to check the data being passed to the view
+        log_user_activity(session()->get($userId), "Payment success for appointment #$payment[appointmentId] on " . date('Y-m-d H:i:s'));
 
         return view('pages/paymentSuccess', $data);
     }
 
     public function callback()
     {
+        $userId = session()->get('userId');
         log_message('info', 'ToyyibPay CALLBACK TEST REACHED');
         //kena baiki lagi method ni sbb tk dpt update payment table dgn appointment status
         log_message('info', 'ToyyibPay CALLBACK triggered. Raw POST: ' . json_encode($this->request->getPost()));
@@ -208,6 +214,7 @@ class paymentController extends BaseController
                     $payment = $paymentModel->where('billCode', $billcode)->first();
                     if ($payment && isset($payment['paymentId'])) {
                         $paymentModel->delete($payment['paymentId']);
+                        log_user_activity(session()->get($userId), "Payment failed for appointment #$payment[appointmentId] on " . date('Y-m-d H:i:s'));
                     }
 
                     return $this->response->setJSON(['status' => 'failed', 'message' => 'Payment failed.']);

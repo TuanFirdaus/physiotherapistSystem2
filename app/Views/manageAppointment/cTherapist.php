@@ -35,7 +35,24 @@
                     </div>
                 </div>
             <?php endforeach; ?>
+            <?php if (empty($getTherapist)) : ?>
+                <div class="col text-center">
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: #dc3545;"></i><br>
+                        <strong>No therapists available at the moment.</strong>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
+        <form action="<?= base_url('/booking') ?>" method="post" class="d-inline">
+            <input type="hidden" name="treatmentId" value="<?= esc($treatmentId) ?>">
+            <input type="hidden" name="treatmentName" value="<?= esc($treatmentName) ?>">
+            <input type="hidden" name="treatmentPrice" value="<?= esc($treatmentPrice) ?>">
+
+            <button type="submit" class="btn btn-outline-secondary mt-3">
+                <i class="fa fa-arrow-left"></i> Back to Previous
+            </button>
+        </form>
     </div>
 </div>
 <script>

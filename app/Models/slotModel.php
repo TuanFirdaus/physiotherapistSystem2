@@ -10,7 +10,19 @@ class slotModel extends Model
     //kena check balik method getAvailableTherapists ni
     protected $table = 'slot';
     protected $primaryKey = 'slotId';
-    protected $allowedFields = ['slotId', 'therapistId', 'date', 'startTime', 'endTime', 'status'];
+    protected $allowedFields = [
+        'slotId',
+        'therapistId',
+        'date',
+        'startTime',
+        'endTime',
+        'status',
+        'created_at',
+        'updated_at'
+    ];
+    protected $useTimestamps = true;            // Enables auto timestamps
+    protected $createdField  = 'created_at';    // Field name for created
+    protected $updatedField  = 'updated_at';
 
     public function getAvailableTherapists()
     {
