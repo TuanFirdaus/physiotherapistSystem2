@@ -51,6 +51,9 @@ class Home extends BaseController
         $totalPendingPayments = $this->paymentModel->getTotalPendingPayments();
         $totalRecords = $this->treatmentRecords->getTotalRecords();
         $pendingCount = $this->appointmentModel->where('status', 'pending')->countAllResults();
+        $recentAppointments = $this->appointmentModel->getRecentAppointment();
+
+        // dd($recentAppointments);
 
         $data = [
             'labels' => array_column($treatmentStats, 'name'),
@@ -59,6 +62,7 @@ class Home extends BaseController
             'totalAppointment' => $appointmentTotal,
             'totalPendingPayments' => $totalPendingPayments,
             'totalTreatmentRecords' => $totalRecords,
+            'recentAppointments' => $recentAppointments,
             'pendingCount' => $pendingCount,
             'chartData' => json_encode([
                 'labels' => array_column($treatmentStats, 'name'),

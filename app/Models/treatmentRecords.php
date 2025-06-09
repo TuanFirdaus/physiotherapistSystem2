@@ -8,8 +8,9 @@ class treatmentRecords extends Model
 {
     protected $table = 'patienttreatmentrecord';
     protected $primaryKey = 'recordId';
-    protected $allowedFields = ['patientId', 'treatmentId', 'appointmentId', 'treatmentNotes', 'status', 'createdAt', 'updated_at'];
+    protected $allowedFields = ['patientId', 'treatmentId', 'appointmentId', 'treatmentNotes', 'status', 'createdAt', 'updated_at', 'session_date', 'therapistId', 'slotId '];
     protected $returnType = 'array';
+    protected $useTimestamps = true;
 
     public function getAllTreatmentRecords()
     {

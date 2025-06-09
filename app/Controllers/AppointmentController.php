@@ -8,6 +8,7 @@ use App\Models\manageAppointment;
 use App\Models\UserModel;
 use App\Models\ScheduleModel;
 use App\Models\AppointmentModel;
+use App\Models\patientModel;
 
 class AppointmentController extends BaseController
 {
@@ -74,6 +75,11 @@ class AppointmentController extends BaseController
     }
     public function confirmTherapist()
     {
+        $userId = session()->get('userId');
+
+        $patientModel = new patientModel();
+        $patient = $patientModel->getPatientDetailsByUserId($userId);
+
         $slotSchedule = new ScheduleModel();
         $therapistId = $this->request->getVar('therapistId');
         $therapistName = $this->request->getVar('therapistName');
@@ -91,7 +97,8 @@ class AppointmentController extends BaseController
             'treatmentId' => $treatmentId,
             'treatmentPrice' => $treatmentPrice,
             'treatmentName' => $treatmentName,
-            'slotSchedule' => $slotSchedule->slotSchedule($therapistId)
+            'slotSchedule' => $slotSchedule->slotSchedule($therapistId),
+            'patientName' => $patient['name'] ?? 'Patient',
         ];
 
         return view('/manageAppointment/cSlot', $data);

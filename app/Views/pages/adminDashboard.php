@@ -40,7 +40,7 @@
                     </div>
                     <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
-                            <p class="card-category">Total Appointments</p>
+                            <p class="card-category">Total Appointments (Completed)</p>
                             <p class="card-text" style="font-size: medium; height: 40px"><?= $totalAppointment ?> appointments</p>
                         </div>
                     </div>
@@ -89,9 +89,10 @@
 </div>
 
 <!-- Add charts or graphs here to visualize data -->
-<div class="row">
-    <div class="col-md-6">
-        <div class="card card-round">
+<div class="row justify-content-center align-items-center">
+    <!-- Appointments Statistics Chart -->
+    <div class="col-md-6" style="width: auto;">
+        <div class="card card-round mb-4">
             <div class="card-header">
                 <div class="card-head-row">
                     <div class="card-title">Appointments Statistics</div>
@@ -111,32 +112,21 @@
                     </div>
                 </div>
             </div>
-
             <div class="card-body">
                 <div class="chart-container">
-                    <!--
-                       Added d-flex and justify-content-center here.
-                       d-flex: Makes this div a flex container.
-                       justify-content-center: Centers its direct children (the .box div) horizontally along the main axis.
-                       Removed text-center as flex handles the block centering now.
-                       Removed justify-content-center and align-items-center from the inner .box div
-                       as they are not needed there for centering the box itself.
-                    -->
                     <div class="graphBox d-flex justify-content-center">
-                        <div class="box"> <!-- This inner div might not even be necessary depending on Chart.js behavior -->
+                        <div class="box" style="width: auto;">
                             <canvas id="myChart"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-</div>
-<!-- recent bookings -->
-<div class="row">
-    <div class="col-md-8">
-        <div class="card card-round">
+
+    <!-- Recent Appointments Table -->
+    <div class="col-md-6" style="width: auto;">
+        <div class="card card-round mb-4">
             <div class="card-header">
                 <div class="card-head-row card-tools-still-right">
                     <div class="card-title">Recent Appointments</div>
@@ -156,108 +146,46 @@
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
-                    <!-- Projects table -->
                     <table class="table align-items-center mb-0">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col">Payment Number</th>
+                                <th scope="col">Appointment Number</th>
                                 <th scope="col" class="text-end">Date &amp; Time</th>
-                                <th scope="col" class="text-end">Amount</th>
+                                <th scope="col" class="text-end">Treament</th>
                                 <th scope="col" class="text-end">Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">
-                                    <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                        <i class="fa fa-check"></i>
-                                    </button>
-                                    Payment from #10231
-                                </th>
-                                <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                                <td class="text-end">$250.00</td>
-                                <td class="text-end">
-                                    <span class="badge badge-success">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                        <i class="fa fa-check"></i>
-                                    </button>
-                                    Payment from #10231
-                                </th>
-                                <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                                <td class="text-end">$250.00</td>
-                                <td class="text-end">
-                                    <span class="badge badge-success">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                        <i class="fa fa-check"></i>
-                                    </button>
-                                    Payment from #10231
-                                </th>
-                                <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                                <td class="text-end">$250.00</td>
-                                <td class="text-end">
-                                    <span class="badge badge-success">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                        <i class="fa fa-check"></i>
-                                    </button>
-                                    Payment from #10231
-                                </th>
-                                <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                                <td class="text-end">$250.00</td>
-                                <td class="text-end">
-                                    <span class="badge badge-success">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                        <i class="fa fa-check"></i>
-                                    </button>
-                                    Payment from #10231
-                                </th>
-                                <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                                <td class="text-end">$250.00</td>
-                                <td class="text-end">
-                                    <span class="badge badge-success">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                        <i class="fa fa-check"></i>
-                                    </button>
-                                    Payment from #10231
-                                </th>
-                                <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                                <td class="text-end">$250.00</td>
-                                <td class="text-end">
-                                    <span class="badge badge-success">Completed</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                        <i class="fa fa-check"></i>
-                                    </button>
-                                    Payment from #10231
-                                </th>
-                                <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                                <td class="text-end">$250.00</td>
-                                <td class="text-end">
-                                    <span class="badge badge-success">Completed</span>
-                                </td>
-                            </tr>
+                            <?php if (!empty($recentAppointments)): ?>
+                                <?php foreach ($recentAppointments as $appointment): ?>
+                                    <tr>
+                                        <th scope="row">
+                                            Appointment #<?= esc($appointment['appointmentId']) ?>
+                                        </th>
+                                        <td class="text-end">
+                                            <?= date('M d, Y', strtotime($appointment['date'])) ?>
+                                            <br>
+                                            <small><?= date('g:ia', strtotime($appointment['startTime'])) ?> - <?= date('g:ia', strtotime($appointment['endTime'])) ?></small>
+                                        </td>
+                                        <td class="text-end"><?= esc($appointment['treatmentName']) ?></td>
+                                        <td class="text-end">
+                                            <?php if ($appointment['status'] == 'Approved'): ?>
+                                                <span class="badge bg-success">Approved</span>
+                                            <?php elseif ($appointment['status'] == 'pending'): ?>
+                                                <span class="badge bg-warning text-dark">Pending</span>
+                                            <?php elseif ($appointment['status'] == 'cancelled'): ?>
+                                                <span class="badge bg-danger">Cancelled</span>
+                                            <?php else: ?>
+                                                <span class="badge badge-secondary"><?= esc(ucfirst($appointment['status'])) ?></span>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="4" class="text-center">No recent appointments found.</td>
+                                </tr>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>

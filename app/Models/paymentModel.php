@@ -40,6 +40,7 @@ class paymentModel extends Model
             ->countAllResults();
     }
 
+
     public function getAllPayments()
     {
         return $this->findAll();

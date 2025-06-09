@@ -5,32 +5,32 @@
 <div class="container d-flex justify-content-center ">
     <div class="row justify-content-center mb-4">
         <div class="col">
-            <div class="card shadow-lg border-primary" style="width: 40vh;">
+            <div class="card shadow-lg border-primary" style="width: auto;">
                 <div class="card-body">
                     <h3 class="card-title text-primary mb-3">
-                        <i class="fas fa-notes-medical"></i> Treatment Selection
+                        <i class="fas fa-notes-medical"></i> Treatment Details
                     </h3>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <i class="fas fa-stethoscope text-success"></i>
-                            <strong>Treatment:</strong> <?= esc($treatmentName); ?>
+                            <strong>Treatment: </strong>&nbsp; <?= esc($treatmentName); ?>
                         </li>
                         <li class="list-group-item">
                             <i class="fas fa-money-bill-wave text-warning"></i>
-                            <strong>Price:</strong> RM<?= esc($treatmentPrice); ?>
+                            <strong>Price: </strong>&nbsp; RM<?= esc($treatmentPrice); ?>
                         </li>
                         <li class="list-group-item">
                             <i class="fas fa-user-md text-info"></i>
-                            <strong>Therapist:</strong> <?= esc($therapistName); ?> (ID: <?= esc($therapistId); ?>)
+                            <strong>Therapist: </strong>&nbsp; <?= esc($therapistName); ?>
                         </li>
                         <li class="list-group-item">
                             <i class="fas fa-user text-secondary"></i>
-                            <strong>Your User ID:</strong> <?= esc(session()->get('userId')); ?>
+                            <strong>Patient Name:</strong> &nbsp; <?= esc($patientName); ?>
                         </li>
-                        <li class="list-group-item">
+                        <!-- <li class="list-group-item">
                             <i class="fas fa-id-badge text-primary"></i>
-                            <strong>Treatment ID:</strong> <?= esc($treatmentId); ?>
-                        </li>
+                            <strong>Treatment ID: &nbsp;</strong> <?= esc($treatmentId); ?>
+                        </li> -->
                     </ul>
                 </div>
             </div>

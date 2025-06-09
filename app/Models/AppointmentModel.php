@@ -89,6 +89,30 @@ class AppointmentModel extends Model
             ->get()
             ->getResultArray();
     }
+
+    public function getRecentAppointment($limit = 5)
+    {
+        return $this->db->table('appointment')
+            ->select('
+            appointment.appointmentId,
+            user.name AS patientName,
+            patient.phoneNo as patientPhoneNum,
+            treatment.name as treatmentName,
+            treatment.price as treatmentPrice,
+            appointment.status,
+            slot.date,
+            slot.startTime,
+            slot.endTime
+        ')
+            ->join('patient', 'patient.patientId = appointment.patientId')
+            ->join('treatment', 'treatment.treatmentId = appointment.treatmentId')
+            ->join('user', 'user.userId = patient.userId')
+            ->join('slot', 'slot.slotId = appointment.slotId')
+            ->orderBy('appointment.appointmentId', 'DESC')
+            ->limit($limit)
+            ->get()
+            ->getResultArray();
+    }
     public function getAppointmentDetailsById($appointmentId)
     {
         return $this->db->table('appointment')
