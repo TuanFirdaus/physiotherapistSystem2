@@ -21,6 +21,16 @@ class therapistModel extends Model
             ->getRowArray();
     }
 
+    // Method to retrieve all therapists with user data
+    public function getTherapist()
+    {
+        return $this->db->table('therapist')
+            ->select('therapist.therapistId, therapist.expertise, therapist.availability, user.name, user.userId , profile_image, user.name as therapistName')
+            ->join('user', 'user.userId = therapist.userId')
+            ->get()
+            ->getResultArray();
+    }
+
     // Method to update therapist and user data
     public function updateTherapistDetails($therapistId, $userId, $data)
     {

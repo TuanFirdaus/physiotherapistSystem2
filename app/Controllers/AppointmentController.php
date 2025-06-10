@@ -9,12 +9,17 @@ use App\Models\UserModel;
 use App\Models\ScheduleModel;
 use App\Models\AppointmentModel;
 use App\Models\patientModel;
+use App\Models\therapistModel;
 
 class AppointmentController extends BaseController
 {
     protected $db;
     protected $session;
     protected $appointmentModel;
+    protected $slotModel;
+    protected $treatmentModel;
+    protected $patientModel;
+    protected $therapistModel;
 
     public function __construct()
     {
@@ -23,6 +28,8 @@ class AppointmentController extends BaseController
         $this->session = \Config\Services::session();
         $this->session->start();
         $this->appointmentModel = new AppointmentModel(); // Initialize the AppointmentModel
+        $this->slotModel = new slotModel(); // Initialize the slotModel
+        $this->therapistModel = new therapistModel(); // Initialize the treatment model
     }
 
 
@@ -311,6 +318,7 @@ class AppointmentController extends BaseController
     }
 
 
+
     public function deleteAppointment($appointmentId)
     {
         $appointModel = new AppointmentModel();
@@ -376,5 +384,76 @@ class AppointmentController extends BaseController
         ];
 
         return view('pages/allAppointment', $data);
+    }
+    //this section untuk manage appointment by operation manager 
+    public function ManageDeleteAppointment($appointmentId)
+    {
+        $appointModel = new AppointmentModel();
+
+        // Attempt to delete the appointment
+        if ($appointModel->deleteAppointment($appointmentId)) {
+            return redirect()->to('/viewAppointments')->with('success', 'Appointment deleted successfully.');
+        } else {
+            return redirect()->to('/viewAppointments')->with('error', 'Failed to delete appointment.');
+        }
+    }
+
+
+    public function ManageEditAppointment($appointmentId)
+    {
+
+        $appointment = $this->appointmentModel->getAppointmentDetailsById($appointmentId);
+        $therapist = $this->therapistModel->getTherapist();
+
+
+
+        if (!$appointment) {
+            return redirect()->to('/viewAppointments')->with('error', 'Appointment not found.');
+        }
+
+        $data['appointment'] = $appointment;
+        $data['therapists'] = $therapist;
+
+        return view('pages/editAppointment', $data);
+    }
+
+    public function ManageUpdateAppointment($appointmentId)
+    {
+        $validation = \Config\Services::validation();
+
+        // Validate input
+        $rules = [
+            'date'        => 'required|valid_date',
+            'startTime'   => 'required',
+            'endTime'     => 'required',
+            'therapist_id' => 'required|integer',
+            'status'      => 'required|in_list[pending,Approved,cancelled]',
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
+        // Get POST data
+        $data = [
+            'therapistId' => $this->request->getPost('therapist_id'),
+            'status'      => $this->request->getPost('status'),
+        ];
+
+        // Update slot info if your slot is a separate table
+        $appointment = $this->appointmentModel->getAppointmentDetailsById($appointmentId);
+        if ($appointment && isset($appointment['slotId'])) {
+            $slotData = [
+                'date'      => $this->request->getPost('date'),
+                'startTime' => $this->request->getPost('startTime'),
+                'endTime'   => $this->request->getPost('endTime'),
+            ];
+            $this->slotModel->update($appointment['slotId'], $slotData);
+        }
+
+        // Update appointment info
+        $this->appointmentModel->update($appointmentId, $data);
+
+        return redirect()->to('/viewAppointments')->with('success', 'Appointment updated successfully!');
     }
 }

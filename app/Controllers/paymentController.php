@@ -45,8 +45,8 @@ class paymentController extends BaseController
             'billPriceSetting' => 1,
             'billPayorInfo' => 1,
             'billAmount'    => $amountInCents, // in cents
-            'billReturnUrl' => "https://5b1c-2001-e68-5472-b67c-61df-c1ea-a86e-7711.ngrok-free.app/payment/success",
-            'billCallbackUrl' => "https://5b1c-2001-e68-5472-b67c-61df-c1ea-a86e-7711.ngrok-free.app/payment/callback",
+            'billReturnUrl' => "https://cb6d-2001-e68-5472-19ef-740e-f36-bfd9-a9e0.ngrok-free.app/payment/success",
+            'billCallbackUrl' => "https://cb6d-2001-e68-5472-19ef-740e-f36-bfd9-a9e0.ngrok-free.app/payment/callback",
             'billExternalReferenceNo' => 'REF-' . $appointmentId,
             'billTo'        => $this->request->getPost('name'),
             'billEmail'     => $this->request->getPost('email'),

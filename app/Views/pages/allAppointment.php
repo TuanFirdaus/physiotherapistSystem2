@@ -19,6 +19,30 @@
 
 <?= $this->section('content'); ?>
 <div class="container mt-4">
+    <?php if (session()->getFlashdata('success')): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <?= session()->getFlashdata('success') ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+    <?php if (session()->getFlashdata('error')): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?= session()->getFlashdata('error') ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
+    <script>
+        // Auto-dismiss alerts after 3 seconds
+        setTimeout(function() {
+            var alertNode = document.querySelector('.alert');
+            if (alertNode) {
+                var bsAlert = bootstrap.Alert.getOrCreateInstance(alertNode);
+                bsAlert.close();
+            }
+        }, 3000);
+    </script>
+
     <h2 class="mb-4">All Appointments</h2>
 
     <form method="get" class="row mb-4">
@@ -52,28 +76,22 @@
         </div>
     </form>
 
+
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Select</th>
                 <th>Date</th>
                 <th>Time</th>
                 <th>Therapist</th>
                 <th>Patient</th>
                 <th>Status</th>
-
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             <?php if (!empty($appointments)): ?>
                 <?php foreach ($appointments as $a): ?>
                     <tr>
-                        <td>
-                            <input type="radio" name="appointment_ids[]" value="<?= esc($a['appointmentId']) ?>">
-                            <input type="hidden" name="slotId" value="<?= esc($a['slotId']) ?>">
-                            <input type="hidden" name="therapistId" value="<?= esc($a['therapistId']) ?>">
-                            <input type="hidden" name="patientId" value="<?= esc($a['patientId']) ?>">
-                        </td>
                         <td><?= esc($a['date']) ?></td>
                         <td><?= esc($a['startTime']) ?>-<?= esc($a['endTime']) ?></td>
                         <td><?= esc($a['therapist_name']) ?></td>
@@ -82,8 +100,8 @@
                             <?php
                             $status = esc($a['status']);
                             $statusColor = match ($status) {
-                                'approved' => 'green',
-                                'pending' => 'orange',
+                                'Approved' => 'green',
+                                'Pending' => 'orange',
                                 'cancelled' => 'red',
                                 default => 'black'
                             };
@@ -92,21 +110,31 @@
                                 <?= $status ?>
                             </span>
                         </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton<?= esc($a['appointmentId']) ?>" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?= esc($a['appointmentId']) ?>">
+                                    <li>
+                                        <a class="dropdown-item" href="<?= base_url('appointments/edit/' . esc($a['appointmentId'])) ?>">Edit</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item text-danger" href="<?= base_url('appointments/delete/' . esc($a['appointmentId'])) ?>"
+                                            onclick="return confirm('Are you sure you want to delete this appointment?');">Delete</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="5" class="text-center">No appointments found.</td>
+                    <td colspan="7" class="text-center">No appointments found.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
-        <div class="mt-3 mb-3">
-
-            <button type="submit" name="action" value="edit" class="btn btn-warning">Edit</button>
-
-            <button type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
-        </div>
-
     </table>
+
 </div>
 <?= $this->endSection(); ?>

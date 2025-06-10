@@ -45,7 +45,7 @@
                     </form>
                 </ul>
             </li>
-            <li class="nav-item topbar-icon dropdown hidden-caret">
+            <!-- <li class="nav-item topbar-icon dropdown hidden-caret">
                 <a class="nav-link dropdown-toggle" href="#" id="messageDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-envelope"></i>
                 </a>
@@ -285,7 +285,7 @@
                         </div>
                     </div>
                 </div>
-            </li>
+            </li> -->
 
             <!-- profile avatar -->
             <li class="nav-item topbar-user dropdown hidden-caret">
@@ -322,10 +322,10 @@
                             <li>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">My Profile</a>
-                                <a class="dropdown-item" href="#">My Balance</a>
+                                <!-- <a class="dropdown-item" href="#">My Balance</a>
                                 <a class="dropdown-item" href="#">Inbox</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Account Setting</a>
+                                <a class="dropdown-item" href="#">Account Setting</a> -->
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/logout">Logout</a>
                             </li>

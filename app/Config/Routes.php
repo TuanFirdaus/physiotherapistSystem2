@@ -103,3 +103,7 @@ $routes->POST('patient/updatePatientProfilePicture', 'profileController::updateP
 $routes->GET('patient/removePatientProfilePicture', 'profileController::removePatientProfilePicture');
 
 $routes->POST('patient/updatePatientProfile', 'profileController::updatePatientProfile'); // Handle profile update
+
+$routes->GET('appointments/delete/(:num)', 'AppointmentController::ManageDeleteAppointment/$1');
+$routes->match(['get', 'POST'], 'appointments/edit/(:num)', 'AppointmentController::ManageEditAppointment/$1');
+$routes->POST('appointments/update/(:num)', 'AppointmentController::ManageUpdateAppointment/$1');

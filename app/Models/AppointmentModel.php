@@ -121,12 +121,18 @@ class AppointmentModel extends Model
             patient.phoneNo AS patientPhoneNum,
             user.name AS patientName,
             user.email AS patientEmail,
+            therapist_user.name AS therapistName,
+            therapist_user.email AS therapistEmail,
             treatment.name AS treatmentName,
             treatment.price AS treatmentPrice,
-            slot.date
+            slot.date,
+            slot.startTime,
+            slot.endTime
         ')
             ->join('patient', 'patient.patientId = appointment.patientId')
-            ->join('user', 'user.userId = patient.userId')
+            ->join('user', 'user.userId = patient.userId') // patient user
+            ->join('therapist', 'therapist.therapistId = appointment.therapistId')
+            ->join('user AS therapist_user', 'therapist_user.userId = therapist.userId') // therapist user
             ->join('treatment', 'treatment.treatmentId = appointment.treatmentId')
             ->join('slot', 'slot.slotId = appointment.slotId')
             ->where('appointment.appointmentId', $appointmentId)
