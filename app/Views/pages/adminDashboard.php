@@ -6,7 +6,7 @@
 
 <!-- Overview Cards -->
 <div class="row">
-    <div class="col-sm-6 col-md-3">
+    <div class="col-sm-6 col-md-3" style="width: 40vh;">
         <div class="card card-stats card-round">
             <div class="card-body ">
                 <div class="row align-items-center">
@@ -29,8 +29,8 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-6 col-md-3">
-        <div class="card card-stats card-round">
+    <div class="col-sm-6 col-md-3" style="width: 40vh;">
+        <div class=" card card-stats card-round">
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-icon">
@@ -41,14 +41,14 @@
                     <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                             <p class="card-category">Total Appointments (Completed)</p>
-                            <p class="card-text" style="font-size: medium; height: 40px"><?= $totalAppointment ?> appointments</p>
+                            <p class="card-title" style="font-size: medium; height: 40px"><?= $totalAppointment ?> appointments</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-6 col-md-3">
+    <div class="col-sm-6 col-md-3" style="width: 40vh;">
         <div class="card card-stats card-round">
             <div class="card-body">
                 <div class="row align-items-center">
@@ -67,7 +67,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-6 col-md-3">
+    <div class="col-sm-6 col-md-3" style="width: 40vh; ">
         <div class="card card-stats card-round">
             <div class="card-body">
                 <div class="row align-items-center">
@@ -96,7 +96,7 @@
             <div class="card-header">
                 <div class="card-head-row">
                     <div class="card-title">Appointments Statistics</div>
-                    <div class="card-tools">
+                    <!-- <div class="card-tools">
                         <a href="#" class="btn btn-label-success btn-round btn-sm me-2">
                             <span class="btn-label">
                                 <i class="fa fa-pencil"></i>
@@ -109,7 +109,7 @@
                             </span>
                             Print
                         </a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="card-body">

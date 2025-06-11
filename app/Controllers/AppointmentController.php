@@ -444,6 +444,7 @@ class AppointmentController extends BaseController
         $appointment = $this->appointmentModel->getAppointmentDetailsById($appointmentId);
         if ($appointment && isset($appointment['slotId'])) {
             $slotData = [
+                'therapistId' => $this->request->getPost('therapist_id'),
                 'date'      => $this->request->getPost('date'),
                 'startTime' => $this->request->getPost('startTime'),
                 'endTime'   => $this->request->getPost('endTime'),

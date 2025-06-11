@@ -4,7 +4,7 @@
 
         <a href="/adminDashboard" class="logo">
             <img
-                src="assets2/assets/img/MAY3LOGO.png"
+                src="<?= base_url('assets2/assets/img/MAY3LOGO.png') ?>"
                 alt="navbar brand"
                 class="navbar-brand"
                 height="100" />

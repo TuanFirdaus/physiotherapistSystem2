@@ -1,4 +1,4 @@
-<?= $this->extend('layout/adminTemplate') ?>
+<?= $this->extend('layout/adminTemplate'); ?>
 
 <?= $this->section('breadcrumbs'); ?>
 <ul class="page-breadcrumb">
