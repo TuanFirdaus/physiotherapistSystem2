@@ -50,6 +50,7 @@ class User extends BaseController
                         'profile_image' => $therapist['profile_image'],
                         'name'          => $therapist['name'],
                         'email'         => $therapist['email'],
+
                     ]);
                 }
             }
@@ -62,6 +63,10 @@ class User extends BaseController
                         'profile_image' => $om['profile_image'],
                         'name'          => $om['name'],
                         'email'         => $om['email'],
+                        'phoneNo'       => $om['phoneNo'],
+                        'address'       => $om['address'],
+                        'role'          => $om['role'],
+                        'userId'        => $om['userId'],
                     ]);
                 }
             }

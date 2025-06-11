@@ -94,8 +94,10 @@
     <div class="col-md-6" style="width: auto;">
         <div class="card card-round mb-4">
             <div class="card-header">
-                <div class="card-head-row">
-                    <div class="card-title">Appointments Statistics</div>
+                <div class="card-head-row flex-column align-items-start">
+                    <div class="card-title mb-1">Appointments Statistics</div>
+
+
                     <!-- <div class="card-tools">
                         <a href="#" class="btn btn-label-success btn-round btn-sm me-2">
                             <span class="btn-label">
@@ -111,6 +113,7 @@
                         </a>
                     </div> -->
                 </div>
+                <span class="badge bg-primary">Completed</span>
             </div>
             <div class="card-body">
                 <div class="chart-container">

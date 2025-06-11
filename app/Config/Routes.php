@@ -107,3 +107,7 @@ $routes->POST('patient/updatePatientProfile', 'profileController::updatePatientP
 $routes->GET('appointments/delete/(:num)', 'AppointmentController::ManageDeleteAppointment/$1');
 $routes->match(['get', 'POST'], 'appointments/edit/(:num)', 'AppointmentController::ManageEditAppointment/$1');
 $routes->POST('appointments/update/(:num)', 'AppointmentController::ManageUpdateAppointment/$1');
+
+
+$routes->get('/adminProfile', 'adminProfileController::adminProfile'); // Show admin profile page
+$routes->POST('adminProfile/update', 'adminProfileController::updateAdminProfile'); // Show edit admin profile page

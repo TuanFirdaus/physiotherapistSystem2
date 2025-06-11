@@ -71,7 +71,7 @@ class userModel extends Model
     public function getOperationManagerDetailsById($userId)
     {
         return $this->db->table('user')
-            ->select('user.userId, user.name, user.email, operationmanager.omId, operationmanager.profile_image')
+            ->select('user.userId, user.name, user.email, user.role, operationmanager.phoneNo, operationmanager.address, operationmanager.omId, operationmanager.profile_image')
             ->join('operationmanager', 'operationmanager.userId = user.userId')
             ->where('role', 'Operation Manager')
             ->where('user.userId', $userId)

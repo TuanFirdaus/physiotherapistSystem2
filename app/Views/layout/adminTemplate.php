@@ -34,6 +34,8 @@
         });
     </script>
 
+    <link rel="stylesheet" href="<?= base_url('assets/css/adminProfile.css') ?>">
+
 
 
     <!-- CSS Files -->
