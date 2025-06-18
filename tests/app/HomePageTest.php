@@ -2,12 +2,24 @@
 
 namespace Tests;
 
-use CodeIgniter\Test\CIUnitTestCase;
+use CodeIgniter\Test\FeatureTestCase;
 
-final class HomePageTest extends CIUnitTestCase
+final class HomePageTest extends FeatureTestCase
 {
-    public function testTrueIsTrue(): void
+    public function testLoginPageLoads(): void
     {
-        $this->assertTrue(true);
+        $response = $this->get('/login');
+        $response->assertStatus(200);
+        $response->assertSee('Login');
+    }
+
+    public function testLoginWithValidCredentials(): void
+    {
+        $response = $this->post('/user/login', [
+            'email'    => 'afiqamri@gmail.com',
+            'password' => '12345',
+        ]);
+
+        $response->assertRedirect(); // 302 expected
     }
 }
