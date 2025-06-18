@@ -2,7 +2,7 @@
 
 <?= $this->section('content'); ?>
 
-<div class="container">
+<div class="container" style="height: 100vh;">
     <?php if (session()->getFlashdata('success')): ?>
         <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
             <?= session()->getFlashdata('success') ?>
@@ -23,38 +23,66 @@
             $profileImg = $session->get('profilePicture');
             $profileImg = (!empty($profileImg)) ? $profileImg : 'assets/img/defaultProfilePic.jpg';
             ?>
-            <div class="card h-100">
-                <div class="card-body">
-                    <div class="account-settings">
-                        <div class="user-profile">
-                            <div class="user-avatar text-center mb-3">
-                                <img src="<?= base_url($profileImg) ?>" alt="Profile Picture" class="rounded-circle shadow" width="120" height="120">
-                            </div>
+            <div class="card shadow-lg border-0 rounded-4  mx-auto h-100">
+                <div class="card-body text-center">
+                    <div class="user-profile mb-4">
+                        <!-- Profile Picture -->
+                        <div class="user-avatar mb-3">
+                            <img src="<?= base_url($profileImg) ?>" alt="Profile Picture" class="rounded-circle shadow" width="120" height="120">
+                        </div>
 
-                            <div class="d-flex flex-column align-items-center mb-3">
-                                <!-- Profile Picture Upload Form -->
-                                <form action="<?= base_url('patient/updatePatientProfilePicture') ?>" method="post" enctype="multipart/form-data" class="mb-2">
-                                    <input type="file" name="profilePicture" id="profilePicture" accept="image/*" style="display: none;" onchange="this.form.submit();">
-                                    <label for="profilePicture" class="btn btn-outline-primary btn-sm mb-1" style="width: auto;">
-                                        <i class="fa fa-upload"></i> Change Picture
-                                    </label>
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-center flex-wrap gap-2 mb-3">
+                            <form action="<?= base_url('patient/updatePatientProfilePicture') ?>" method="post" enctype="multipart/form-data">
+                                <input type="file" name="profilePicture" id="profilePicture" accept="image/*" hidden onchange="this.form.submit();">
+                                <label for="profilePicture" class="btn btn-outline-primary btn-sm">
+                                    <i class="fa fa-upload me-1"></i> Change Picture
+                                </label>
+                            </form>
+
+                            <?php if ($profileImg !== 'assets/img/defaultProfilePic.jpg'): ?>
+                                <form action="<?= base_url('patient/removePatientProfilePicture') ?>" method="get" onsubmit="return confirm('Are you sure you want to remove your profile picture?');">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                                        <i class="fa fa-trash me-1"></i> Remove Picture
+                                    </button>
                                 </form>
-                                <?php if ($profileImg !== 'assets/img/defaultProfilePic.jpg'): ?>
-                                    <form action="<?= base_url('patient/removePatientProfilePicture') ?>" method="get" onsubmit="return confirm('Are you sure you want to remove your profile picture?');">
-                                        <button type="submit" class="btn btn-outline-danger btn-sm" style="width: auto;">
-                                            <i class="fa fa-trash"></i> Remove Picture
-                                        </button>
-                                    </form>
-                                <?php endif; ?>
-                            </div>
-                            <h5 class="user-name"><?= esc($user['name']); ?></h5>
-                            <h6 class="user-email"><?= esc($user['email']); ?></h6>
-                        </div>
-                        <div class="about">
-                            <h5>Address</h5>
-                            <p><?= esc($patient['address']); ?></p>
+                            <?php endif; ?>
                         </div>
 
+                        <!-- Name & Email -->
+                        <h5 class="user-name mb-1"><?= esc($user['name']); ?></h5>
+                        <p class="text-muted mb-0"><?= esc($user['email']); ?></p>
+                    </div>
+
+                    <!-- Patient Info -->
+                    <div class="about mt-4 text-start">
+                        <h5 class="text-primary text-center mb-3">Patient Information</h5>
+                        <div class="row g-3">
+                            <div class="col-12 d-flex align-items-center">
+                                <i class="fa fa-map-marker-alt text-danger me-2"></i>
+                                <span><?= esc($patient['address']) ?></span>
+                            </div>
+
+                            <div class="col-12 d-flex align-items-center">
+                                <i class="fa fa-phone-alt text-success me-2"></i>
+                                <span><?= esc($patient['phoneNo']) ?></span>
+                            </div>
+
+                            <div class="col-12 d-flex align-items-center">
+                                <i class="fa fa-venus-mars text-info me-2"></i>
+                                <span><?= esc($user['gender']) ?></span>
+                            </div>
+
+                            <div class="col-12 d-flex align-items-center">
+                                <i class="fa fa-birthday-cake text-warning me-2"></i>
+                                <span><?= esc($user['age']) ?> years old</span>
+                            </div>
+
+                            <div class="col-12 d-flex align-items-center">
+                                <i class="fa fa-id-card text-secondary me-2"></i>
+                                <span>Patient ID: <?= esc($patient['patientCode']) ?></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -123,7 +151,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12 mb-4">
+        <div class="col-md-12 mb-5">
             <h5 class="mt-4 mb-3 text-primary">
                 <i class="fa fa-history"></i> Recent Activity
             </h5>

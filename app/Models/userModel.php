@@ -60,7 +60,7 @@ class userModel extends Model
     public function getTherapistDetailsById($userId)
     {
         return $this->db->table('user')
-            ->select('user.userId, user.name, user.email, therapist.therapistId, therapist.expertise, therapist.profile_image')
+            ->select('user.userId, user.name, user.email, therapist.therapistId, therapist.expertise, therapist.profile_image, therapist.availability, therapist.phoneNo')
             ->join('therapist', 'therapist.userId = user.userId')
             ->where('role', 'therapist')
             ->where('user.userId', $userId)
@@ -95,7 +95,7 @@ class userModel extends Model
     public function getManagePatients()
     {
         return $this->db->table('user')
-            ->select('patient.patientId, user.name, patient.address, patient.phoneNo')
+            ->select('patient.patientId, user.name, patient.address, patient.phoneNo, patient.patientCode')
             ->join('patient', 'patient.userId = user.userId')
             ->where('user.role', 'Patient')
             ->get()

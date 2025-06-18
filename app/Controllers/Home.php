@@ -82,8 +82,42 @@ class Home extends BaseController
         return view('pages/allAppointment');
     }
 
-    public function getElectric()
+    public function therapistDashboard()
     {
-        return view('pages/electric');
+        $session = session();
+        $userId = $session->get('userId');
+        if (!$userId || $session->get('role') !== 'therapist') {
+            return redirect()->to('/login')->with('error', 'You must be logged in as a therapist.');
+        }
+
+        $therapistModel = new \App\Models\TherapistModel();
+        $appointmentModel = new \App\Models\AppointmentModel();
+
+        $therapist = $therapistModel->where('userId', $userId)->first();
+        if (!$therapist) {
+            return redirect()->to('/login')->with('error', 'Therapist not found.');
+        }
+
+        $user = $this->userModel->find($userId);
+        $today = date('Y-m-d');
+
+        $todayAppointments = $appointmentModel
+            ->join('slot', 'slot.slotId = appointment.slotId')
+            ->where('appointment.therapistId', $therapist['therapistId'])
+            ->where('slot.date', $today)
+            ->countAllResults();
+
+        $upcomingAppointments = $appointmentModel
+            ->join('slot', 'slot.slotId = appointment.slotId')
+            ->where('appointment.therapistId', $therapist['therapistId'])
+            ->where('slot.date >', $today)
+            ->countAllResults();
+
+        return view('pages/therapistDashboard', [
+            'therapist' => $therapist,
+            'todayAppointments' => $todayAppointments,
+            'upcomingAppointments' => $upcomingAppointments,
+            'user' => $user,
+        ]);
     }
 }

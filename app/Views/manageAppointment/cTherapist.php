@@ -16,8 +16,7 @@
                 <div class="col-md-4 mb-4 animate-card"> <!-- Add a class for animation -->
                     <div class="card h-100 shadow therapist-card">
                         <form action="/confirmTherapist" method="post">
-                            <img
-                                src="<?= base_url(esc($therapist['profile_image'])); ?>"
+                            <img src="<?= base_url(!empty($therapist['profile_image']) ? esc($therapist['profile_image']) : 'assets/img/defaultProfilePic.jpg'); ?>"
                                 class="card-img-top"
                                 alt="<?= esc($therapist['name']); ?>"
                                 style="height: 200px; object-fit: cover;">

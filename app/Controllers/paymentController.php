@@ -45,8 +45,8 @@ class paymentController extends BaseController
             'billPriceSetting' => 1,
             'billPayorInfo' => 1,
             'billAmount'    => $amountInCents, // in cents
-            'billReturnUrl' => "https://4b9c-124-13-101-229.ngrok-free.app/payment/success",
-            'billCallbackUrl' => " https://4b9c-124-13-101-229.ngrok-free.app/payment/callback",
+            'billReturnUrl' => "https://9421-2001-e68-5472-19ef-dc35-a729-ecf0-e92d.ngrok-free.app/payment/success",
+            'billCallbackUrl' => "https://9421-2001-e68-5472-19ef-dc35-a729-ecf0-e92d.ngrok-free.app/payment/callback",
             'billExternalReferenceNo' => 'REF-' . $appointmentId,
             'billTo'        => $this->request->getPost('name'),
             'billEmail'     => $this->request->getPost('email'),
@@ -138,7 +138,7 @@ class paymentController extends BaseController
             'date' => $appointment['date'] ?? null,
         ];
         // dd($data); // Debugging line to check the data being passed to the view
-        log_user_activity(session()->get($userId), "Payment success for appointment #$payment[appointmentId] on " . date('Y-m-d H:i:s'));
+
 
         return view('pages/paymentSuccess', $data);
     }
@@ -204,7 +204,11 @@ class paymentController extends BaseController
                             $appointmentModel->update($payment['appointmentId'], [
                                 'status' => 'Approved'
                             ]);
+                            log_user_activity($userId, "made payment for appointment #{$payment['appointmentId']} at " . date('Y-m-d H:i:s'));
                         }
+                        //Log user activity
+                        $userId = session()->get('userId'); // or retrieve from $payment if stored there
+                        log_user_activity($userId, "Payment successful for appointment #{$payment['appointmentId']} via ToyyibPay at " . date('Y-m-d H:i:s'));
                     }
 
                     return $this->response->setJSON(['status' => 'success', 'message' => 'Payment and appointment approved.']);
@@ -214,7 +218,7 @@ class paymentController extends BaseController
                     $payment = $paymentModel->where('billCode', $billcode)->first();
                     if ($payment && isset($payment['paymentId'])) {
                         $paymentModel->delete($payment['paymentId']);
-                        log_user_activity(session()->get($userId), "Payment failed for appointment #$payment[appointmentId] on " . date('Y-m-d H:i:s'));
+                        log_user_activity(session()->get('userId'), "Payment failed for appointment #$payment[appointmentId] on " . date('Y-m-d H:i:s'));
                     }
 
                     return $this->response->setJSON(['status' => 'failed', 'message' => 'Payment failed.']);

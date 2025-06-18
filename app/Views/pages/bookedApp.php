@@ -82,7 +82,7 @@
                                 <td class="text-center">
                                     <?php if ($history['status'] === 'cancelled') : ?>
                                         <span class="badge bg-danger">Cancelled</span>
-                                    <?php elseif ($history['status'] === 'approved') : ?>
+                                    <?php elseif ($history['status'] === 'Approved') : ?>
                                         <span class="badge bg-primary">Approved</span>
                                     <?php else : ?>
                                         <span class="badge bg-secondary"><?= esc(ucfirst($history['status'])); ?></span>

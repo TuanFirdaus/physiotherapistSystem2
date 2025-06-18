@@ -191,7 +191,7 @@ class profileController extends BaseController
         if ($patient) {
             $patientModel->update($patient['patientId'], $patientData);
         }
-        log_user_activity(session()->get('userId'), "updated their profile on " . date('Y-m-d H:i:s'));
+        log_user_activity(session()->get('userId'), "updated your profile on " . date('Y-m-d H:i:s'));
         return redirect()->to('/getProfile')->with('success', 'Profile updated successfully.');
     }
 }

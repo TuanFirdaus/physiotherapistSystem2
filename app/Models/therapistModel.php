@@ -8,7 +8,7 @@ class therapistModel extends Model
 {
     protected $table = 'therapist';
     protected $primaryKey = 'therapistId';
-    protected $allowedFields = ['expertise', 'availability', 'profile_image'];
+    protected $allowedFields = ['userId', 'expertise', 'availability', 'profile_image', 'phoneNo'];
 
     // Method to retrieve therapist details with user data
     public function getTherapistDetails($therapistId)

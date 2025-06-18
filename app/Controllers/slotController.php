@@ -95,6 +95,7 @@ class slotController extends BaseController
     public function EditSlot()
     {
         $slotId = $this->request->getPost('slotId');
+        $availableTherapists = $this->slotModel->getAvailableTherapists();
         // $slot = $this->scheduleModel->find($slotId);
         $slotDetails = $this->slotModel->getSlotDetails($slotId);
 
@@ -103,7 +104,12 @@ class slotController extends BaseController
             return redirect()->to('/slot/manage')->with('error', 'Slot not found.');
         }
 
-        return view('pages/editSlot', ['slot' => $slotDetails,]);
+        $data = [
+            'slot' => $slotDetails,
+            'availableTherapists' => $availableTherapists,
+        ];
+
+        return view('pages/editSlot', $data);
     }
 
     public function updateSlot()

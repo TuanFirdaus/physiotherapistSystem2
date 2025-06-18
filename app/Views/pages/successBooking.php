@@ -10,8 +10,6 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">Booking Details</h5>
-                <p class="card-text"><strong>Appointment ID:</strong> <?= $appointment['appointmentId']; ?></p>
-                <p class="card-text"><strong>Therapist ID:</strong> <?= $appointment['therapistId']; ?></p>
                 <p class="card-text"><strong>Therapist Name:</strong> <?= $detailForm['therapistName']; ?></p>
                 <p class="card-text"><strong>Patient Name:</strong> <?= esc($detailForm['patientName'] ?? $appointment['patientName']); ?></p>
                 <p class="card-text"><strong>Email:</strong> <?= esc($detailForm['patientEmail'] ?? $appointment['patientEmail']); ?></p>
@@ -32,6 +30,7 @@
 
             <div class="card-footer text-center">
                 <form action="/payment" method="post" class="d-inline">
+
                     <input type="hidden" name="treatmentPrice" value="<?= $treatment['price'] * 100 ?>"> <!-- in cents -->
                     <input type="hidden" name="patientName" value="<?= esc($detailForm['patientName'] ?? $appointment['patientName']); ?>">
                     <input type="hidden" name="patientEmail" value="<?= esc($detailForm['patientEmail'] ?? $appointment['patientEmail']); ?>">
@@ -41,6 +40,7 @@
                     <input type="hidden" name="treatmentName" value="<?= esc($detailForm['treatmentName']) ?>">
                     <input type="hidden" name="treatmentPrice" value="<?= number_format($treatment['price'], 2); ?>">
                     <input type="hidden" name="patientPhoneNum" value="<?= esc($detailForm['patientPhoneNum'] ?? '') ?>">
+                    <input type="hidden" name="therapistId" value="<?= esc($detailForm['therapistId'] ?? $appointment['therapistId']) ?>">
                     <input type="hidden" name="status" value="<?= esc($detailForm['status'] ?? '') ?>">
                     <button type="submit" class="btn btn-success w-100">Make Payment</button>
                 </form>

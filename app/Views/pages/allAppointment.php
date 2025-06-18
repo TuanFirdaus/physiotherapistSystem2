@@ -80,7 +80,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Date</th>
+                <th>Appointment Date</th>
                 <th>Time</th>
                 <th>Therapist</th>
                 <th>Patient</th>
@@ -101,7 +101,7 @@
                             $status = esc($a['status']);
                             $statusColor = match ($status) {
                                 'Approved' => 'green',
-                                'Pending' => 'orange',
+                                'pending' => 'orange',
                                 'cancelled' => 'red',
                                 default => 'black'
                             };

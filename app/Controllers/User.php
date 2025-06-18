@@ -50,6 +50,9 @@ class User extends BaseController
                         'profile_image' => $therapist['profile_image'],
                         'name'          => $therapist['name'],
                         'email'         => $therapist['email'],
+                        'phoneNo'       => $therapist['phoneNo'],
+                        'role'          => $user['role'],
+                        'userId'        => $therapist['userId'],
 
                     ]);
                 }
@@ -90,7 +93,7 @@ class User extends BaseController
                 case 'Operation Manager':
                     return redirect()->to('/adminDashboard');
                 case 'therapist':
-                    return redirect()->to('/adminDashboard');
+                    return redirect()->to('/therapistLogin');
                 case 'patient':
                     return redirect()->to('/');
                 default:
@@ -104,7 +107,7 @@ class User extends BaseController
     public function logout()
     {
         session()->destroy();
-        return redirect()->to('/');
+        return redirect()->to('/login')->with('success', 'You have been logged out successfully.');
     }
 
     public function getRegister()
@@ -163,6 +166,23 @@ class User extends BaseController
             return redirect()->back()->with('error', 'Failed to register user.');
         }
 
+        // Insert into patient table after user registration
+        $userId = $this->userModel->getInsertID();
+        $this->patientModel->insert([
+            'userId' => $userId,
+            'address' => "",
+            'phoneNo' => "",
+            'profilePicture' => ""
+        ]);
+        // Get the new patientId (auto-increment)
+        $patientId = $this->patientModel->getInsertID();
+
+        // Generate unique patient code (e.g., PAT0001)
+        $patientCode = 'PAT' . str_pad($patientId, 4, '0', STR_PAD_LEFT);
+
+        // Update the patient row with the code
+        $this->patientModel->update($patientId, ['patientCode' => $patientCode]);
+
         return redirect()->to('/login')->with('success', 'Registration successful! Please login.');
     }
     public function manageTherapist()
@@ -171,6 +191,83 @@ class User extends BaseController
         $therapists = $userModel->getManageTherapists(); // Fetch therapists from the database
         // dd($therapists);
         return view('pages/manageTherapist', ['therapists' => $therapists]);
+    }
+
+    public function getRegisterTherapist()
+    {
+        return view('pages/registerTherapist');
+    }
+
+    public function registrationTherapist()
+    {
+        $validation = \Config\Services::validation();
+
+        $rules = [
+            'name' => [
+                'label' => 'name',
+                "rules" => 'required|min_length[3]|max_length[50]'
+            ],
+            'email' => [
+                'label' => 'email',
+                "rules" => 'required|valid_email|is_unique[user.email]'
+            ],
+            'password' => [
+                'label' => 'password',
+                "rules" => 'required|min_length[6]'
+            ],
+            'confirm_password' => [
+                'label' => 'Confirm Password',
+                "rules" => 'matches[password]'
+            ],
+            'age' => [
+                'label' => 'age',
+                "rules" => 'required|integer|greater_than_equal_to[20]'
+            ],
+            'phone' => [
+                'label' => 'Phone',
+                'rules' => 'required|min_length[10]|max_length[15]'
+            ],
+            'gender' => [
+                'label' => 'Gender',
+                'rules' => 'required|in_list[male,female]'
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return view('pages/registerTherapist', [
+                'validation' => $this->validator
+            ]);
+        }
+
+        $data = [
+            'name' => $this->request->getPost('name'),
+            'email' => $this->request->getPost('email'),
+            'age' => $this->request->getPost('age'),
+            'password' => $this->request->getPost('password'),
+            'role' => 'therapist',
+            'gender' => $this->request->getPost('gender'),
+        ];
+
+        // dd($data);
+
+
+        $userModel = new \App\Models\UserModel();
+        if (!$userModel->insert($data)) {
+            return redirect()->back()->with('error', 'Failed to register therapist.');
+        }
+        $userId = $userModel->getInsertID();
+        // . Insert into therapist table with phone
+        $therapistModel = new \App\Models\therapistModel();
+        $therapistData = [
+            'userId' => $userId,
+            'phoneNo' => $this->request->getPost('phone')
+        ];
+
+        if (!$therapistModel->insert($therapistData)) {
+            return redirect()->back()->with('error', 'Failed to register therapist profile.');
+        }
+
+        return redirect()->to('/adminDashboard')->with('success', 'Registration successful! Please login.');
     }
 
     public function managePatient()

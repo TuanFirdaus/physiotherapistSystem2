@@ -60,6 +60,10 @@ class AppointmentController extends BaseController
 
     public function booking()
     {
+        $userId = session()->get('userId');
+        if (!$userId) {
+            return redirect()->to('/login')->with('error', 'You must login first to make an appointment.');
+        }
         $model = new manageAppointment(); // Load the model
         $data['getTreatment'] = $model->getTreatment(); // Fetch the data
         return view('pages/booking', $data); // Pass data to the view
@@ -111,7 +115,7 @@ class AppointmentController extends BaseController
         return view('/manageAppointment/cSlot', $data);
         // dd($data);
     }
-    public function confirmAndShowSuccess()
+    public function confirmAndRedirect()
     {
         $session = session();
         $userId = $session->get('userId');
@@ -123,8 +127,6 @@ class AppointmentController extends BaseController
         $slotId = $this->request->getPost('slotId');
         $treatmentId = $this->request->getPost('treatmentId');
 
-        // dd($treatmentId);
-
         $patient = $userModel->getPatient($userId);
         if (!$patient) {
             return redirect()->back()->with('error', 'No patient found.');
@@ -132,9 +134,7 @@ class AppointmentController extends BaseController
 
         $patientId = $patient['patientId'];
 
-        // Insert appointment
         $appointmentData = [
-            'appointmentId' => '',
             'therapistId'   => $therapistId,
             'patientId'     => $patientId,
             'slotId'        => $slotId,
@@ -148,17 +148,13 @@ class AppointmentController extends BaseController
 
         $lastAppointmentId = $appointmentModel->insertID();
 
-        // Payment
+        // Create payment
         $treatmentPackage = new \App\Models\treatmentPackage();
         $paymentModel = new \App\Models\PaymentModel();
-
         $treatment = $treatmentPackage->find($treatmentId);
         $paymentAmount = $treatment['treatmentPrice'] ?? 0;
 
-        // dd($treatment);
-
         $paymentData = [
-            'paymentId'      => '',
             'appointmentId'  => $lastAppointmentId,
             'patientId'      => $patientId,
             'treatmentId'    => $treatmentId,
@@ -176,37 +172,44 @@ class AppointmentController extends BaseController
             return redirect()->to('/')->with('error', 'An error occurred while updating the slot status.');
         }
 
-        $appointments = $appointmentModel->getPendingAppointments($patientId);
+        // Redirect to success page (GET)
+        return redirect()->to('/appointment/success/' . $lastAppointmentId);
+    }
 
-        // Find the appointment with the matching appointmentId
+    public function showSuccess($appointmentId)
+    {
+        $userId = session()->get('userId');
+        $appointmentModel = new AppointmentModel();
+        $treatmentPackage = new \App\Models\treatmentPackage();
+
+        $appointment = $appointmentModel->find($appointmentId);
+        if (!$appointment) {
+            return redirect()->to('/')->with('error', 'Invalid booking.');
+        }
+
+        $treatment = $treatmentPackage->find($appointment['treatmentId']);
+
+        // Optional: fetch details
+        $appointments = $appointmentModel->getPendingAppointments($appointment['patientId']);
         $detailForm = null;
         foreach ($appointments as $app) {
-            if ($app['appointmentId'] == $lastAppointmentId) {
+            if ($app['appointmentId'] == $appointmentId) {
                 $detailForm = $app;
                 break;
             }
         }
-        // dd($detailForm);
 
-        //  handle if not found
-        if (!$detailForm) {
-            // fallback or error handling
-            $detailForm = [];
-        }
-        // Fetch appointment details for success page
-        $appointment = $appointmentModel->find($lastAppointmentId);
-        // dd($appointment);
-        if (!$appointment) {
-            return redirect()->to('/')->with('error', 'Invalid booking.');
-        }
-        return view('pages/successBooking', ['appointment' => $appointment, 'treatment' => $treatment, 'detailForm' => $detailForm]);
+        log_user_activity($userId, " booked appointment on " . date('Y-m-d H:i:s'));
+
+        return view('pages/successBooking', [
+            'appointment' => $appointment,
+            'treatment' => $treatment,
+            'detailForm' => $detailForm
+        ]);
     }
 
 
-    // public function test($appointmentId)
-    // {
-    //     echo $appointmentId;
-    // }
+
     public function pendingAppointments()
     {
         $userModel = new UserModel();
@@ -214,6 +217,11 @@ class AppointmentController extends BaseController
         $session = session();
         $userId = $session->get('userId');
         $patientId =  $userModel->getPatient($userId);
+
+        $userId = session()->get('userId');
+        if (!$userId) {
+            return redirect()->to('/login')->with('error', 'You must login first to see your appointments.');
+        }
 
 
         // Ensure $patient is not null
@@ -271,7 +279,7 @@ class AppointmentController extends BaseController
         try {
             // Update the slot's status in the database
             if ($slotModel->update($slotId, $slotUpdateData)) {
-                log_user_activity(session()->get('userId'), "cancelled appointment #$appointmentId on " . date('Y-m-d H:i:s'));
+                log_user_activity(session()->get('userId'), "cancelled appointment on " . date('Y-m-d H:i:s'));
                 return view('pages/cancelBooking', ['appointment' => $appointment]);
             } else {
                 return redirect()->to('/')->with('error', 'Failed to update slot status.');

@@ -8,7 +8,8 @@ class patientModel extends Model
 {
     protected $table = 'patient';
     protected $primaryKey = 'patientId';
-    protected $allowedFields = ['userId', 'address', 'phoneNo', 'profilePicture'];
+    protected $useAutoIncrement = true;
+    protected $allowedFields = ['userId', 'address', 'phoneNo', 'profilePicture', 'patientCode'];
 
     // Method to retrieve patient details with user data
     public function getPatientDetails($patientId)

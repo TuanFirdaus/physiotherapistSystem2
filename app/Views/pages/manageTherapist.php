@@ -8,7 +8,7 @@
         <?php foreach ($therapists as $therapist): ?>
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <img src="<?= $therapist['profile_image'] ?>" class="card-img-top" alt="Profile Picture" style="height: 200px; object-fit: cover;">
+                    <img src="<?= base_url(!empty($therapist['profile_image']) ? esc($therapist['profile_image']) : 'assets/img/defaultProfilePic.jpg'); ?>" class="card-img-top" alt="Profile Picture" style="height: 200px; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title"><?= $therapist['name'] ?></h5>
                         <p class="card-text">

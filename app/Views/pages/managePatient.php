@@ -7,20 +7,22 @@
         <thead class="table-dark">
             <tr>
                 <th>Patient ID</th>
+                <th>patientCode</th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>Phone Number</th>
-                <th>Actions</th>
+                <!-- <th>Actions</th> -->
             </tr>
         </thead>
         <tbody>
             <?php foreach ($patients as $patient): ?>
                 <tr>
                     <td><?= $patient['patientId'] ?></td>
+                    <td><?= $patient['patientCode'] ?></td>
                     <td><?= $patient['name'] ?></td>
                     <td><?= $patient['address'] ?></td>
                     <td><?= $patient['phoneNo'] ?></td>
-                    <td>
+                    <!-- <td>
                         <div class="dropdown">
                             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton<?= $patient['patientId'] ?>" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-ellipsis-v"></i>
@@ -38,7 +40,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </td>
+                    </td> -->
                 </tr>
             <?php endforeach; ?>
         </tbody>

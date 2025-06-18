@@ -234,6 +234,9 @@ class AppointmentModel extends Model
             $builder->where('appointment.status', $filters['status']);
         }
 
+        // Order by latest appointment first
+        $builder->orderBy('appointment.appointmentId', 'DESC');
+
         return $builder->get()->getResultArray();
     }
 }

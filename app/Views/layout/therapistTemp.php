@@ -60,7 +60,7 @@
     <div class="wrapper">
         <!-- Sidebar -->
         <div class="sidebar" data-background-color="dark">
-            <?= $this->include('layout/adminNav'); ?>
+            <?= $this->include('layout/therapistNav'); ?>
         </div>
         <!-- End Sidebar -->
         <div class="main-panel">

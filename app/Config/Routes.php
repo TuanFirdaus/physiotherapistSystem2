@@ -23,8 +23,9 @@ $routes->match(['GET', 'POST'], '/patientTreatment', 'AppointmentController::pat
 $routes->match(['GET', 'POST'], '/confirmTherapist', 'AppointmentController::confirmTherapist');
 // $routes->get('/check-booking', 'User::checkBooking');
 // $routes->get('/redirectBooking', 'User::redirectBasedOnLogin');
-$routes->POST('/confirmBooking', 'AppointmentController::confirmAndShowSuccess');
-// $routes->match(['get', 'POST'], '/successPage', 'AppointmentController::successBooking');
+$routes->post('/confirmBooking', 'AppointmentController::confirmAndRedirect');
+$routes->get('appointment/success/(:num)', 'AppointmentController::showSuccess/$1');
+
 
 // routes/web.php
 
@@ -111,3 +112,8 @@ $routes->POST('appointments/update/(:num)', 'AppointmentController::ManageUpdate
 
 $routes->get('/adminProfile', 'adminProfileController::adminProfile'); // Show admin profile page
 $routes->POST('adminProfile/update', 'adminProfileController::updateAdminProfile'); // Show edit admin profile page
+
+$routes->GET('/registerTherapist', 'User::getRegisterTherapist'); // Show register therapist page
+$routes->POST('/therapist/register', 'User::registrationTherapist'); // Handle therapist registration
+
+$routes->get('/therapistLogin', 'Home::therapistDashboard'); // Show therapist dashboard

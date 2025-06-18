@@ -11,7 +11,7 @@
         <i class="icon-arrow-right"></i>
     </li>
     <li class="nav-item">
-        <a href="/slot/manage">Manage Slots</a>
+        <a href="/ManageSlot">Manage Slots</a>
     </li>
     <li class="separator">
         <i class="icon-arrow-right"></i>
@@ -27,16 +27,21 @@
     <h4 class="mb-4">Edit Slot</h4>
     <form method="post" action="/slots/update" class="card p-4 shadow-sm">
         <?= csrf_field() ?>
-        <input type="hidden" name="slotId" value="<?= $slot['slotId'] ?>">
-
         <div class="mb-3">
-            <label for="therapistId" class="form-label">Therapist ID</label>
-            <input type="text" class="form-control" id="therapistId" name="therapistId" value="<?= $slot['therapistId'] ?>" readonly>
+            <label for="slotId" class="form-label">Slot ID</label>
+            <input type="text" class="form-control" id="slotId" name="slotId" value="<?= $slot['slotId'] ?>" readonly>
         </div>
+
 
         <div class="mb-3">
             <label for="therapistName" class="form-label">Therapist Name</label>
-            <input type="text" class="form-control" id="therapistName" name="name" value="<?= $slot['therapistName'] ?>" readonly>
+            <select class="form-select" name="therapistId" required>
+                <?php foreach ($availableTherapists as $therapist): ?>
+                    <option value="<?= $therapist['therapistId']; ?>">
+                        <?= $therapist['name']; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
         </div>
 
         <div class="mb-3">

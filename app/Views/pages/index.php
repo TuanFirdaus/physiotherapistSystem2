@@ -1,6 +1,11 @@
 <?= $this->extend('layout/template'); ?>
 
 <?= $this->section('content'); ?>
+<?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger">
+        <?= session()->getFlashdata('error') ?>
+    </div>
+<?php endif; ?>
 
 <!-- Masthead-->
 <header class="masthead">
@@ -76,47 +81,48 @@
     <div class="container">
         <div class="text-center">
             <h2 class="section-heading text-uppercase">About</h2>
-            <h3 class="section-subheading text-muted">Master Aleyh Yusof Clinic's Journey/h3>
+            <h3 class="section-subheading text-muted">Master Aleyh Yusof Clinic's Journey</h3>
         </div>
         <ul class="timeline">
             <li>
                 <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets2/assets/img/about1.png" alt="..." /></div>
                 <div class="timeline-panel">
                     <div class="timeline-heading">
-                        <h4>2009-2011</h4>
+                        <h4>2015</h4>
                         <h4 class="subheading">Our Humble Beginnings</h4>
                     </div>
                     <div class="timeline-body">
-                        <p class="text-muted">Beginning of the journey of Master Aleyh Yusof is on 2018 where this treatment
-                            method give a shock for the society because of these unique joints manipulation treatments
-                            that can give instant relief for several cases such as back pain, knee Pain
-                            ,neck pain and many more that related to joint bone and muscless..
+                        <p class="text-muted">Master Aleyh Yusof began his journey in a
+                            small home-based practice, offering manual therapy and traditional
+                            healing to close friends, family, and community members.
+                            Word of mouth spread fast due to his hands-on techniques and deep
+                            understanding of body alignment.
                         </p>
                     </div>
                 </div>
             </li>
             <li class="timeline-inverted">
-                <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/2.jpg" alt="..." /></div>
+                <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets2/assets/img/about/2.jpg" alt="..." /></div>
                 <div class="timeline-panel">
                     <div class="timeline-heading">
-                        <h4 class="subheading">An Agency is Born</h4>
+                        <h4 class="subheading">2017 An Agency is Born</h4>
                     </div>
                     <div class="timeline-body">
-                        <p class="text-muted">this non-drug treatment method is the most effective way for patients that wants to be healthy without taking medication.
+                        <p class="text-muted">Seeing the rising demand, the first physical Master Aleyh Yusof Clinic was opened in a modest shop lot. The clinic introduced formal Body Adjustment therapy, targeting posture correction, back pain relief, and joint issues, combining traditional practices with modern methods.
                         </p>
                     </div>
                 </div>
             </li>
 
             <li class="timeline-panel">
-                <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/4.jpg" alt="..." /></div>
+                <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets2/assets/img/about/4.jpg" alt="..." /></div>
                 <div class="timeline-panel">
                     <div class="timeline-heading">
-                        <h4>July 2020</h4>
-                        <h4 class="subheading">Phase Two Expansion</h4>
+                        <h4>July 2021 </h4>
+                        <h4 class="subheading">Expanding Reach</h4>
                     </div>
                     <div class="timeline-body">
-                        <p class="text-muted">this method is called *Body Adjustment* A body adjustment is a treatment that uses manipulation techniques to improve the function of the body's joints, muscles, and nervous system.</p>
+                        <p class="text-muted">The clinic upgraded its facility with new equipment and expanded its team of certified therapists. More patients from outside the city began visiting, attracted by the clinic’s trusted results and word-of-mouth reputation.</p>
                     </div>
                 </div>
             </li>
@@ -144,7 +150,7 @@
         <div class="row">
             <div class="col-lg-4">
                 <div class="team-member">
-                    <img class="mx-auto rounded-circle" src="assets/img/team/1.jpg" alt="..." />
+                    <img class="mx-auto rounded-circle" src="assets2/assets/img/team/1.jpg" alt="..." />
                     <h4>Parveen Anand</h4>
                     <p class="text-muted">Lead Designer</p>
                     <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Parveen Anand Twitter Profile"><i class="fab fa-twitter"></i></a>
@@ -154,7 +160,7 @@
             </div>
             <div class="col-lg-4">
                 <div class="team-member">
-                    <img class="mx-auto rounded-circle" src="assets/img/team/2.jpg" alt="..." />
+                    <img class="mx-auto rounded-circle" src="assets2/assets/img/team/2.jpg" alt="..." />
                     <h4>Diana Petersen</h4>
                     <p class="text-muted">Lead Marketer</p>
                     <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Diana Petersen Twitter Profile"><i class="fab fa-twitter"></i></a>
@@ -164,7 +170,7 @@
             </div>
             <div class="col-lg-4">
                 <div class="team-member">
-                    <img class="mx-auto rounded-circle" src="assets/img/team/3.jpg" alt="..." />
+                    <img class="mx-auto rounded-circle" src="assets2/assets/img/team/3.jpg" alt="..." />
                     <h4>Larry Parker</h4>
                     <p class="text-muted">Lead Developer</p>
                     <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Larry Parker Twitter Profile"><i class="fab fa-twitter"></i></a>
@@ -185,16 +191,16 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-3 col-sm-6 my-3">
-                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/microsoft.svg" alt="..." aria-label="Microsoft Logo" /></a>
+                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets2/assets/img/logos/microsoft.svg" alt="..." aria-label="Microsoft Logo" /></a>
             </div>
             <div class="col-md-3 col-sm-6 my-3">
-                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/google.svg" alt="..." aria-label="Google Logo" /></a>
+                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets2/assets/img/logos/google.svg" alt="..." aria-label="Google Logo" /></a>
             </div>
             <div class="col-md-3 col-sm-6 my-3">
-                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/facebook.svg" alt="..." aria-label="Facebook Logo" /></a>
+                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets2/assets/img/logos/facebook.svg" alt="..." aria-label="Facebook Logo" /></a>
             </div>
             <div class="col-md-3 col-sm-6 my-3">
-                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/ibm.svg" alt="..." aria-label="IBM Logo" /></a>
+                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets2/assets/img/logos/ibm.svg" alt="..." aria-label="IBM Logo" /></a>
             </div>
         </div>
     </div>

@@ -2,6 +2,11 @@
 
 <?= $this->section('content') ?>
 <section class="min-vh-100 d-flex align-items-center justify-content-center" style="background-color: #f4f6f7;">
+    <?php if (session()->getFlashdata('success')): ?>
+        <div class="alert alert-success">
+            <?= session()->getFlashdata('success') ?>
+        </div>
+    <?php endif; ?>
     <div class="container">
         <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
             <div class="col-md-9 col-lg-6 col-xl-5 d-none d-md-block">
@@ -10,23 +15,7 @@
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                 <form action="/user/login" method="post">
-                    <!-- <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                        <p class="lead fw-normal mb-0 me-3">Sign in with</p>
-                        <button type="button" class="btn btn-primary btn-floating mx-1">
-                            <i class="fab fa-facebook-f"></i>
-                        </button>
-                        <button type="button" class="btn btn-primary btn-floating mx-1">
-                            <i class="fab fa-twitter"></i>
-                        </button>
-                        <button type="button" class="btn btn-primary btn-floating mx-1">
-                            <i class="fab fa-linkedin-in"></i>
-                        </button>
-                    </div>
-
-                    <div class="divider d-flex align-items-center my-4">
-                        <p class="text-center fw-bold mx-3 mb-0">Or</p>
-                    </div> -->
-
+                    <?= csrf_field() ?>
                     <!-- Display error message -->
                     <?php if (session()->getFlashdata('error')): ?>
                         <div class="alert alert-danger">

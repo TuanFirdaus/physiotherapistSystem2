@@ -1,7 +1,12 @@
 <?= $this->extend('layout/template'); ?>
 
 <?= $this->section('content'); ?>
-
+<?php if (session()->has('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= esc(session('error')) ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
 <div class="container d-flex justify-content-center ">
     <div class="row justify-content-center mb-4">
         <div class="col">
@@ -63,7 +68,7 @@
                     </button>
                 </form>
             <?php else: ?>
-                <form action="<?= site_url('/confirmBooking') ?>" method="post">
+                <form action="<?= base_url('/confirmBooking') ?>" method="post">
                     <?= csrf_field() ?>
                     <table style="width: 85%; border-collapse: collapse; margin: auto;">
                         <thead style="background-color:rgb(13, 66, 145); text-align: center; color: #fff;">

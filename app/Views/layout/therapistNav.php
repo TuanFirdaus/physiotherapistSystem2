@@ -48,16 +48,15 @@
                 <div class="collapse show" id="sidebarLayouts">
                     <ul class="nav nav-collapse">
                         <li>
-                            <a href="/viewAppointments">
-                                <span class="sub-item">All Appointment</span>
+                            <a href="">
+                                <span class="sub-item">My Patient</span>
                             </a>
                         </li>
+                    </ul>
+                    <ul class="nav nav-collapse">
                         <li>
-                            <a href="/approveApp">
-                                <span class="sub-item">Pending Appointment</span>
-                                <?php if (isset($pendingCount) && $pendingCount > 0): ?>
-                                    <span class="badge bg-danger ms-2"><?= $pendingCount ?></span>
-                                <?php endif; ?>
+                            <a href="">
+                                <span class="sub-item">Schedule</span>
                             </a>
                         </li>
                     </ul>
@@ -66,45 +65,14 @@
             <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#forms">
                     <i class="fas fa-address-book"></i>
-                    <p>User Management</p>
+                    <p>Patient Record</p>
                     <span class="caret"></span>
                 </a>
                 <div class="collapse show" id="forms">
                     <ul class="nav nav-collapse">
                         <li>
-                            <a href="/registerTherapist">
-                                <span class="sub-item">Register Therapist</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/manageTherapist">
-                                <span class="sub-item">Manage Therapist</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/managePatient">
-                                <span class="sub-item">Patient</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#tables">
-                    <i class="fas fa-table"></i>
-                    <p>Slot</p>
-                    <span class="caret"></span>
-                </a>
-                <div class="collapse show" id="tables">
-                    <ul class="nav nav-collapse">
-                        <li>
-                            <a href="/slotForm">
-                                <span class="sub-item">Assign Slot</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/ManageSlot">
-                                <span class="sub-item">Manage Slot</span>
+                            <a href="">
+                                <span class="sub-item">Add Treatment Records</span>
                             </a>
                         </li>
                     </ul>
