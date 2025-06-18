@@ -2,9 +2,9 @@ name: PHP CI for CI4 Project
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
-    branches: [main]
+    branches: [master]
 
 jobs:
   build:
