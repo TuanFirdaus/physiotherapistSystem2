@@ -11,12 +11,13 @@
     },
     "require": {
         "php": "^8.1",
-        "codeigniter4/framework": "^4.0"
+        "codeigniter4/framework": "^4.6"
     },
     "require-dev": {
+        "codeigniter4/codeigniter4-standard": "^1.1",
         "fakerphp/faker": "^1.9",
         "mikey179/vfsstream": "^1.6",
-         "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "9.5"
     },
     "autoload": {
         "psr-4": {
@@ -30,10 +31,12 @@
     "autoload-dev": {
         "psr-4": {
              "Tests\\": "tests/",
-             "App\\": "app",
-            "Tests\\Support\\": "tests/_support"
+            "Tests\\Support\\": "tests/_support",
+            "CodeIgniter\\Test\\": "vendor/codeigniter4/framework/system/Test"
+
         }
     },
+    
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
