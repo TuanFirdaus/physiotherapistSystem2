@@ -191,6 +191,24 @@ class therapistController extends BaseController
         return view('pages/myPatients', ['appointments' => $appointments]);
     }
 
+    public function getTreatmentRecord($appointmentId)
+    {
+        $therapistId = session()->get('therapistId');
+        $db = \Config\Database::connect();
+        $record = $db->table('patienttreatmentrecord')
+            ->where('appointmentId', $appointmentId)
+            ->where('therapistId', $therapistId)
+            ->get()
+            ->getRowArray();
+
+        if ($record) {
+            return view('partials/treatmentRecordModal', ['record' => $record]);
+        } else {
+            return '<p class="text-muted">No treatment record found for this appointment.</p>';
+        }
+    }
+
+
     public function addTreatmentOutcome($appointmentId)
     {
         $therapistId = session()->get('therapistId');
@@ -242,11 +260,12 @@ class therapistController extends BaseController
         $treatmentNotes = $this->request->getPost('treatment_outcome');
         $appointmentModel = new \App\Models\AppointmentModel();
         $patientId = $appointmentModel->getPatientIdByAppointment($appointmentId);
+        $slotId = $appointmentModel->getSlotIdByAppointment($appointmentId);
         $treatmentRecordModel = new \App\Models\treatmentRecords();
         // dd($appointmentId, $treatmentId, $patientId, $therapistId, $treatmentNotes);
         // Use the model method you added earlier
         $painRate = $this->request->getPost('pain_rate');
-        $treatmentRecordModel->saveTreatmentOutcome($appointmentId, $treatmentId, $patientId, $therapistId, $treatmentNotes, $painRate);
+        $treatmentRecordModel->saveTreatmentOutcome($appointmentId, $treatmentId, $patientId, $therapistId, $treatmentNotes, $painRate, $slotId);
         return redirect()->to('/therapist/myPatients')->with('success', 'Treatment outcome saved.');
     }
 }

@@ -20,6 +20,11 @@ class AppointmentModel extends Model
         $appointment = $this->find($appointmentId);
         return $appointment['patientId'] ?? null;
     }
+    public function getSlotIdByAppointment($appointmentId)
+    {
+        $appointment = $this->find($appointmentId);
+        return $appointment['slotId'] ?? null;
+    }
     public function getPendingAppointments($patientId)
     {
         return $this->db->table('appointment')

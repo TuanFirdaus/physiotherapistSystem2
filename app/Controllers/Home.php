@@ -120,4 +120,20 @@ class Home extends BaseController
             'user' => $user,
         ]);
     }
+
+    public function addPatientRecord()
+    {
+        $session = session();
+        $userId = $session->get('userId');
+        if (!$userId || $session->get('role') !== 'therapist') {
+            return redirect()->to('/login')->with('error', 'You must be logged in as a therapist.');
+        }
+
+        $appointmentModel = new \App\Models\AppointmentModel();
+        $appointments = $appointmentModel->getAppointmentsByTherapist($userId);
+
+        return view('pages/addPatientRecord', [
+            'appointments' => $appointments,
+        ]);
+    }
 }

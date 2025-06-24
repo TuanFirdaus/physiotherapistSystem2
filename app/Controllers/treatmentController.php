@@ -3,22 +3,39 @@
 namespace App\Controllers;
 
 use App\Models\treatmentModel;
-use App\Models\patientModel; // Assuming you have a PatientModel for patient details
-use App\Models\UserModel; // Assuming you have a UserModel for user details
+use App\Models\treatmentRecords;
+use App\Models\patientModel;
+use App\Models\UserModel;
 
 class treatmentController extends BaseController
 {
     protected $treatmentModel;
     protected $patientModel;
     protected $userModel;
+    protected $treatmentRecords;
 
     public function __construct()
     {
         $this->treatmentModel = new TreatmentModel();
         $this->patientModel = new patientModel();
         $this->userModel = new UserModel();
+        $this->treatmentRecords = new treatmentRecords();
+    }
+    // try barus
+    public function index()
+    {
+        $model = new treatmentRecords();
+        $data['records'] = $model->getAllDetailedRecords();
+        return view('pages/treatmentRecordsView', $data);
     }
 
+    public function viewByPatient($patientId)
+    {
+        $model = new treatmentRecords();
+        $data['records'] = $model->getRecordsByPatient($patientId);
+        return view('pages/view_by_patient', $data);
+    }
+    //sampai sini
     public function showTreatmentRecords()
     {
         return view('pages/treatmentRecords', [
@@ -57,8 +74,8 @@ class treatmentController extends BaseController
             'appointmentId'  => $this->request->getPost('appointment_id'),
             'therapistId'    => $this->request->getPost('therapist_id'), // Hidden field
             'slotId'         => $this->request->getPost('slot_id'),      // Hidden field
-            'session_date'   => $this->request->getPost('session_date'),
-            'status'         => $this->request->getPost('status'),
+            'pain_rate'       => $this->request->getPost('pain_rate'),
+            'status'          => $this->request->getPost('status'),
             'treatmentNotes' => $this->request->getPost('treatment_notes'),
         ];
 

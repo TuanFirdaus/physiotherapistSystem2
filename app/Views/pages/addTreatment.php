@@ -1,4 +1,4 @@
-<?= $this->extend('layout/adminTemplate') ?>
+<?= $this->extend('layout/therapistTemp') ?>
 <?= $this->section('content') ?>
 
 <?php $isEdit = isset($treatment); ?>
@@ -58,6 +58,12 @@
             <input type="text" name="treatment_id" class="form-control" id="treatment_id" readonly>
         </div>
 
+        <!-- Therapist Name (read-only) -->
+        <div class="mb-3">
+            <label for="therapist_name">Therapist Name</label>
+            <input type="text" id="therapist_name" class="form-control" readonly>
+        </div>
+
         <!-- Session Date (read-only display) -->
         <div class="mb-3">
             <label for="session_date_display">Session Date</label>
@@ -96,6 +102,22 @@
             <textarea name="treatment_notes" class="form-control" id="treatment_notes" rows="4" required><?= $isEdit ? esc($treatment['treatment_notes']) : '' ?></textarea>
         </div>
 
+        <!-- Pain Rate -->
+        <div class="mb-3">
+            <label class="form-label d-block">Pain Rate Resolve</label>
+            <div class="d-flex align-items-center gap-2">
+                <div id="star-rating" class="star-rating">
+                    <?php for ($i = 10; $i >= 1; $i--): ?>
+                        <input type="radio" name="pain_rate" id="star<?= $i ?>" value="<?= $i ?>"
+                            <?= $isEdit && isset($treatment['pain_rate']) && $treatment['pain_rate'] == $i ? 'checked' : '' ?>>
+                        <label for="star<?= $i ?>" title="<?= $i ?> stars">&#9733;</label>
+                    <?php endfor; ?>
+                </div>
+                <small id="painValueDisplay" class="text-muted"></small>
+            </div>
+        </div>
+
+
         <button type="submit" class="btn btn-success"><?= $isEdit ? 'Update' : 'Save' ?></button>
         <a href="/treatment" class="btn btn-secondary">Cancel</a>
     </form>
@@ -132,6 +154,7 @@
                                 option.dataset.sessionDate = appointment.session_date;
                                 option.dataset.startTime = appointment.startTime;
                                 option.dataset.endTime = appointment.endTime;
+                                option.dataset.therapistName = appointment.therapistName;
                                 appointmentSelect.appendChild(option);
                             });
                         } else {
@@ -160,6 +183,7 @@
                             const sessionDate = selected.dataset.sessionDate || '';
                             const startTime = selected.dataset.startTime || '';
                             const endTime = selected.dataset.endTime || '';
+                            const therapistName = selected.dataset.therapistName || '';
 
                             document.getElementById('treatment_id').value = treatmentId && treatmentName ?
                                 `${treatmentId} - ${treatmentName}` : '';
@@ -170,6 +194,7 @@
                             document.getElementById('session_date_display').value = sessionDate;
                             document.getElementById('start_time_display').value = startTime;
                             document.getElementById('end_time_display').value = endTime;
+                            document.getElementById('therapist_name').value = therapistName;
 
                             // Set session_date input if you want to auto-fill it
                             const sessionDateInput = document.getElementById('session_date');
@@ -205,5 +230,21 @@
         }
     });
 </script>
+
+<script>
+    const stars = document.querySelectorAll('input[name="pain_rate"]');
+    const display = document.getElementById('painValueDisplay');
+    stars.forEach(star => {
+        star.addEventListener('change', () => {
+            display.textContent = `(${star.value} out of 10)`;
+        });
+
+        // Preload display if editing
+        if (star.checked) {
+            display.textContent = `(${star.value} out of 10)`;
+        }
+    });
+</script>
+
 
 <?= $this->endSection() ?>

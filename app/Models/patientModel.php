@@ -22,6 +22,13 @@ class patientModel extends Model
             ->getRowArray();
     }
 
+    public function getPatientsWithRecords()
+    {
+        return $this->select('patients.*')
+            ->with('treatmentRecords')
+            ->findAll();
+    }
+
     public function getPatientDetailsByUserId($userId)
     {
         return $this->db->table('patient')
@@ -31,7 +38,6 @@ class patientModel extends Model
             ->get()
             ->getRowArray();
     }
-
     // Method to update patient and user data
     public function updatePatientDetails($patientId, $userId, $data)
     {
@@ -65,7 +71,17 @@ class patientModel extends Model
     public function treatmentFormDetails($patientId)
     {
         return $this->db->table('appointment')
-            ->select('appointment.appointmentId, appointment.patientId, appointment.therapistId, appointment.slotId, appointment.treatmentId, treatment.name as treatmentName, slot.date as session_date, slot.startTime, slot.endTime')
+            ->select('
+            appointment.appointmentId, 
+            appointment.patientId, 
+            appointment.therapistId, 
+            appointment.slotId, 
+            appointment.treatmentId, 
+            treatment.name AS treatmentName, 
+            slot.date AS session_date, 
+            slot.startTime, 
+            slot.endTime, 
+            user.name AS therapistName')
             ->join('patient', 'patient.patientId = appointment.patientId')
             ->join('therapist', 'therapist.therapistId = appointment.therapistId')
             ->join('slot', 'slot.slotId = appointment.slotId')
@@ -75,6 +91,7 @@ class patientModel extends Model
             ->get()
             ->getResultArray();
     }
+
 
 
 

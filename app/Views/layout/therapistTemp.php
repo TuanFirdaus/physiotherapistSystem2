@@ -47,8 +47,39 @@
     <link rel="stylesheet" href="<?= base_url('assets2/css/manageSlot.css') ?>" />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
+    <style>
+        .star-rating {
+            direction: rtl;
+            display: inline-flex;
+            font-size: 1.8rem;
+        }
 
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.2s;
+            padding: 0 2px;
+        }
+
+        .star-rating input[type="radio"]:checked~label,
+        .star-rating label:hover,
+        .star-rating label:hover~label {
+            color: #ffc107;
+            /* Gold color */
+        }
+
+        .form-label {
+            font-weight: 600;
+        }
+    </style>
+
+    <link rel="stylesheet" href="<?= base_url('assets/css/tailwind.output.css') ?>">
 
 
 
@@ -157,6 +188,8 @@
     <!-- Include SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
+
     <script>
         // JavaScript to handle radio button selection for Edit and Delete
         document.querySelectorAll('input[name="slotId"]').forEach(radio => {
@@ -238,7 +271,6 @@
         <?php endif; ?>
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 </body>

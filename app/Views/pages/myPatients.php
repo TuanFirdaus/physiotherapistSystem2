@@ -33,16 +33,22 @@
                                 <td><?= esc($app['status']) ?></td>
                                 <td>
                                     <?php
-                                    // Fetch treatment outcome if exists
                                     $db = \Config\Database::connect();
-                                    $record = $db->table('patienttreatmentrecord')->where('appointmentId', $app['appointmentId'])->get()->getRowArray();
-                                    echo $record ? esc($record['outcome']) : '<span class="text-muted">Not added</span>';
+                                    $record = $db->table('patienttreatmentrecord')
+                                        ->where('appointmentId', $app['appointmentId'])
+                                        ->where('therapistId', session()->get('therapistId'))
+                                        ->get()
+                                        ->getRowArray();
+                                    echo $record ? esc($record['treatmentNotes']) : '<span class="text-muted">Not added</span>';
                                     ?>
                                 </td>
                                 <td>
-                                    <a href="<?= base_url('therapist/addTreatmentOutcome/' . $app['appointmentId']) ?>" class="btn btn-primary btn-sm">
-                                        <?= $record ? 'Edit Outcome' : 'Add Outcome' ?>
-                                    </a>
+                                    <button type="button" class="btn btn-info btn-sm view-record-btn"
+                                        data-appointment-id="<?= $app['appointmentId'] ?>"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#treatmentModal">
+                                        View Record
+                                    </button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -53,8 +59,46 @@
                     <?php endif; ?>
                 </tbody>
             </table>
+            <!-- Modal -->
+            <div class="modal fade" id="treatmentModal" tabindex="-1" aria-labelledby="treatmentModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="treatmentModalLabel">Treatment Record</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="treatmentRecordContent">
+                            <!-- Treatment record content will load here -->
+                            <div class="text-center text-muted">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.view-record-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const appointmentId = this.getAttribute('data-appointment-id');
+                const contentDiv = document.getElementById('treatmentRecordContent');
+
+                contentDiv.innerHTML = '<div class="text-center text-muted">Loading...</div>';
+
+                fetch(`<?= base_url('therapist/getTreatmentRecord/') ?>${appointmentId}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        contentDiv.innerHTML = html;
+                    })
+                    .catch(error => {
+                        contentDiv.innerHTML = '<div class="text-danger">Failed to load treatment record.</div>';
+                    });
+            });
+        });
+    });
+</script>
 
 <?= $this->endSection() ?>

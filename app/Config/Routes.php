@@ -129,3 +129,6 @@ $routes->get('therapist/myPatients', 'therapistController::myPatients');
 $routes->match(['get', 'post'], 'therapist/addTreatmentOutcome/(:num)', 'therapistController::addTreatmentOutcome/$1');
 
 $routes->post('therapist/saveTreatmentOutcome', 'therapistController::saveTreatmentOutcome');
+$routes->get('therapist/getTreatmentRecord/(:num)', 'therapistController::getTreatmentRecord/$1');
+$routes->get('treatment-records', 'treatmentController::index');
+$routes->get('patient/viewRecords/(:num)', 'treatmentController::viewByPatient/$1');

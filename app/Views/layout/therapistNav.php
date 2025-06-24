@@ -48,7 +48,7 @@
                 <div class="collapse show" id="sidebarLayouts">
                     <ul class="nav nav-collapse">
                         <li>
-                            <a href="<?= base_url('therapist/myPatients') ?>">
+                            <a href="<?= base_url('/treatment-records') ?>">
                                 <span class="sub-item">My Patient</span>
                             </a>
                         </li>
@@ -69,7 +69,7 @@
                 <div class="collapse show" id="forms">
                     <ul class="nav nav-collapse">
                         <li>
-                            <a href="">
+                            <a href="/treatment">
                                 <span class="sub-item">Add Treatment Records</span>
                             </a>
                         </li>

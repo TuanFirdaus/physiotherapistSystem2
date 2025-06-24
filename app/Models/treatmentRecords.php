@@ -8,7 +8,7 @@ class treatmentRecords extends Model
 {
     protected $table = 'patienttreatmentrecord';
     protected $primaryKey = 'recordId';
-    protected $allowedFields = ['patientId', 'treatmentId', 'appointmentId', 'treatmentNotes', 'status', 'created_at', 'updated_at', 'session_date', 'therapistId', 'slotId ', 'pain_rate'];
+    protected $allowedFields = ['patientId', 'treatmentId', 'appointmentId', 'therapistId', 'treatmentNotes', 'status', 'created_at', 'updated_at', 'therapistId', 'slotId', 'pain_rate', 'diagnosis', 'nextAppointment'];
     protected $returnType = 'array';
     protected $useTimestamps = true;
 
@@ -16,7 +16,57 @@ class treatmentRecords extends Model
     {
         return $this->findAll();
     }
+    //sini
+    public function getAllDetailedRecords()
+    {
+        return $this->db->table($this->table)
+            ->select('
+                patienttreatmentrecord.*,
+                patientUser.name as patientName,
+                patientUser.email as patientEmail,
+                patient.phoneNo as patientPhone,
+                therapistUser.name as therapistName,
+                treatment.name as treatmentName,
+                slot.date as appointmentDate
+            ')
+            // Join to patient → then to user as patientUser
+            ->join('patient', 'patient.patientId = patienttreatmentrecord.patientId')
+            ->join('user as patientUser', 'patientUser.userId = patient.userId')
 
+            // Join to therapist → then to user as therapistUser
+            ->join('therapist', 'therapist.therapistId = patienttreatmentrecord.therapistId')
+            ->join('user as therapistUser', 'therapistUser.userId = therapist.userId')
+
+            ->join('treatment', 'treatment.treatmentId = patienttreatmentrecord.treatmentId')
+            ->join('slot', 'slot.slotId = patienttreatmentrecord.slotId')
+            ->orderBy('patienttreatmentrecord.created_at', 'DESC')
+            ->get()
+            ->getResultArray();
+    }
+
+    public function getRecordsByPatient($patientId)
+    {
+        return $this->db->table($this->table)
+            ->select('
+                patienttreatmentrecord.*,
+                therapistUser.name as therapistName,
+                treatment.name as treatmentName,
+                slot.date as appointmentDate
+            ')
+            // Join to patient → then to user as patientUser
+            ->join('patient', 'patient.patientId = patienttreatmentrecord.patientId')
+            ->join('user as patientUser', 'patientUser.userId = patient.userId')
+            // Join to therapist → then to user as therapistUser
+            ->join('therapist', 'therapist.therapistId = patienttreatmentrecord.therapistId')
+            ->join('user as therapistUser', 'therapistUser.userId = therapist.userId')
+            ->join('treatment', 'treatment.treatmentId = patienttreatmentrecord.treatmentId')
+            ->join('slot', 'slot.slotId = patienttreatmentrecord.slotId')
+            ->where('patienttreatmentrecord.patientId', $patientId)
+            ->orderBy('patienttreatmentrecord.created_at', 'DESC')
+            ->get()
+            ->getResultArray();
+    }
+    //sampai sini
     public function getTotalRecords()
     {
         return $this->db->table('patienttreatmentrecord')
@@ -43,11 +93,13 @@ class treatmentRecords extends Model
     {
         return $this->delete($treatmentId);
     }
-    public function saveTreatmentOutcome($appointmentId, $treatmentId, $patientId, $therapistId, $treatmentNotes, $painRate)
+    public function saveTreatmentOutcome($appointmentId, $treatmentId, $patientId, $therapistId, $treatmentNotes, $painRate,  $slotId)
     {
         $existing = $this->where([
             'appointmentId' => $appointmentId,
-            'therapistId' => $therapistId
+            'therapistId' => $therapistId,
+            'treatmentId' => $treatmentId,
+            'patientId' => $patientId
         ])->first();
 
         $data = [
@@ -55,8 +107,10 @@ class treatmentRecords extends Model
             'treatmentId'     => $treatmentId,
             'therapistId'     => $therapistId,
             'patientId'       => $patientId,
+            'slotId'          => $slotId,
+            'status'          => 'completed',
             'treatmentNotes'  => $treatmentNotes,
-            'painRate'        => $painRate,  // optional, if you have this column
+            'pain_rate'        => $painRate,
             'updated_at'      => date('Y-m-d H:i:s')
         ];
 

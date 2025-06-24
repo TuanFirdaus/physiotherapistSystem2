@@ -11,8 +11,8 @@ class treatmentModel extends Model
     protected $createdField = 'created_at'; // Name of the created_at field
     protected $updatedField = 'updated_at'; // Name of the updated_at field
     protected $primaryKey = 'recordId'; // Primary key of the table
-    protected $allowedFields = ['recordId', 'patientId', 'treatmentId', 'appointmentId', 'treatmentNotes', 'status', 'session_date', 'therapistId', 'slotId']; // Columns allowed for mass assignment
-
+    protected $allowedFields = ['recordId', 'patientId', 'treatmentId', 'appointmentId', 'treatmentNotes', 'status', 'therapistId', 'slotId', 'pain_rate']; // Columns allowed for mass assignment
+    protected $useTimestamps = true;
 
     // Method to retrieve treatment records with patient and user details
     public function getAllWithPatientDetails()
