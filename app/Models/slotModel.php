@@ -66,4 +66,26 @@ class slotModel extends Model
             ->get()
             ->getRowArray();
     }
+
+    public function getWeeklySessionHoursByTherapist($therapistId)
+    {
+        $startOfWeek = date('Y-m-d', strtotime('monday this week'));
+        $endOfWeek = date('Y-m-d', strtotime('sunday this week'));
+
+        $slots = $this->where('therapistId', $therapistId)
+            ->where('date >=', $startOfWeek)
+            ->where('date <=', $endOfWeek)
+            ->findAll();
+
+        $totalHours = 0;
+
+        foreach ($slots as $slot) {
+            $start = strtotime($slot['startTime']);
+            $end = strtotime($slot['endTime']);
+            $durationInHours = ($end - $start) / 3600; // convert seconds to hours
+            $totalHours += $durationInHours;
+        }
+
+        return round($totalHours, 1); // rounded to 1 decimal
+    }
 }

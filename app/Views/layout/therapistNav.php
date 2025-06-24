@@ -1,13 +1,12 @@
 <div class="sidebar-logo">
     <!-- Logo Header -->
-    <div class="logo-header" data-background-color="white" style="box-shadow: 0px 8px 26px rgba(0, 0, 0, 0.2);">
+    <div class="logo-header" data-background-color="white" style="box-shadow: 0px 8px 26px rgba(0, 0, 0, 0.2); height: 11vh;">
 
         <a href="/therapistLogin" class="logo">
             <img
                 src="<?= base_url('assets2/assets/img/MAY3LOGO.png') ?>"
                 alt="navbar brand"
-                class="navbar-brand"
-                height="100" />
+                class="navbar-brand" />
         </a>
         <div class="nav-toggle">
             <button class="btn btn-toggle toggle-sidebar">
