@@ -43,6 +43,8 @@ class adminProfileController extends BaseController
         return view('pages/adminProfileView', $data);
     }
 
+
+
     // Update admin profile
     public function updateAdminProfile()
     {
@@ -102,7 +104,7 @@ class adminProfileController extends BaseController
         if ($operationManager) {
             $this->operationManagerModel->update($operationManager['omId'], $adminData);
         }
-
+        log_user_activity(session()->get('userId'), "updated your profile on " . date('Y-m-d H:i:s'));
         // Optionally log activity here
 
         return redirect()->back()->with('success', 'Profile updated successfully.');

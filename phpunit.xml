@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    bootstrap="vendor/codeigniter4/framework/system/Test/bootstrap.php"
+    colors="true"
+    beStrictAboutOutputDuringTests="false"
+    failOnRisky="true"
+    failOnWarning="true"
+    backupGlobals="false"
+    verbose="true">
+
+    <testsuites>
+        <testsuite name="Application Test Suite">
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <!-- Base URL for testing -->
+        <server name="app.baseURL" value="http://localhost/physiotherapistSystem2/public" />
+
+        <!-- Environment set to testing -->
+        <env name="CI_ENVIRONMENT" value="testing" />
+
+        <!-- REAL MySQL DB connection for testing -->
+        <env name="database.tests.hostname" value="localhost" />
+        <env name="database.tests.database" value="physio" />
+        <env name="database.tests.username" value="root" />
+        <env name="database.tests.password" value="" />
+        <env name="database.tests.DBDriver" value="MySQLi" />
+        <env name="database.tests.port" value="3306"/>
+    </php>
+</phpunit>

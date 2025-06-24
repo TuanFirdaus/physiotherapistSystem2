@@ -10,7 +10,16 @@ class AppointmentModel extends Model
     protected $primaryKey = 'appointmentId';
     protected $allowedFields = ['therapistId', 'patientId', 'slotId', 'status', 'treatmentId'];
     protected $returnType = 'array';
-
+    public function getTreatmentIdByAppointment($appointmentId)
+    {
+        $appointment = $this->find($appointmentId);
+        return $appointment['treatmentId'] ?? null;
+    }
+    public function getPatientIdByAppointment($appointmentId)
+    {
+        $appointment = $this->find($appointmentId);
+        return $appointment['patientId'] ?? null;
+    }
     public function getPendingAppointments($patientId)
     {
         return $this->db->table('appointment')

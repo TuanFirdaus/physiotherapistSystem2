@@ -109,6 +109,7 @@
 
 
 
+
     <!-- Core JS Files -->
     <script src="<?= base_url('assets/js/core/jquery-3.7.1.min.js') ?>"></script>
     <script src="<?= base_url('assets/js/core/popper.min.js') ?>"></script>

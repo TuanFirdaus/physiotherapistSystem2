@@ -2,7 +2,7 @@
     <!-- Logo Header -->
     <div class="logo-header" data-background-color="white" style="box-shadow: 0px 8px 26px rgba(0, 0, 0, 0.2);">
 
-        <a href="/adminDashboard" class="logo">
+        <a href="/therapistLogin" class="logo">
             <img
                 src="<?= base_url('assets2/assets/img/MAY3LOGO.png') ?>"
                 alt="navbar brand"
@@ -27,7 +27,7 @@
     <div class="sidebar-content">
         <ul class="nav nav-secondary">
             <li class="nav-item active">
-                <a href="/adminDashboard">
+                <a href="/therapistLogin">
                     <i class="fas fa-home"></i>
                     <p>Dashboard</p>
                 </a>
@@ -48,12 +48,10 @@
                 <div class="collapse show" id="sidebarLayouts">
                     <ul class="nav nav-collapse">
                         <li>
-                            <a href="">
+                            <a href="<?= base_url('therapist/myPatients') ?>">
                                 <span class="sub-item">My Patient</span>
                             </a>
                         </li>
-                    </ul>
-                    <ul class="nav nav-collapse">
                         <li>
                             <a href="">
                                 <span class="sub-item">Schedule</span>

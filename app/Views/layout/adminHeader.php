@@ -315,13 +315,20 @@
                                     <div class="u-text">
                                         <h4><?= esc($userName); ?></h4>
                                         <p class="text-muted"><?= esc($userEmail); ?></p>
-                                        <a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                                        <!-- <a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a> -->
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/adminProfile">My Profile</a>
+                                <?php
+                                $role = session()->get('role');
+                                $profileUrl = '/adminProfile';
+                                if ($role === 'therapist') {
+                                    $profileUrl = '/therapistProfileView';
+                                }
+                                ?>
+                                <a class="dropdown-item" href="<?= $profileUrl ?>">My Profile</a>
                                 <!-- <a class="dropdown-item" href="#">My Balance</a>
                                 <a class="dropdown-item" href="#">Inbox</a>
                                 <div class="dropdown-divider"></div>

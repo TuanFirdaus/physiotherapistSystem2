@@ -117,3 +117,15 @@ $routes->GET('/registerTherapist', 'User::getRegisterTherapist'); // Show regist
 $routes->POST('/therapist/register', 'User::registrationTherapist'); // Handle therapist registration
 
 $routes->get('/therapistLogin', 'Home::therapistDashboard'); // Show therapist dashboard
+
+$routes->get('/therapistProfileView', 'therapistController::therapistProfile'); // Show therapist profile page
+
+$routes->POST('/therapistProfile/update', 'therapistController::updateTherapistProfile'); // Handle therapist profile update
+
+$routes->post('therapistProfile/uploadProfilePicture', 'therapistController::uploadTherapistProfilePicture');
+$routes->post('therapistProfile/removeProfilePicture', 'therapistController::removeTherapistProfilePicture');
+
+$routes->get('therapist/myPatients', 'therapistController::myPatients');
+$routes->match(['get', 'post'], 'therapist/addTreatmentOutcome/(:num)', 'therapistController::addTreatmentOutcome/$1');
+
+$routes->post('therapist/saveTreatmentOutcome', 'therapistController::saveTreatmentOutcome');

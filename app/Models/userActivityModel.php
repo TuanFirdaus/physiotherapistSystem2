@@ -8,7 +8,7 @@ class userActivityModel extends Model
 {
     protected $table = 'useractivity';
     protected $primaryKey = 'activityId';
-    protected $allowedFields = ['userId', 'activity', 'created_at', 'updated_at'];
+    protected $allowedFields = ['userId', 'activity', 'create_at', 'updated_at'];
     protected $useTimestamps = true;
     protected $createdField  = 'create_at';
     protected $updatedField  = 'updated_at';
