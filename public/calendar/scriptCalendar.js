@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const calendarContainer = document.getElementById('calendar-container');
-    const detailsContainer = document.getElementById('details');
+    const detailsContainer = document.getElementById('event-details');
 
     // Listen for clicks on calendar cells
     document.addEventListener('click', function (e) {
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (data.length > 0) {
                         let html = `<h3>Appointments on ${year}-${month}-${day}</h3><ul>`;
                         data.forEach(item => {
-                            html += `<li>${item.treatmentName} (ID: ${item.appointmentId})</li>`;
+                            html += `<li><a href='#' class='event-link' data-id='${item.scheduleId}'>${item.treatmentName} (ID: ${item.appointmentId})</a></li>`;
                         });
                         html += '</ul>';
                         detailsContainer.innerHTML = html;

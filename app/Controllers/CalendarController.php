@@ -8,19 +8,18 @@ use DateTime;
 
 class CalendarController extends BaseController
 {
-    public function index()
+    public function getCalendar()
     {
-        // Current date
-        $currentDate = new DateTime();
-        $month = $currentDate->format('m');
-        $year = $currentDate->format('Y');
+        // Get the month and year from query params
+        $month = $this->request->getVar('month') ?? date('m');
+        $year = $this->request->getVar('year') ?? date('Y');
 
-        // Generate the calendar for the current month and year
-        return view('pages/calendar', [
-            'monthYear' => $currentDate->format('F Y'),
-            'calendarHtml' => $this->generateCalendar($month, $year),
-            'month' => $month,
-            'year' => $year
+        // Generate the calendar for the requested month and year
+        $calendarHtml = $this->generateCalendar($month, $year);
+
+        return $this->response->setJSON([
+            'calendarHtml' => $calendarHtml,
+            'monthYear' => (new DateTime("{$year}-{$month}-01"))->format('F Y')
         ]);
     }
 
@@ -28,16 +27,20 @@ class CalendarController extends BaseController
     {
         $scheduleModel = new ScheduleModel();
 
-        // Get schedule (events) for the current month and year, including therapist, patient, and user details
-        $events = $scheduleModel->getScheduleByDate($month, $year);
+        // Get schedules (events) for the current month and year, including therapist, patient, and user details
+        $schedules = $scheduleModel->getScheduleByDate($month, $year);
 
         // Organize events by day
-        $eventsByDay = [];
-        foreach ($events as $event) {
-            $day = (new DateTime($event['start_date']))->format('j');
-            $eventsByDay[$day][] = $event;
+        $scheduleByDay = [];
+        foreach ($schedules as $schedule) {
+            $day = (new DateTime($schedule['start_date']))->format('j');  // Extract day number (e.g. 1, 2, 3...)
+            if (!isset($scheduleByDay[$day])) {
+                $scheduleByDay[$day] = [];
+            }
+            $scheduleByDay[$day][] = $schedule;  // Add event to the corresponding day
         }
 
+        // Get the first day of the month and number of days in the month
         $firstDay = (new DateTime("{$year}-{$month}-01"))->format('w');
         $daysInMonth = (new DateTime("{$year}-{$month}-01"))->format('t');
         $day = 1;
@@ -45,27 +48,27 @@ class CalendarController extends BaseController
         $html = '<table class="calendar-table"><tbody>';
 
         // Generate the calendar grid, filling each day with events if available
-        for ($row = 0; $row < 6; $row++) {
+        for ($row = 0; $row < 6; $row++) {  // 6 rows are enough to accommodate all the days in the month
             $html .= '<tr>';
-            for ($col = 0; $col < 7; $col++) {
+            for ($col = 0; $col < 7; $col++) {  // 7 columns for the days of the week
                 if (($row == 0 && $col < $firstDay) || $day > $daysInMonth) {
-                    $html .= '<td></td>'; // Empty cells
+                    $html .= '<td></td>';  // Empty cells
                 } else {
                     $dateStr = sprintf('%04d-%02d-%02d', $year, $month, $day);
                     $html .= "<td class='calendar-cell' data-day='{$day}' data-month='{$month}' data-year='{$year}'>";
                     $html .= "<strong>{$day}</strong>";
 
-                    // Add events to the day cell if available
-                    if (isset($eventsByDay[$day])) {
+                    // Add schedules to the day cell if available
+                    if (isset($scheduleByDay[$day])) {
                         $html .= "<ul>";
-                        foreach ($eventsByDay[$day] as $event) {
-                            $html .= "<li><a href='#' class='event-link' data-id='{$event['scheduleId']}'>{$event['title']}</a></li>";
+                        foreach ($scheduleByDay[$day] as $schedule) {
+                            $html .= "<li><a href='#' class='schedule-link' data-id='{$schedule['scheduleId']}'>{$schedule['title']}</a></li>";
                         }
                         $html .= "</ul>";
                     }
 
                     $html .= "</td>";
-                    $day++;
+                    $day++;  // Move to the next day
                 }
             }
             $html .= '</tr>';
@@ -75,11 +78,12 @@ class CalendarController extends BaseController
         return $html;
     }
 
-    // Fetch event details
-    public function getEventDetails($eventId)
+
+    // Fetch schedule details
+    public function getScheduleDetails($scheduleId)
     {
         $scheduleModel = new ScheduleModel();
-        $event = $scheduleModel->getEventWithSlot($eventId);
+        $event = $scheduleModel->getEventWithSlot($scheduleId);
         return $this->response->setJSON($event);
     }
 
@@ -90,11 +94,10 @@ class CalendarController extends BaseController
         $month = $this->request->getVar('month');
         $year = $this->request->getVar('year');
 
-        // Fetch events for the specific day, including therapist, patient, and user details
+        // Fetch events for the specific day
         $scheduleModel = new ScheduleModel();
-        $events = $scheduleModel->getScheduleByDay($day, $month, $year);
+        $schedule = $scheduleModel->getScheduleByDay($day, $month, $year);
 
-        // Return events as JSON response
-        return $this->response->setJSON($events);
+        return $this->response->setJSON($schedule);
     }
 }

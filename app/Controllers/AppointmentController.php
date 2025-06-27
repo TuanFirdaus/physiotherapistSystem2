@@ -91,7 +91,7 @@ class AppointmentController extends BaseController
         $patientModel = new patientModel();
         $patient = $patientModel->getPatientDetailsByUserId($userId);
 
-        $slotSchedule = new ScheduleModel();
+        $slotSchedule = new slotModel();
         $therapistId = $this->request->getVar('therapistId');
         $therapistName = $this->request->getVar('therapistName');
         $treatmentId = $this->request->getVar('treatmentId');

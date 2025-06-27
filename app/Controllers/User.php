@@ -268,8 +268,42 @@ class User extends BaseController
         if (!$therapistModel->insert($therapistData)) {
             return redirect()->back()->with('error', 'Failed to register therapist profile.');
         }
+        // Send email to therapist with their password
+        $email = \Config\Services::email();
+        $email->setTo($data['email']);  // Use the email from the form input
+        $email->setFrom('tfirdaus676@gmail.com', 'Admin'); // Sender email
+        $email->setSubject('Therapist Account Created');
+        $email->setMessage("
+        Dear {$data['name']},
 
-        return redirect()->to('/adminDashboard')->with('success', 'Registration successful! Please login.');
+        Your therapist account has been successfully created.
+
+        Here are your login details:
+
+        Email: {$data['email']}
+        Password: {$data['password']}
+
+        Please keep this information secure.
+
+        Regards,
+        Admin Team
+                ");
+
+        // Load configuration from the .env file automatically
+        // $email->initialize(); // Not needed if using .env configuration
+
+        if ($email->send()) {
+            echo 'Email sent successfully!';
+        } else {
+            echo 'Failed to send email.';
+            // Debugging output
+            echo "<pre>";
+            print_r($email->printDebugger(['headers']));
+            echo "</pre>";
+            log_message('error', 'Email sending failed: ' . $email->printDebugger(['headers']));
+        }
+
+        return redirect()->to('/registerTherapist')->with('success', 'Registration successful! Please login.');
     }
 
     public function managePatient()

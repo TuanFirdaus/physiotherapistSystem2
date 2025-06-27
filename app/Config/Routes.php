@@ -132,6 +132,7 @@ $routes->post('therapist/saveTreatmentOutcome', 'therapistController::saveTreatm
 $routes->get('therapist/getTreatmentRecord/(:num)', 'therapistController::getTreatmentRecord/$1');
 $routes->get('treatment-records', 'treatmentController::index');
 $routes->get('patient/viewRecords/(:num)', 'treatmentController::viewByPatient/$1');
-$routes->get('/calendar', 'CalendarController::index');
+
+$routes->get('index/getCalendar', 'CalendarController::getCalendar');
 $routes->get('/calendar/getEventDetails/(:num)', 'CalendarController::getEventDetails/$1');
 $routes->get('/calendar/getAppointmentsByDay', 'CalendarController::getAppointmentsByDay');

@@ -88,4 +88,37 @@ class slotModel extends Model
 
         return round($totalHours, 1); // rounded to 1 decimal
     }
+
+    public function slotSchedule($therapistId)
+    {
+        return $this->db->table('slot')
+            ->select('user.name, user.email,therapist.therapistId, slot.slotId, slot.date, slot.startTime, slot.endTime, slot.status') // Select therapistId and name
+            ->join('therapist', 'therapist.therapistId = slot.therapistId')   // Join with therapist table
+            ->join('user', 'user.userId = therapist.userId') // Join with user table
+            ->where('therapist.therapistId', $therapistId) // Where date is match with the prompt
+            ->where('slot.status', 'available')
+            ->get()
+            ->getResultArray();
+    }
+
+    public function therapistsSchedule($date)
+    {
+        return $this->db->table('slot')
+            ->select('user.name, user.email,therapist.therapistId, slot.slotId, slot.date, slot.startTime, slot.endTime, slot.status') // Select therapistId and name
+            ->join('therapist', 'therapist.therapistId = slot.therapistId')   // Join with therapist table
+            ->join('user', 'user.userId = therapist.userId') // Join with user table
+            ->where('slot.date', $date) // Where date is match with the prompt
+            ->get()
+            ->getResultArray();
+    }
+
+    public function getScheduleSlot()
+    {
+        return $this->db->table('slot')
+            ->select('user.name, user.email, therapist.therapistId, slot.slotId, slot.date, slot.startTime, slot.endTime, slot.status')
+            ->join('therapist', 'therapist.therapistId = slot.therapistId')
+            ->join('user', 'user.userId = therapist.userId')
+            ->get()
+            ->getResultArray();
+    }
 }

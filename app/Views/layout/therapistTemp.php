@@ -82,7 +82,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/tailwind.output.css') ?>">
 
 
-    <link rel="stylesheet" href="<?= base_url('public/calendar/style.css') ?>"> <!-- Your styles -->
+    <link rel="stylesheet" href="<?= base_url('calendar/style.css') ?>"> <!-- Your styles -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
@@ -175,7 +175,7 @@
     <!-- Kaiadmin JS -->
     <script src="<?= base_url('assets/js/kaiadmin.min.js') ?>"></script>
 
-    <script src="<?= base_url('public/calendar/scriptCalendar.js') ?>"></script>
+    <script src="<?= base_url('calendar/scriptCalendar.js') ?>"></script>
 
 
     <!-- Bootstrap Bundle (JS + Popper) -->

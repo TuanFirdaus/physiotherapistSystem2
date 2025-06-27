@@ -6,116 +6,43 @@ use CodeIgniter\Config\BaseConfig;
 
 class Email extends BaseConfig
 {
-    public string $fromEmail  = '';
-    public string $fromName   = '';
-    public string $recipients = '';
+    // From Email and Name (this will be your Gmail)
+    public string $fromEmail = 'tfirdaus676@gmail.com';  // Gmail email address
+    public string $fromName  = 'Admin';  // The name to appear in the "From" field
+    public string $recipients = '';  // Leave this empty or set default recipients if needed
 
-    /**
-     * The "user agent"
-     */
     public string $userAgent = 'CodeIgniter';
 
-    /**
-     * The mail sending protocol: mail, sendmail, smtp
-     */
-    public string $protocol = 'mail';
+    // Use SMTP protocol
+    public string $protocol = 'smtp';
 
-    /**
-     * The server path to Sendmail.
-     */
+    // No need to modify mailPath for SMTP usage
     public string $mailPath = '/usr/sbin/sendmail';
 
-    /**
-     * SMTP Server Hostname
-     */
-    public string $SMTPHost = '';
+    // SMTP Settings for Gmail
+    public string $SMTPHost = 'smtp.gmail.com';  // Gmail's SMTP server
+    public string $SMTPUser = 'tfirdaus676@gmail.com';  // Gmail address
+    public string $SMTPPass = 'hvby czkr eayo mfnc';  // Gmail app password (not your regular Gmail password)
+    public int $SMTPPort = 587;  // Port for TLS (587) or SSL (465)
+    public int $SMTPTimeout = 5;  // Connection timeout in seconds
 
-    /**
-     * SMTP Username
-     */
-    public string $SMTPUser = '';
-
-    /**
-     * SMTP Password
-     */
-    public string $SMTPPass = '';
-
-    /**
-     * SMTP Port
-     */
-    public int $SMTPPort = 25;
-
-    /**
-     * SMTP Timeout (in seconds)
-     */
-    public int $SMTPTimeout = 5;
-
-    /**
-     * Enable persistent SMTP connections
-     */
+    // Enable persistent SMTP connections (usually false for Gmail)
     public bool $SMTPKeepAlive = false;
 
-    /**
-     * SMTP Encryption.
-     *
-     * @var string '', 'tls' or 'ssl'. 'tls' will issue a STARTTLS command
-     *             to the server. 'ssl' means implicit SSL. Connection on port
-     *             465 should set this to ''.
-     */
-    public string $SMTPCrypto = 'tls';
+    // Enable TLS encryption for Gmail
+    public string $SMTPCrypto = 'tls';  // Use 'tls' for port 587, or 'ssl' for port 465
 
-    /**
-     * Enable word-wrap
-     */
     public bool $wordWrap = true;
-
-    /**
-     * Character count to wrap at
-     */
     public int $wrapChars = 76;
-
-    /**
-     * Type of mail, either 'text' or 'html'
-     */
-    public string $mailType = 'text';
-
-    /**
-     * Character set (utf-8, iso-8859-1, etc.)
-     */
+    public string $mailType = 'text';  // Send email as text (or 'html' if you want HTML emails)
     public string $charset = 'UTF-8';
 
-    /**
-     * Whether to validate the email address
-     */
-    public bool $validate = false;
+    public bool $validate = false;  // Disable email validation (you can enable if needed)
+    public int $priority = 3;  // Normal priority
+    public string $CRLF = "\r\n";  // Line breaks for emails
+    public string $newline = "\r\n";  // Newline character
 
-    /**
-     * Email Priority. 1 = highest. 5 = lowest. 3 = normal
-     */
-    public int $priority = 3;
-
-    /**
-     * Newline character. (Use “\r\n” to comply with RFC 822)
-     */
-    public string $CRLF = "\r\n";
-
-    /**
-     * Newline character. (Use “\r\n” to comply with RFC 822)
-     */
-    public string $newline = "\r\n";
-
-    /**
-     * Enable BCC Batch Mode.
-     */
-    public bool $BCCBatchMode = false;
-
-    /**
-     * Number of emails in each BCC batch
-     */
-    public int $BCCBatchSize = 200;
-
-    /**
-     * Enable notify message from server
-     */
-    public bool $DSN = false;
+    public bool $BCCBatchMode = false;  // No batch mode by default
+    public int $BCCBatchSize = 200;  // Batch size if using BCC
+    public bool $DSN = false;  // No DSN (delivery status notification)
 }
