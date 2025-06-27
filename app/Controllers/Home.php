@@ -111,6 +111,7 @@ class Home extends BaseController
         $todayAppointments = $appointmentModel
             ->join('slot', 'slot.slotId = appointment.slotId')
             ->where('appointment.therapistId', $therapist['therapistId'])
+            ->where('appointment.status', 'Approved')
             ->where('slot.date', $today)
             ->countAllResults();
 

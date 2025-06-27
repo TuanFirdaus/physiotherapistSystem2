@@ -190,6 +190,8 @@ class User extends BaseController
         $userModel = new \App\Models\UserModel();
         $therapists = $userModel->getManageTherapists(); // Fetch therapists from the database
         // dd($therapists);
+
+
         return view('pages/manageTherapist', ['therapists' => $therapists]);
     }
 

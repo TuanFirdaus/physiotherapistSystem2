@@ -11,7 +11,7 @@ class HomePageTest extends FeatureTestCase
         $response = $this->get('/login');
         $response->assertStatus(200);
         $response->assertSee('Login');
-        echo "\n✅ testLoginPageLoads passed";
+        echo "\nSuccess: testLoginPageLoads passed";
     }
 
     public function testLoginWithValidCredentials(): void
@@ -21,7 +21,7 @@ class HomePageTest extends FeatureTestCase
             'password' => '12345',
         ]);
         $response->assertRedirect();
-        echo "\n✅ testLoginWithValidCredentials passed";
+        echo "\nSuccess: testLoginWithValidCredentials passed";
     }
 
     public function testLoginWithInvalidCredentials(): void
@@ -31,7 +31,7 @@ class HomePageTest extends FeatureTestCase
             'password' => 'wrongpassword',
         ]);
         $response->assertRedirect();
-        echo "\n✅ testLoginWithInvalidCredentials passed";
+        echo "\nSuccess: testLoginWithInvalidCredentials passed";
     }
 
     public function testLoginValidationFailsIfFieldsEmpty(): void
@@ -41,6 +41,6 @@ class HomePageTest extends FeatureTestCase
             'password' => '',
         ]);
         $response->assertRedirect();
-        echo "\n✅ testLoginValidationFailsIfFieldsEmpty passed";
+        echo "\nSuccess: testLoginValidationFailsIfFieldsEmpty passed";
     }
 }

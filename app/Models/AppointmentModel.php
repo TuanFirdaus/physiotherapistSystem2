@@ -15,6 +15,26 @@ class AppointmentModel extends Model
         $appointment = $this->find($appointmentId);
         return $appointment['treatmentId'] ?? null;
     }
+    // Get appointments by date (month and year), including treatment details
+    public function getAppointmentsByDate($month, $year)
+    {
+        return $this->join('slot', 'slot.slotId = appointment.slotId')
+            ->join('treatment', 'treatment.treatmentId = appointment.treatmentId') // Join treatment table
+            ->where('MONTH(slot.date)', $month)
+            ->where('YEAR(slot.date)', $year)
+            ->findAll();
+    }
+
+    // Get appointments by specific day, including treatment details
+    public function getAppointmentsByDay($day, $month, $year)
+    {
+        return $this->join('slot', 'slot.slotId = appointment.slotId')
+            ->join('treatment', 'treatment.treatmentId = appointment.treatmentId') // Join treatment table
+            ->where('DAY(slot.date)', $day)
+            ->where('MONTH(slot.date)', $month)
+            ->where('YEAR(slot.date)', $year)
+            ->findAll();
+    }
     public function getPatientIdByAppointment($appointmentId)
     {
         $appointment = $this->find($appointmentId);

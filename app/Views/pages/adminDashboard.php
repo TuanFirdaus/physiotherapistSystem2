@@ -2,13 +2,15 @@
 
 <?= $this->section('content'); ?>
 
-<h2 class="text-center mb-4">Admin Dashboard</h2>
+<div class="text-center mb-4">
+    <h1 class="card-title mb-0 text-gray-800">Admin Dashboard</h1>
+</div>
 
 <!-- Overview Cards -->
-<div class="row">
+<div class="row mb-4">
     <div class="col-sm-6 col-md-3" style="width: 40vh;">
-        <div class="card card-stats card-round">
-            <div class="card-body ">
+        <div class="card card-stats card-round h-100">
+            <div class="card-body d-flex flex-column justify-content-center align-items-center">
                 <div class="row align-items-center">
                     <div class="col-icon">
                         <div class="icon-big text-center icon-primary bubble-shadow-small">
@@ -18,7 +20,7 @@
                     <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                             <p class="card-category">Total User</p>
-                            <p class="card-title">
+                            <p class="card-title mb-0">
                                 <?php foreach ($totalUser as $user): ?>
                                     <li class="card-text"><?= ucfirst($user['role']) ?> - <?= $user['total']  ?></li>
                                 <?php endforeach; ?>
@@ -30,8 +32,8 @@
         </div>
     </div>
     <div class="col-sm-6 col-md-3" style="width: 40vh;">
-        <div class=" card card-stats card-round">
-            <div class="card-body">
+        <div class="card card-stats card-round h-100">
+            <div class="card-body d-flex flex-column justify-content-center align-items-center">
                 <div class="row align-items-center">
                     <div class="col-icon">
                         <div class="icon-big text-center icon-success bubble-shadow-small">
@@ -41,7 +43,7 @@
                     <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                             <p class="card-category">Total Appointments (Completed)</p>
-                            <p class="card-title" style="font-size: medium; height: 40px"><?= $totalAppointment ?> appointments</p>
+                            <p class="card-title mb-0" style="font-size: medium; height: 40px"><?= $totalAppointment ?> appointments</p>
                         </div>
                     </div>
                 </div>
@@ -49,8 +51,8 @@
         </div>
     </div>
     <div class="col-sm-6 col-md-3" style="width: 40vh;">
-        <div class="card card-stats card-round">
-            <div class="card-body">
+        <div class="card card-stats card-round h-100">
+            <div class="card-body d-flex flex-column justify-content-center align-items-center">
                 <div class="row align-items-center">
                     <div class="col-icon">
                         <div class="icon-big text-center icon-danger bubble-shadow-small">
@@ -60,16 +62,16 @@
                     <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                             <p class="card-category">Pending Payments</p>
-                            <p class="card-text" style="font-size: medium; height: 40px"><?= $totalPendingPayments ?></p>
+                            <p class="card-text mb-0" style="font-size: medium; height: 40px"><?= $totalPendingPayments ?></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-6 col-md-3" style="width: 40vh; ">
-        <div class="card card-stats card-round">
-            <div class="card-body">
+    <div class="col-sm-6 col-md-3" style="width: 40vh;">
+        <div class="card card-stats card-round h-100 ">
+            <div class="card-body d-flex flex-column justify-content-center align-items-center">
                 <div class="row align-items-center">
                     <div class="col-icon">
                         <div class="icon-big text-center icon-warning bubble-shadow-small">
@@ -79,7 +81,7 @@
                     <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                             <p class="card-category">Treatment Records</p>
-                            <p class="card-text" style="font-size: medium; height: 40px"><?= $totalTreatmentRecords ?></p>
+                            <p class="card-text mb-0" style="font-size: medium; height: 40px"><?= $totalTreatmentRecords ?></p>
                         </div>
                     </div>
                 </div>
