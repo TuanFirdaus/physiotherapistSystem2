@@ -77,11 +77,18 @@
         .form-label {
             font-weight: 600;
         }
+
+        .event {
+            background-color: #337ab7;
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+        }
     </style>
 
     <link rel="stylesheet" href="<?= base_url('assets/css/tailwind.output.css') ?>">
 
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.css">
     <link rel="stylesheet" href="<?= base_url('calendar/style.css') ?>"> <!-- Your styles -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -139,9 +146,6 @@
 
 
 
-
-
-
     <!-- Core JS Files -->
     <script src="<?= base_url('assets/js/core/jquery-3.7.1.min.js') ?>"></script>
     <script src="<?= base_url('assets/js/core/popper.min.js') ?>"></script>
@@ -149,6 +153,10 @@
 
     <!-- jQuery Scrollbar -->
     <script src="<?= base_url('assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') ?>"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.js"></script>
+
 
     <!-- Chart JS -->
     <script src="<?= base_url('assets/js/plugin/chart.js/chart.min.js') ?>"></script>

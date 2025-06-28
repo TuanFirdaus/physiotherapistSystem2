@@ -276,18 +276,20 @@ class User extends BaseController
         $email->setMessage("
         Dear {$data['name']},
 
-        Your therapist account has been successfully created.
+        We are pleased to inform you that your therapist account has been successfully created.
 
-        Here are your login details:
+        Below are your login credentials for access:
 
         Email: {$data['email']}
         Password: {$data['password']}
 
-        Please keep this information secure.
+        Kindly ensure that you store this information securely and refrain from sharing it with unauthorized individuals.
 
-        Regards,
-        Admin Team
-                ");
+        Should you encounter any issues or require further assistance, please do not hesitate to reach out.
+
+        Best regards,
+        The Admin Team
+                        ");
 
         // Load configuration from the .env file automatically
         // $email->initialize(); // Not needed if using .env configuration

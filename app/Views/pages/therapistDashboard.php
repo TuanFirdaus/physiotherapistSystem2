@@ -67,9 +67,10 @@
                 <?php else: ?>
                     <p class="tw-text-gray-500">No appointments scheduled for today.</p>
                 <?php endif; ?>
-                <button class="tw-w-full tw-mt-4 tw-px-4 tw-py-2 tw-border tw-border-gray-300 tw-rounded-md hover:tw-bg-gray-50">
+                <a href="<?= base_url('index/getCalendar') ?>"
+                    class="tw-w-full tw-mt-4 tw-px-4 tw-py-2 tw-border tw-border-gray-300 tw-rounded-md hover:tw-bg-gray-50 tw-inline-block tw-text-center">
                     View Full Schedule
-                </button>
+                </a>
             </div>
         </div>
 
