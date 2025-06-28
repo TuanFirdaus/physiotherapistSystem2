@@ -25,7 +25,7 @@
                 <?php foreach ($records as $index => $record): ?>
                     <?php
                     $statusClasses = [
-                        'completed' => 'tw-bg-green-100 tw-text-green-800',
+                        'Approved' => 'tw-bg-green-100 tw-text-green-800',
                         'scheduled' => 'tw-bg-blue-100 tw-text-blue-800',
                         'cancelled' => 'tw-bg-red-100 tw-text-red-800',
                     ];
@@ -69,7 +69,7 @@
 
                         <!-- Records Summary -->
                         <td class="tw-px-6 tw-py-4 tw-text-sm tw-text-gray-700">
-                            <div><strong>Diagnosis:</strong> <?= esc($record['diagnosis']) ?></div>
+
                             <div><strong>Treatment:</strong> <?= esc($record['treatmentName']) ?></div>
                         </td>
 

@@ -7,6 +7,7 @@ use App\Models\UserModel;
 use App\Models\ScheduleModel;
 use App\Models\PaymentModel;
 use App\Models\treatmentRecords;
+use App\Models\TherapistClockLogModel;
 
 class Home extends BaseController
 {
@@ -15,6 +16,7 @@ class Home extends BaseController
     protected $scheduleModel;
     protected $paymentModel;
     protected $treatmentRecords;
+    protected $therapistClockLogModel;
     public function __construct()
     {
         $this->appointmentModel = new AppointmentModel();
@@ -22,6 +24,7 @@ class Home extends BaseController
         $this->scheduleModel = new ScheduleModel();
         $this->paymentModel = new PaymentModel();
         $this->treatmentRecords = new treatmentRecords();
+        $this->therapistClockLogModel = new TherapistClockLogModel();
     }
     public function index()
     {
@@ -92,6 +95,9 @@ class Home extends BaseController
             return redirect()->to('/login')->with('error', 'You must be logged in as a therapist.');
         }
 
+        $model = new TherapistClockLogModel();
+
+        // Get therapist model and other necessary models
         $therapistModel = new \App\Models\therapistModel();
         $appointmentModel = new \App\Models\AppointmentModel();
         $slotModel = new \App\Models\slotModel();
@@ -99,7 +105,12 @@ class Home extends BaseController
         $activityModel = new \App\Models\userActivityModel();
         $userModel = new \App\Models\userModel();
 
+        // Get the therapist details
         $therapist = $therapistModel->where('userId', $userId)->first();
+        $therapistId = $therapist['therapistId'];
+
+        // Get the clock status (whether clocked in or not)
+        $clockStatus = $model->getClockStatus($therapistId);
 
         if (!$therapist) {
             return redirect()->to('/login')->with('error', 'Therapist not found.');
@@ -107,7 +118,7 @@ class Home extends BaseController
 
         $today = date('Y-m-d');
 
-        // Count today's appointments
+        // Get today's appointments
         $todayAppointments = $appointmentModel
             ->join('slot', 'slot.slotId = appointment.slotId')
             ->where('appointment.therapistId', $therapist['therapistId'])
@@ -115,35 +126,35 @@ class Home extends BaseController
             ->where('slot.date', $today)
             ->countAllResults();
 
-        // Get upcoming appointment details
+        // Get upcoming appointments
         $upcomingAppointments = $appointmentModel
-            ->select('appointment.*, user.name as patient_name, slot.date, slot.startTime as appointment_time')
+            ->select('appointment.*, user.name as patient_name, slot.date as appointmentDate, slot.startTime as appointment_time, treatment.name as treatment_name')
             ->join('slot', 'slot.slotId = appointment.slotId')
             ->join('patient', 'patient.patientId = appointment.patientId')
             ->join('user', 'user.userId = patient.userId')
+            ->join('treatment', 'treatment.treatmentId = appointment.treatmentId')
             ->where('appointment.therapistId', $therapist['therapistId'])
             ->where('slot.date >', $today)
             ->orderBy('slot.date', 'ASC')
             ->orderBy('slot.startTime', 'ASC')
             ->findAll(5);
 
-        // Count total patients assigned to this therapist
+        // Get the total number of patients
         $totalPatients = $appointmentModel
             ->where('therapistId', $therapist['therapistId'])
             ->distinct()
             ->select('patientId')
             ->countAllResults();
 
-        // Recent activity log (limit 5)
+        // Get recent activity logs
         $activities = $activityModel
             ->where('userId', $userId)
             ->orderBy('create_at', 'DESC')
             ->findAll(5);
 
-
+        // Format recent activities
         $recentActivities = array_map(function ($activity) {
-            $message = strtolower($activity['activity']); // normalize
-
+            $message = strtolower($activity['activity']);
             $colorClass = 'tw-bg-gray-100';
             $icon = 'fas fa-info-circle tw-text-gray-500';
 
@@ -169,11 +180,25 @@ class Home extends BaseController
             ];
         }, $activities);
 
-
-        $user = $userModel->find($userId);
+        $user = $userModel->where('userId', $userId)->first();
+        // Get the user's weekly hours
         $weeklyHours = $slotModel->getWeeklySessionHoursByTherapist($therapist['therapistId']);
 
+        // Get clock-in time if therapist is clocked in
+        $clockInTime = null;
+        if ($clockStatus == 'Clocked In') {
+            $clockInTime = $model->where('therapistId', $therapistId)
+                ->where('clock_out', null)
+                ->orderBy('created_at', 'desc')
+                ->first()['clock_in'];  // Retrieve the most recent clock-in time
 
+            // Convert the clock_in time to Malaysia Time (Asia/Kuala_Lumpur)
+            $clockInDateTime = new \DateTime($clockInTime, new \DateTimeZone('UTC'));
+            $clockInDateTime->setTimezone(new \DateTimeZone('Asia/Kuala_Lumpur')); // Convert to Malaysia Time
+            $clockInTime = $clockInDateTime->format('Y-m-d H:i:s'); // Return formatted time
+        }
+
+        // Return the therapist dashboard view with all necessary data
         return view('pages/therapistDashboard', [
             'therapist' => $therapist,
             'today_appointments' => $todayAppointments,
@@ -182,6 +207,10 @@ class Home extends BaseController
             'recent_activities' => $recentActivities,
             'weekly_hours' => $weeklyHours,
             'user' => $user,
+            'today' => $today,
+            'clockStatus' => $clockStatus,
+            'therapistId' => $therapistId,
+            'clockInTime' => $clockInTime,  // Pass clock-in time to the view
         ]);
     }
 

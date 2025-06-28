@@ -5,7 +5,9 @@
 <div class="tw-container tw-mx-auto tw-p-6 tw-max-w-5xl">
     <h2 class="tw-text-3xl tw-font-bold tw-text-gray-900 tw-mb-2">Treatment Records - <?= esc($records[0]['patientName'] ?? 'Unknown') ?></h2>
     <p class="tw-text-gray-600 tw-mb-6">View detailed treatment history for your patient</p>
-
+    <a href="<?= base_url('treatment-records') ?>" class="tw-inline-block tw-mb-6 tw-bg-gray-200 tw-text-gray-700 tw-px-4 tw-py-2 tw-rounded hover:tw-bg-gray-300">
+        &larr; Back
+    </a>
     <?php if (empty($records)): ?>
         <div class="tw-bg-white tw-p-6 tw-rounded-lg tw-shadow tw-text-center tw-text-gray-500">
             No treatment records found for this patient.
@@ -43,10 +45,16 @@
                     </div>
 
                     <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-6 tw-mb-4">
-                        <div>
+                        <!-- <div>
                             <h4 class="tw-font-semibold tw-text-red-500">Diagnosis</h4>
                             <p class="tw-bg-red-50 tw-p-3 tw-rounded tw-border tw-border-red-100 tw-text-gray-700">
                                 <?= esc($record['diagnosis']) ?>
+                            </p>
+                        </div> -->
+                        <div>
+                            <h4 class="tw-font-semibold tw-text-red-500"> Therapist </h4>
+                            <p class="tw-bg-red-50 tw-p-3 tw-rounded tw-border tw-border-red-100 tw-text-gray-700">
+                                <?= esc($record['therapistName']) ?>
                             </p>
                         </div>
                         <div>
@@ -67,11 +75,11 @@
                     <div class="tw-mb-4">
                         <h4 class="tw-font-semibold tw-text-purple-500">Status & Outcome</h4>
                         <div class="tw-flex tw-flex-col md:tw-flex-row tw-gap-4">
-                            <span class="tw-bg-gray-100 tw-text-gray-800 tw-px-3 tw-py-2 tw-rounded">
+                            <span class="tw-bg-blue-100 tw-text-blue-800 tw-px-3 tw-py-2 tw-rounded">
                                 <?= esc($record['status']) ?>
                             </span>
                             <span class="tw-bg-purple-100 tw-text-purple-800 tw-px-3 tw-py-2 tw-rounded">
-                                Pain Rate: <?= esc($record['pain_rate'] ?? '-') ?>
+                                Pain Relief Rate: <?= esc($record['pain_rate'] ?? '-') ?>
                             </span>
                         </div>
                     </div>

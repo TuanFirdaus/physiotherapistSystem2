@@ -1,6 +1,7 @@
 <?= $this->extend('layout/therapistTemp') ?>
 
 <?= $this->section('content') ?>
+
 <div class="tw-space-y-6">
     <div>
         <h2 class="tw-text-3xl tw-font-bold tw-text-gray-900">Welcome back, Master <?= esc($user['name']) ?></h2>
@@ -44,11 +45,61 @@
         <!-- Add more stat cards as needed -->
     </div>
 
+    <!-- Clock In / Clock Out Status -->
+    <div class="tw-bg-white tw-p-6 tw-rounded-lg tw-shadow">
+        <div class="tw-p-6 tw-border-b">
+            <h3 class="tw-text-lg tw-font-semibold">Clock In / Clock Out</h3>
+            <p class="tw-text-sm tw-text-gray-600">Manage your clock-in and clock-out status</p>
+        </div>
+        <div class="tw-p-6 tw-flex tw-items-center tw-justify-between">
+            <!-- Clock In / Clock Out Button -->
+            <?php if ($clockStatus == 'Clocked In'): ?>
+                <div>
+                    <p class="tw-text-green-600">You are currently clocked in.</p>
+                    <p class="tw-text-sm tw-text-gray-600">Clocked in at: <?= date('g:i A', strtotime($clockInTime)) ?></p>
+
+                    <!-- Timer to display the elapsed time -->
+                    <p id="clock-in-timer" class="tw-text-3xl tw-font-bold tw-text-gray-900">00:00:00</p>
+                </div>
+
+                <!-- Timer positioned to the right -->
+                <form action="/therapist/clock-out/<?= esc($therapistId) ?>" method="POST">
+                    <button type="submit" class="tw-bg-red-500 tw-text-white tw-px-4 tw-py-2 tw-rounded">Clock Out</button>
+                </form>
+
+                <!-- Add JavaScript for Timer -->
+                <script>
+                    const clockInTime = new Date("<?= esc($clockInTime) ?>"); // Get clock-in time from PHP
+                    function updateTimer() {
+                        const currentTime = new Date();
+                        const elapsedTime = currentTime - clockInTime; // Difference in milliseconds
+                        const hours = Math.floor(elapsedTime / (1000 * 60 * 60)); // Get hours
+                        const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60)); // Get minutes
+                        const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000); // Get seconds
+
+                        // Format time to HH:mm:ss
+                        const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                        document.getElementById("clock-in-timer").innerText = timeString;
+                    }
+
+                    setInterval(updateTimer, 1000); // Update the timer every second
+                </script>
+
+            <?php else: ?>
+                <p class="tw-text-red-600">You are currently clocked out.</p>
+                <form action="/therapist/clock-in/<?= esc($therapistId) ?>" method="POST">
+                    <button type="submit" class="tw-bg-green-500 tw-text-white tw-px-4 tw-py-2 tw-rounded">Clock In</button>
+                </form>
+            <?php endif; ?>
+        </div>
+    </div>
+
+
     <!-- Today's Schedule -->
     <div class="tw-grid tw-grid-cols-1 lg:tw-grid-cols-2 tw-gap-6">
         <div class="tw-bg-white tw-rounded-lg tw-shadow">
             <div class="tw-p-6 tw-border-b">
-                <h3 class="tw-text-lg tw-font-semibold">Today's Schedule</h3>
+                <h3 class="tw-text-lg tw-font-semibold">Next Schedule on <?= date('l') ?></h3>
                 <p class="tw-text-sm tw-text-gray-600">Your upcoming appointments</p>
             </div>
             <div class="tw-p-6">
@@ -57,7 +108,7 @@
                         <div class="tw-flex tw-items-center tw-justify-between tw-p-3 tw-bg-gray-50 tw-rounded-lg tw-mb-3">
                             <div>
                                 <div class="tw-font-medium"><?= esc($appointment['patient_name']) ?></div>
-                                <div class="tw-text-sm tw-text-gray-600"><?= esc($appointment['type']) ?></div>
+                                <div class="tw-text-sm tw-text-gray-600"><?= esc($appointment['treatment_name']) ?></div>
                             </div>
                             <div class="tw-text-sm tw-font-medium tw-text-blue-600">
                                 <?= date('g:i A', strtotime($appointment['appointment_time'])) ?>

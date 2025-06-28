@@ -51,7 +51,9 @@ class treatmentRecords extends Model
                 patienttreatmentrecord.*,
                 therapistUser.name as therapistName,
                 treatment.name as treatmentName,
-                slot.date as appointmentDate
+                slot.date as appointmentDate,
+                patientUser.name as patientName,
+                patientUser.email as patientEmail
             ')
             // Join to patient → then to user as patientUser
             ->join('patient', 'patient.patientId = patienttreatmentrecord.patientId')

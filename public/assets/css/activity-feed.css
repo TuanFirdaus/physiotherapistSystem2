@@ -1,0 +1,27 @@
+/* Add this to your tailwind.css or a separate CSS file used with Tailwind */
+@layer components {
+    .activity-feed .feed-item-secondary {
+        background-color: #f3f4f6;
+        border-left: 4px solid #a0aec0;
+    }
+
+    .activity-feed .feed-item-success {
+        background-color: #f0fff4;
+        border-left: 4px solid #38a169;
+    }
+
+    .activity-feed .feed-item-info {
+        background-color: #e6f7ff;
+        border-left: 4px solid #3182ce;
+    }
+
+    .activity-feed .feed-item-warning {
+        background-color: #fff9e6;
+        border-left: 4px solid #f6ad55;
+    }
+
+    .activity-feed .feed-item-danger {
+        background-color: #fee2e2;
+        border-left: 4px solid #e53e3e;
+    }
+}

@@ -16,7 +16,7 @@ $userName = $session->get('userName') ?? 'Guest';
     <!-- AI Suggestion Alert -->
     <div id="aiAlert" class="row justify-content-center" style="display:none;">
         <div class="col-md-6">
-            <div class="alert alert-warning alert-dismissible fade show shadow-sm text-center" role="alert">
+            <div class="alert alert-warning alert-dismissible fade show shadow-lg text-center" role="alert">
                 <span id="aiAlertMessage">AI could not suggest a treatment.</span>
                 <button type="button" class="btn-close" onclick="document.getElementById('aiAlert').style.display='none'"></button>
             </div>
@@ -26,22 +26,22 @@ $userName = $session->get('userName') ?? 'Guest';
     <!-- AI Suggestion Form -->
     <div class="row justify-content-center mb-5">
         <div class="col-md-8 col-lg-6">
-            <div class="card border-0 shadow-lg">
-                <div class="card-header bg-primary text-white text-center rounded-top">
-                    <h4 class="mb-0">Not sure which treatment to choose?</h4>
-                    <small>Describe your symptoms and get a recommendation</small>
+            <div class="card border-0 shadow-lg rounded-3">
+                <div class="card-header bg-gradient-primary text-white text-center rounded-top">
+                    <h4 class="mb-0 fw-bold">Not sure which treatment to choose?</h4>
+                    <small class="fs-6">Describe your symptoms and get a recommendation</small>
                 </div>
-                <div class="card-body bg-light">
+                <div class="card-body bg-light shadow-sm">
                     <div class="form-group mb-4">
                         <label for="bodyPart" class="form-label fw-semibold">Body Part in Pain</label>
-                        <input type="text" id="bodyPart" class="form-control" placeholder="e.g. lower back, knee, shoulder">
+                        <input type="text" id="bodyPart" class="form-control shadow-sm border-light" placeholder="e.g. lower back, knee, shoulder">
                     </div>
                     <div class="form-group mb-4">
                         <label for="painDescription" class="form-label fw-semibold">Description</label>
-                        <textarea id="painDescription" class="form-control" rows="4" placeholder="Describe the type, severity, and frequency of pain..."></textarea>
+                        <textarea id="painDescription" class="form-control shadow-sm border-light" rows="4" placeholder="Describe the type, severity, and frequency of pain..."></textarea>
                     </div>
                     <div class="d-grid">
-                        <button id="getSuggestion" class="btn btn-primary btn-lg fw-bold">
+                        <button id="getSuggestion" class="btn btn-primary btn-lg fw-bold shadow-lg hover-shadow-lg transition-all">
                             <span id="loadingText">Suggest Treatment</span>
                             <span id="spinner" class="spinner-border spinner-border-sm d-none ms-2"></span>
                         </button>
@@ -51,8 +51,36 @@ $userName = $session->get('userName') ?? 'Guest';
         </div>
     </div>
 
-    <!-- AI Suggestion Result Placeholder -->
-    <div id="aiSuggestionContainer" class="row justify-content-center" style="display: none;"></div>
+    <!-- AI Suggestion Result Modal (Overlay Popup) -->
+    <div id="aiSuggestionModal" class="modal fade" tabindex="-1" aria-labelledby="aiSuggestionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="aiSuggestionModalLabel">AI Suggested Treatment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <!-- Treatment Name -->
+                    <h4 id="suggestedTreatmentName" class="fw-bold mb-3"></h4>
+
+                    <!-- Treatment Price -->
+                    <p id="suggestedTreatmentPrice" class="card-text text-muted mb-2"></p>
+
+                    <!-- Treatment Reason -->
+                    <ul id="suggestedTreatmentDetails" class="list-group list-group-flush mb-3"></ul>
+
+                    <!-- Form to choose the suggested treatment -->
+                    <form id="suggestionForm" action="/patientTreatment" method="post">
+                        <input type="hidden" name="treatmentName" id="treatmentName">
+                        <input type="hidden" name="treatmentPrice" id="treatmentPrice">
+                        <input type="hidden" name="treatmentId" id="treatmentId">
+                        <button class="btn btn-success fw-semibold w-75" type="submit">Choose Treatment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Hidden Inputs for Passing Treatment Info -->
     <input type="hidden" name="treatmentPrice" value="${data.treatmentPrice}">
@@ -118,9 +146,6 @@ $userName = $session->get('userName') ?? 'Guest';
         const button = document.getElementById('getSuggestion');
         const spinner = document.getElementById('spinner');
         const text = document.getElementById('loadingText');
-        const container = document.getElementById('aiSuggestionContainer');
-        const alertBox = document.getElementById('aiAlert');
-        const alertMsg = document.getElementById('aiAlertMessage');
 
         // Validation
         if (!bodyPart || !description) {
@@ -147,45 +172,26 @@ $userName = $session->get('userName') ?? 'Guest';
             .then(res => res.json())
             .then(data => {
                 if (data.treatmentName && data.treatmentPrice && data.treatmentId) {
-                    const html = `
-                    <div class="col-md-5">
-                        <div class="card border-success shadow-sm">
-                            <div class="card-header bg-success text-white">
-                                AI Suggested Treatment
-                            </div>
-                            <form action="/patientTreatment" method="post">
-                                <div class="card-body text-center">
-                                    <h4 class="card-title fw-bold">${data.treatmentName}</h4>
-                                    <p class="card-text text-muted mb-2">
-                                         Estimated Price: <strong>RM ${parseFloat(data.treatmentPrice).toFixed(2)}</strong>
-                                    </p>
-                                    <ul class="list-group list-group-flush mb-3">
-                                        <li class="list-group-item">Reason: ${data.treatmentReason || 'Based on your symptoms'}</li>
-                                    </ul>
-                                    <input type="hidden" name="treatmentName" value="${data.treatmentName}">
-                                    <input type="hidden" name="treatmentPrice" value="${data.treatmentPrice}">
-                                    <input type="hidden" name="treatmentId" value="${data.treatmentId}">
-                                    <button class="btn btn-success fw-semibold w-75" type="submit">Choose Treatment</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    // Update modal content
+                    document.getElementById('suggestedTreatmentName').textContent = data.treatmentName;
+                    document.getElementById('suggestedTreatmentPrice').innerHTML = `Estimated Price: <strong>RM ${parseFloat(data.treatmentPrice).toFixed(2)}</strong>`;
+                    document.getElementById('suggestedTreatmentDetails').innerHTML = `
+                    <li class="list-group-item">Reason: ${data.treatmentReason || 'Based on your symptoms'}</li>
                 `;
-                    alertBox.style.display = 'none';
-                    container.innerHTML = html;
-                    container.style.display = 'flex';
+                    document.getElementById('treatmentName').value = data.treatmentName;
+                    document.getElementById('treatmentPrice').value = data.treatmentPrice;
+                    document.getElementById('treatmentId').value = data.treatmentId;
+
+                    // Show modal with fade-in effect
+                    const modal = new bootstrap.Modal(document.getElementById('aiSuggestionModal'));
+                    modal.show();
                 } else {
-                    container.innerHTML = '';
-                    container.style.display = 'none';
-                    alertMsg.textContent = "AI could not suggest a treatment. Try again with more details.";
-                    alertBox.style.display = 'flex';
+                    alert("AI could not suggest a treatment. Try again with more details.");
                 }
             })
             .catch(err => {
                 console.error(err);
-                alertMsg.textContent = "Something went wrong while contacting the AI.";
-                alertBox.style.display = 'flex';
-                container.style.display = 'none';
+                alert("Something went wrong while contacting the AI.");
             })
             .finally(() => {
                 // Always remove loading state after response

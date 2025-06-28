@@ -52,7 +52,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="/index/getCalendar">
                                 <span class="sub-item">Schedule</span>
                             </a>
                         </li>

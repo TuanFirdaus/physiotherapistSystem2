@@ -6,6 +6,8 @@ use App\Models\treatmentModel;
 use App\Models\treatmentRecords;
 use App\Models\patientModel;
 use App\Models\UserModel;
+use App\Models\AppointmentModel;
+use App\Models\therapistModel;
 
 class treatmentController extends BaseController
 {
@@ -13,6 +15,9 @@ class treatmentController extends BaseController
     protected $patientModel;
     protected $userModel;
     protected $treatmentRecords;
+    protected $appointmentModel;
+    protected $therapistModel;
+
 
     public function __construct()
     {
@@ -20,13 +25,22 @@ class treatmentController extends BaseController
         $this->patientModel = new patientModel();
         $this->userModel = new UserModel();
         $this->treatmentRecords = new treatmentRecords();
+        $this->appointmentModel = new AppointmentModel();
+        $this->therapistModel = new TherapistModel();
     }
     // try barus
     public function index()
     {
-        $model = new treatmentRecords();
-        $data['records'] = $model->getAllDetailedRecords();
-        return view('pages/treatmentRecordsView', $data);
+        $therapistModel = new therapistModel();
+        $userId = session()->get('userId');
+        // Get the therapist details
+        $therapist = $therapistModel->where('userId', $userId)->first();
+        $therapistId = $therapist['therapistId'];
+        // dd($therapist);
+        $appointmentModel = new AppointmentModel();
+        $records = $appointmentModel->getCompletedPatientsByTherapist($therapistId);
+
+        return view('pages/treatmentRecordsView', ['records' => $records]);
     }
 
     public function viewByPatient($patientId)

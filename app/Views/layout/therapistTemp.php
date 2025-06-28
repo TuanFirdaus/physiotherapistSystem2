@@ -85,12 +85,17 @@
             border-radius: 5px;
         }
     </style>
+    <link rel="stylesheet" href="<?= base_url('assets/css/activity-feed.css') ?>">
 
     <link rel="stylesheet" href="<?= base_url('assets/css/tailwind.output.css') ?>">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.css">
-    <link rel="stylesheet" href="<?= base_url('calendar/style.css') ?>"> <!-- Your styles -->
+    <link rel="stylesheet" href="<?= base_url('calendar/style.css') ?>">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+
 </head>
 
 <body>
@@ -115,6 +120,7 @@
                 <div class="page-inner">
                     <?= $this->renderSection('content'); ?>
                 </div>
+
             </div>
 
             <!-- Footer-->
@@ -156,7 +162,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.js"></script>
-
 
     <!-- Chart JS -->
     <script src="<?= base_url('assets/js/plugin/chart.js/chart.min.js') ?>"></script>

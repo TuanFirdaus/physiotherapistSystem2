@@ -124,6 +124,40 @@ class AppointmentModel extends Model
             ->getResultArray();
     }
 
+    public function getCompletedPatientsByTherapist($therapistId)
+    {
+        // Subquery to get latest completed appointment for each patient
+        $sub = $this->db->table('appointment')
+            ->select('MAX(appointmentId) as latestAppointmentId')
+            ->where('therapistId', $therapistId)
+            ->where('status', 'Approved')
+            ->groupBy('patientId');
+
+        return $this->db->table('appointment')
+            ->select('
+            patient.patientId,
+            user.name AS patientName,
+            user.email AS patientEmail,
+            patient.phoneNo AS patientPhone,
+            appointment.appointmentId,
+            appointment.status,
+            appointment.treatmentId,
+            appointment.slotId,
+            treatment.name as treatmentName,
+            slot.date as appointmentDate
+        ')
+            ->join('patient', 'patient.patientId = appointment.patientId')
+            ->join('user', 'user.userId = patient.userId')
+            ->join('treatment', 'treatment.treatmentId = appointment.treatmentId')
+            ->join('slot', 'slot.slotId = appointment.slotId')
+            ->where('appointment.therapistId', $therapistId)
+            ->where('appointment.status', 'Approved')
+            ->whereIn('appointment.appointmentId', $sub)
+            ->orderBy('appointmentDate', 'DESC')
+            ->get()
+            ->getResultArray();
+    }
+
     public function getRecentAppointment($limit = 5)
     {
         return $this->db->table('appointment')

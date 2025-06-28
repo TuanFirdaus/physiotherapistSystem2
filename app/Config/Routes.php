@@ -136,3 +136,11 @@ $routes->get('patient/viewRecords/(:num)', 'treatmentController::viewByPatient/$
 $routes->get('index/getCalendar', 'CalendarController::getCalendar');
 $routes->get('/calendar/getEventDetails/(:num)', 'CalendarController::getEventDetails/$1');
 $routes->get('/calendar/getAppointmentsByDay', 'CalendarController::getAppointmentsByDay');
+// Clock In Route (POST request for clocking in a therapist)
+$routes->post('/therapist/clock-in/(:num)', 'therapistController::clockIn/$1');
+
+// Clock Out Route (POST request for clocking out a therapist)
+$routes->post('/therapist/clock-out/(:num)', 'therapistController::clockOut/$1');
+
+// Therapist Dashboard Route (GET request)
+$routes->get('/therapist-dashboard/(:num)', 'therapistController::index/$1');

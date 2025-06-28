@@ -164,7 +164,7 @@ class AppointmentController extends BaseController
         $paymentModel->addPayment($paymentData);
 
         // Update slot to 'booked'
-        $slotModel = new \App\Models\ScheduleModel();
+        $slotModel = new \App\Models\slotModel();
         try {
             $slotModel->update($slotId, ['status' => 'booked']);
         } catch (\Exception $e) {

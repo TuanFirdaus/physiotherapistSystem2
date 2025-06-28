@@ -10,6 +10,8 @@ use App\Models\treatmentRecords;
 use App\Models\userActivityModel;
 use App\Helpers\activity_helper;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\I18n\Time;
+use App\Models\TherapistClockLogModel;
 
 class therapistController extends BaseController
 {
@@ -17,6 +19,7 @@ class therapistController extends BaseController
     protected $patientModel;
     protected $therapistModel;
     protected $treatmentRecords;
+    protected $therapistClockLogModel;
 
     public function __construct()
     {
@@ -24,6 +27,7 @@ class therapistController extends BaseController
         $this->patientModel = new PatientModel();
         $this->therapistModel = new TherapistModel();
         $this->treatmentRecords = new treatmentRecords();
+        $this->therapistClockLogModel = new TherapistClockLogModel();
     }
 
     public function therapistProfile()
@@ -267,5 +271,59 @@ class therapistController extends BaseController
         $painRate = $this->request->getPost('pain_rate');
         $treatmentRecordModel->saveTreatmentOutcome($appointmentId, $treatmentId, $patientId, $therapistId, $treatmentNotes, $painRate, $slotId);
         return redirect()->to('/therapist/myPatients')->with('success', 'Treatment outcome saved.');
+    }
+
+    // Clock In Method
+    public function clockIn($therapistId)
+    {
+        $model = new TherapistClockLogModel();
+
+        // Check if the therapist is already clocked in (to prevent double clock-in)
+        $lastClockIn = $model->where('therapistId', $therapistId)
+            ->where('clock_out', null)
+            ->first();
+
+        if ($lastClockIn) {
+            return redirect()->to('/therapistLogin')->with('error', 'You are already clocked in!');
+        }
+
+        // Record the clock-in time
+        $model->clockIn($therapistId);
+
+        // Get the clock-in time after saving the record
+        $clockInTime = $model->where('therapistId', $therapistId)
+            ->where('clock_out', null)
+            ->orderBy('created_at', 'desc')
+            ->first()['clock_in'];
+
+        // Redirect to /therapistLogin with success message and clock-in time
+        return redirect()->to('/therapistLogin')->with('success', 'You have clocked in successfully!')
+            ->with('clockInTime', $clockInTime)
+            ->with('clockStatus', 'Clocked In'); // Pass clock status as well
+    }
+
+    // Clock Out Method
+    public function clockOut($therapistId)
+    {
+        $model = new TherapistClockLogModel();
+
+        // Try to clock out the therapist
+        $success = $model->clockOut($therapistId);
+
+        if (!$success) {
+            return redirect()->to('/therapistLogin')->with('error', 'You need to clock in first!');
+        }
+
+        // Redirect to /therapistLogin with success message
+        return redirect()->to('/therapistLogin')->with('success', 'You have clocked out successfully!');
+    }
+
+
+    public function getClockStatus($therapistId)
+    {
+        $model = new TherapistClockLogModel();
+        $status = $model->getClockStatus($therapistId);
+
+        return view('pages/therapistDashboard', ['status' => $status, 'therapistId' => $therapistId]);
     }
 }
