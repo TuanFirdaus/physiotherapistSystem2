@@ -21,8 +21,5 @@ jobs:
       - name: Deploy to Server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-            cd C:\laragon\www\physiotherapistSystem2
-            git pull origin main
-            php spark migrate
-            php spark cache:clear
+               cmd /c "cd C:\laragon\www\physiotherapistSystem2 && git pull origin master && php spark migrate && php spark cache:clear"
           EOF
